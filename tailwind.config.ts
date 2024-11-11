@@ -22,16 +22,18 @@ module.exports = {
         text_light: "#181D31",
 
         // Primary theme variables
-        primary: "#FB2576",
-        primary_hover: "#ff3380",
+        primary: "#17D1C6",
+        primary_hover: "#12a79d",
+
+        overlay:"#003566a5",
 
         // Secondary theme variables
-        secondary: "#003566",
+        secondary: "#1E3250",
       },
 
       fontFamily: {
-        primary: ["var(--font-primary)"],
-        secondary: ["var(--font-secondary)"],
+        noto_kufi: ['Noto Kufi Arabic','display', 'sans-serif'],
+        el_messiri: ['El Messiri', 'display','serif'],
       },
 
       borderColor: {
@@ -41,8 +43,8 @@ module.exports = {
 
       keyframes: {
         HorizentalMove: {
-          "0%, 100%": { transform: "translateY(5px) scale(1)", opacity: 1 },
-          "50%": { transform: "translateY(-5px) scale(1.01)", opacity: 0.5 },
+          "0%, 100%": { transform: "translateY(-10px) scale(1)", opacity: 1 },
+          "50%": { transform: "translateY(0px) scale(1.01)", opacity: 0.5 },
         },
         ShadowPulse: {
           "0%, 100%": { boxShadow: "7px 12px #2B4865", opacity: 1 },
@@ -59,7 +61,7 @@ module.exports = {
         },
       },
       animation: {
-        HorizentalMove: "HorizentalMove 3.5s linear infinite",
+        HorizentalMove: "HorizentalMove 1.5s linear infinite",
         ShadowPulse: "ShadowPulse 2.5s linear infinite",
         ScaleEffect: "ScaleEffect 4s linear infinite",
         shake: "shake 0.7s linear 1",

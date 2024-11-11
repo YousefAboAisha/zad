@@ -1,3 +1,5 @@
+/* Fonts Imports */
+@import url("https://fonts.googleapis.com/css2?family=El+Messiri:wght@400..700&family=Noto+Kufi+Arabic:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -15,8 +17,17 @@
     @apply relative w-full mt-32 mx-auto;
   }
 
-  html {
-    @apply text-text_light;
+  html,
+  body {
+    @apply font-el_messiri;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-noto_kufi;
   }
 
   ::-webkit-scrollbar {
@@ -47,18 +58,23 @@
   .full-theme {
     @apply bg-background_light dark:bg-background_dark text-text_light dark:text-text_dark border border-light dark:border-dark;
   }
+
+  .cards-grid-3 {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: var(--font-primary);
 }
 
 li {
   list-style: none;
+  background: #12a79d;
 }
+
 
 html,
 body {
@@ -70,14 +86,6 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  /* font-family: var(--font-secondary); */
 }
 
 select {

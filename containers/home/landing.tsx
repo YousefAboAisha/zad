@@ -2,7 +2,9 @@ import Button from "@/components/UI/inputs/button";
 import Heading from "@/components/UI/typography/heading";
 import Link from "next/link";
 import { PiShootingStarThin } from "react-icons/pi";
-import { LuMouse } from "react-icons/lu";
+// import { LuMouse } from "react-icons/lu";
+import Image from "next/image";
+import scrollDown from '@/public/scrollDown.gif'
 
 const Landing = () => {
   return (
@@ -23,10 +25,10 @@ const Landing = () => {
         </div>
       </div>
 
-      <LuMouse
-        className="absolute text-white left-[50%] translate-x-[-50%] bottom-0 animate-bounce"
-        size={27}
-      />
+      <Image src={scrollDown} className="w-12 h-12 absolute text-white left-[50%] translate-x-[-50%] bottom-0 " alt="title" />
+
+
+     
     </div>
   );
 };
