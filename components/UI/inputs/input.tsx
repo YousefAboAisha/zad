@@ -21,7 +21,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={`relative h-[50px] rounded-xl ${className} `}>
         <div className="absolute flex justify-center p-2 rounded-l-md items-center right-1 top-[50%] translate-y-[-50%] h-full border-none outline-none text-grey opacity-70">
-          {Icon && <Icon size={18} />}
+          {Icon && <Icon size={26} />}
         </div>
 
         <input

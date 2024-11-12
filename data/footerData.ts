@@ -1,24 +1,28 @@
-import { FaEnvelope, FaMapMarkedAlt, FaPhone, FaUser } from "react-icons/fa"
+import clock from '@/public/clock.png'
+import map from '@/public/map.png'
+import phone from '@/public/phone.png'
+import email from '@/public/email.png'
+
 
 export const FooterData = [
   {
-    label: "Name",
-    value: "Yousef Rashad Abu Aisha",
-    icon: FaUser,
+    label: "ساعات العمل",
+    value: "من التاسعة صباحاً    -   حتى الخامسة مساءً",
+    image: clock,
   },
   {
-    label: "Address",
-    value: "Palestine , Gaza , Tal Al Hawa",
-    icon: FaMapMarkedAlt,
+    label: "العنوان",
+    value: "غزة - شارع الوحدة - برج قرطبة 2",
+    image: map,
   },
   {
-    label: "E-mail",
+    label: "الإيميل",
     value: "yousef.aboesha@hotmail.com",
-    icon: FaEnvelope,
+    image: email,
   },
   {
-    label: "Phone number",
-    value: "+970 592-55-1405",
-    icon: FaPhone,
+    label: " تواصل معنا",
+    value: "0569824542",
+    image: phone,
   },
-]
+];

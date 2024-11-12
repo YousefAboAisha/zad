@@ -1,18 +1,18 @@
-import { IconType } from "react-icons/lib"
+import Image, { StaticImageData } from "next/image"
 
 type FooterCardProps = {
   label: string
   value: string
-  Icon: IconType
+  image: StaticImageData
   href?: string
 }
 
-const FooterCard = ({ label, value, Icon }: FooterCardProps) => {
+const FooterCard = ({ label, value, image }: FooterCardProps) => {
   return (
     <div className="relative p-2">
       <div className="flex flex-row gap-6 items-center">
-        <Icon size={27} className="text-text_light dark:text-text_dark" />
-        <div className="flex flex-col">
+        <Image src={image} width={30} height={30} alt="Icon" />
+        <div className="flex flex-col gap-2">
           <h4 className="font-semibold font-secondary">{label}</h4>
           <span className="font-normal font-secondary">{value}</span>
         </div>

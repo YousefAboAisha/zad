@@ -25,15 +25,17 @@ module.exports = {
         primary: "#17D1C6",
         primary_hover: "#12a79d",
 
-        overlay:"#003566a5",
+        overlay: "#01201e74",
 
         // Secondary theme variables
         secondary: "#1E3250",
+
+        blue: "#2980b9",
       },
 
       fontFamily: {
-        noto_kufi: ['Noto Kufi Arabic','display', 'sans-serif'],
-        el_messiri: ['El Messiri', 'display','serif'],
+        noto_kufi: ["Noto Kufi Arabic", "display", "sans-serif"],
+        el_messiri: ["El Messiri", "display", "serif"],
       },
 
       borderColor: {

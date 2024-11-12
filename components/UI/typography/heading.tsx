@@ -3,6 +3,7 @@ type HeadingProps = {
     additionalStyles?: string
     highLightText?: string
     details?: string
+    detailsStyles?:string;
   }
   
   const Heading = ({
@@ -10,10 +11,11 @@ type HeadingProps = {
     additionalStyles,
     highLightText,
     details,
+    detailsStyles
   }: HeadingProps) => {
     return (
       <h4
-        className={`group relative text-2xl md:text-3xl lg:text-4xl font-semibold duration-500 uppercase text-text_light dark:text-text_dark z-10 ${additionalStyles}  `}
+        className={`group relative text-2xl md:text-3xl lg:text-4xl font-semibold duration-500 uppercase text-text_light dark:text-text_dark z-10 ${additionalStyles} `}
       >
         {title}
         <div
@@ -22,7 +24,7 @@ type HeadingProps = {
           {highLightText}
         </div>
         {details ? (
-          <p className="text-lg font-normal mt-4 w-full lg:w-8/12">{details}</p>
+          <p className={`text-lg font-el_messiri font-light mt-4 w-full lg:w-8/12 ${detailsStyles}`}>{details}</p>
         ) : null}
       </h4>
     )
