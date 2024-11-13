@@ -2,7 +2,6 @@ import { FooterData } from "@/data/footerData";
 import logo from "@/public/favicon.ico";
 import FooterCard from "./UI/cards/footercard";
 import Link from "next/link";
-// import CustomImage from "./UI/cards/customImage";
 import { Social } from "@/data/social";
 import Image from "next/image";
 
@@ -10,16 +9,11 @@ const Footer = () => {
   const date = new Date().getFullYear();
 
   return (
-    <footer className="relative container grid grid-cols-1 lg:grid-cols-2 mt-24 mb-12 p-6 gap-4 border rounded-md ">
+    <footer className="relative container grid grid-cols-1 lg:grid-cols-2 mt-24 mb-12 p-6 gap-4 border rounded-md">
       <div className="flex flex-col gap-4">
-        {FooterData.map((elem, index) => {
+        {FooterData.map(({ label, value, image }, index) => {
           return (
-            <FooterCard
-              key={index}
-              label={elem.label}
-              value={elem.value}
-              image={elem.image}
-            />
+            <FooterCard key={index} label={label} value={value} image={image} />
           );
         })}
       </div>
@@ -29,26 +23,25 @@ const Footer = () => {
           <Link href={"/"} className="flex items-center gap-2 text-xl">
             <Image src={logo} className="w-[40px] h-[40px]" alt="Logo" />
           </Link>
-          <span>زاد</span>
+          <span className="font-noto_kufi font-bold text-2xl">زاد</span>
         </div>
 
-        <div className="flex flex-row gap-4 ">
-          {Social.map((elem, index) => {
+        <div className="flex flex-row gap-2">
+          {Social.map(({ href, image }, index) => {
             return (
               <Link
                 key={index}
-                href={elem.href}
+                href={href}
                 target={"_blank"}
                 rel={"noreferrer"}
-                className="full-theme p-3 shadow-lg rounded-md border border-transparent duration-500 "
               >
-                {<elem.icon size={19} />}
+                <Image src={image} alt="icon" height={30} width={30} />
               </Link>
             );
           })}
         </div>
         <p className="text-sm text-grey mt-2 text-center">
-           جميع الحقوق محفوظة لدى يوسف رشاد أبو عيشة {date}
+          جميع الحقوق محفوظة لدى يوسف رشاد أبو عيشة {date}
         </p>
       </div>
     </footer>

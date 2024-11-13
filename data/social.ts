@@ -1,20 +1,18 @@
-import { FaFacebookF, FaLinkedin, FaTwitter, FaGithub } from "react-icons/fa"
+import facebook from "@/public/facebook.png";
+import instagram from "@/public/instagram.png";
+import twitter from "@/public/twitter.png";
 
 export const Social = [
   {
-    href: "https://www.facebook.com/yousef.aboesha.9/",
-    icon: FaFacebookF,
+    href: "https://www.instagram.com/zad_space/",
+    image: facebook,
   },
   {
-    href: "https://www.linkedin.com/in/yousef-aboesha-9b40b4193/",
-    icon: FaLinkedin,
+    href: "https://www.instagram.com/zad_space/",
+    image: instagram,
   },
   {
-    href: "https://twitter.com/_abuAisha",
-    icon: FaTwitter,
+    href: "https://www.instagram.com/zad_space/",
+    image: twitter,
   },
-  {
-    href: "https://github.com/YousefAboAisha",
-    icon: FaGithub,
-  },
-]
+];

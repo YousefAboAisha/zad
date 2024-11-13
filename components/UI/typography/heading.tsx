@@ -24,7 +24,7 @@ type HeadingProps = {
           {highLightText}
         </div>
         {details ? (
-          <p className={`text-lg font-el_messiri font-light mt-4 w-full lg:w-8/12 ${detailsStyles}`}>{details}</p>
+          <p className={`text-sm font-el_messiri font-light my-3 w-full ${detailsStyles}`}>&quot; {details} &quot;</p>
         ) : null}
       </h4>
     )

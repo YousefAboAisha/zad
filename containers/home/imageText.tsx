@@ -9,9 +9,10 @@ const ImageText = () => {
         <Heading
           title=""
           highLightText="أول مساحة عمل في شمال القطاع"
-          additionalStyles="mx-0 mb-3 !text-3xl"
+          additionalStyles="mx-0 mb-2 text-3xl"
+          details="من رحم المعاناة تولد المعجزات"
         />
-        <p>
+        <p className="">
           مساحة العمل هذه، التي أُنشئت في شمال غزة في ظل الحرب الحالية، تعتبر
           بمثابة ملاذ للمبدعين ورواد الأعمال والمبتكرين الطامحين إلى مواصلة
           العمل وتطوير أفكارهم رغم الأوضاع الصعبة. توفر المساحة بيئة تجمع بين
@@ -29,13 +30,13 @@ const ImageText = () => {
         </p>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center lg:border-primary lg:border-[15px] md:rounded-lg">
         <CustomImage
           src={"/home-landing.jpg"}
-          width={700}
-          height={700}
+          width={1000}
+          height={1000}
           alt="CV Image"
-          className="drop-shadow-2xl z-10  rounded-lg"
+          className="shadow-2xl z-10 translate-x-0 translate-y-0 rounded-lg lg:-translate-x-10 lg:-translate-y-10 lg:border"
         />
       </div>
     </div>
