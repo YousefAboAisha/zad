@@ -1,5 +1,5 @@
-import CustomImage from "@/components/UI/cards/customImage";
 import Heading from "@/components/UI/typography/heading";
+import Image from "next/image";
 import React from "react";
 
 const ImageText = () => {
@@ -31,12 +31,12 @@ const ImageText = () => {
       </div>
 
       <div className="flex justify-center lg:border-primary lg:border-[15px] md:rounded-lg">
-        <CustomImage
-          src={"/home-landing.jpg"}
+        <Image
+          src={"/work3.jpg"}
           width={1000}
           height={1000}
-          alt="CV Image"
-          className="shadow-2xl z-10 translate-x-0 translate-y-0 rounded-lg lg:-translate-x-10 lg:-translate-y-10 lg:border"
+          alt="Workspace"
+          className="shadow-3xl z-10 translate-x-0 translate-y-0 rounded-lg lg:-translate-x-10 lg:-translate-y-10 "
         />
       </div>
     </div>

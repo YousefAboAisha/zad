@@ -27,7 +27,7 @@ const Subscribe = () => {
           type="email"
           placeholder="بريدك الالكتروني"
           icon={BiMailSend}
-          className="!rounded-xl"
+          className="!rounded-xl !border-none"
         />
 
         <div className="absolute w-fit text-[12px] top-[50%] translate-y-[-50%] left-0 h-full">
@@ -36,7 +36,7 @@ const Subscribe = () => {
             additionalStyles="hidden md:block lg:block h-full p-4 rounded-xl !rounded-r-none bg-primary"
           />
 
-          <div className="bg-secondary text-white h-full rounded-xl rounded-r-none w-14 lg:hidden md:hidden flex justify-center items-center cursor-pointer">
+          <div className="bg-primary text-white h-full rounded-xl rounded-r-none w-14 lg:hidden md:hidden flex justify-center items-center cursor-pointer">
             <FiSend size={22} />
           </div>
         </div>

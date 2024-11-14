@@ -15,7 +15,7 @@ const Navbar = () => {
     >
       <div className="container flex flex-row justify-between items-center h-full">
         <div className={`flex items-center gap-8 md:gap-6 lg:gap-8`}>
-          <div className="flex md:hidden cursor-pointer ">
+        <div className="flex md:hidden cursor-pointer">
             <Hamburger toggled={sidebarIsOpen} toggle={setsidebarIsOpen} size={24} />
           </div>
 
