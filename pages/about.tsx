@@ -1,7 +1,6 @@
 import Biograph from "@/containers/about/biograph";
 import Gallery from "@/containers/about/gallery";
 import Landing from "@/containers/about/landing";
-// import Map from "@/containers/about/map";
 import Team from "@/containers/about/team";
 
 export default function About() {
