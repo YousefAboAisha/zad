@@ -27,7 +27,7 @@ const Navbar = () => {
                 <Link
                   key={index}
                   href={elem.href}
-                  className={`cursor-pointer min-w-fit hover:text-primary duration-300 text-md font-primary ${
+                  className={`cursor-pointer min-w-fit hover:text-blue duration-500 text-md font-primary outline-none ${
                     isPending
                       ? "animate-pulse"
                       : isActive

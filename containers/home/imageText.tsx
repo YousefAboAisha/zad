@@ -11,6 +11,7 @@ const ImageText = () => {
           highLightText="أول مساحة عمل في شمال القطاع"
           additionalStyles="mx-0 mb-2 text-3xl"
           details="من رحم المعاناة تولد المعجزات"
+          highlightColor="before:bg-primary"
         />
         <p className="">
           مساحة العمل هذه، التي أُنشئت في شمال غزة في ظل الحرب الحالية، تعتبر

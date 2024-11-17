@@ -10,13 +10,14 @@ const Subscribe = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full lg:w-9/12 mx-auto">
-      <div className="lg:w-8/12 w-full">
+      <div className="lg:w-8/12 w-full mx-auto">
         <Heading
           highLightText="اشترك معنا الآن"
+          highlightColor="before:bg-primary"
           details="نوصيك بالاشتراك عن طريق تسجيل بريدك الإلكتروني أدناه للحصول على تحديثات يومية عنا "
           title=""
-          additionalStyles="text-center mx-auto w-fit text-white"
-          detailsStyles="mx-auto"
+          className="w-full text-center mx-auto text-white"
+          additionalStyles="mx-auto"
         />
       </div>
 

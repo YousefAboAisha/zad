@@ -10,7 +10,7 @@ const LeasingPlans = () => {
           <Heading
             highLightText=""
             title="خطط الإيجار"
-            additionalStyles="w-fit mx-auto text-white"
+            className="w-fit mx-auto text-white"
             details="خطط عدّة لتناسب جميع الأشخاص"
             detailsStyles="mx-auto w-fit"
           />

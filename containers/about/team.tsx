@@ -8,7 +8,7 @@ const Team = () => {
     <div className="mt-24">
       <Heading
         title=""
-        highLightText="فريقنا"
+        highLightText="فريقنا في زاد"
         additionalStyles="mx-auto mb-12 w-fit"
       />
 

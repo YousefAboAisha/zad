@@ -1,6 +1,8 @@
 import Biograph from "@/containers/about/biograph";
+import Gallery from "@/containers/about/gallery";
+import Landing from "@/containers/about/landing";
+// import Map from "@/containers/about/map";
 import Team from "@/containers/about/team";
-import Landing from "@/containers/contact/landing";
 
 export default function About() {
   return (
@@ -8,7 +10,10 @@ export default function About() {
       {/* Landing Image */}
       <Landing />
 
-      <div className="container mt-24">
+      {/* Pictures from the place and promo video */}
+      <Gallery />
+
+      <div className="container mt-32">
         {/* Biograph, mission & Vision  */}
         <Biograph />
 
@@ -16,9 +21,8 @@ export default function About() {
         <Team />
       </div>
 
-      {/* Pictures from the place and promo video */}
-
       {/* Map & Location. */}
+      {/* <Map /> */}
     </>
   );
 }

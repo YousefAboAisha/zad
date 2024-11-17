@@ -10,7 +10,8 @@ const Biograph = () => {
           <Heading
             title=""
             highLightText="أهدافنا في زاد"
-            additionalStyles="mb-3"
+            highlightColor="before:bg-primary"
+            className="mb-6"
           />
           <ul className="flex flex-col gap-2 pr-">
             <li>
@@ -43,7 +44,7 @@ const Biograph = () => {
         </div>
 
         <div
-        //   style={{ borderRadius: "100% 0% 50% 50% / 0% 100% 0% 100% " }}
+          //   style={{ borderRadius: "100% 0% 50% 50% / 0% 100% 0% 100% " }}
           className="border-primary border-[15px] rounded-3xl p-3 shadow-xl w-fit h-fit"
         >
           <Image
@@ -51,7 +52,7 @@ const Biograph = () => {
             alt="Image"
             width={700}
             height={700}
-            className="rounded-3xl"
+            className="rounded-xl"
             // style={{ borderRadius: "100% 0% 50% 50% / 0% 100% 0% 100% " }}
           />
         </div>
@@ -59,17 +60,13 @@ const Biograph = () => {
 
       {/* Left Text | Right Image */}
       <div className="cards-grid-2 gap-6">
-        <div
-        //   style={{ borderRadius: "50% 50% 100% 0% / 0% 100% 0% 100% " }}
-          className="border-blue border-[15px] rounded-3xl p-3 shadow-xl"
-        >
+        <div className="border-blue border-[15px] rounded-3xl p-3 shadow-xl">
           <Image
             src={"/vision.jpg"}
             alt="Image"
             width={700}
             height={700}
-            className="rounded-3xl"
-            // style={{ borderRadius: "50% 50% 100% 0% / 0% 100% 0% 100% " }}
+            className="rounded-xl"
           />
         </div>
 
@@ -77,8 +74,10 @@ const Biograph = () => {
           <Heading
             title=""
             highLightText="رؤيتنا في زاد"
-            additionalStyles="mb-3 before:bg-blue"
+            highlightColor="before:bg-blue"
+            className="mb-6"
           />
+
           <p>
             تطمح هذه المساحة، المنشأة في شمال غزة وسط ظروف الحرب الحالية، إلى أن
             تكون ملاذاً آمناً وداعماً للمبدعين ورواد الأعمال والمبتكرين الشباب.

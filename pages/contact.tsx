@@ -1,3 +1,13 @@
+import ContactForm from "@/containers/contact/contactForm";
+import Landing from "@/containers/contact/landing";
+
 export default function Contact() {
-  return <div>This is Contact us page</div>;
+  return (
+    <>
+      <Landing />
+      <div id="contactForm" className="container">
+        <ContactForm />
+      </div>
+    </>
+  );
 }

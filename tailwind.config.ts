@@ -31,6 +31,8 @@ module.exports = {
         secondary: "#1E3250",
 
         blue: "#2980b9",
+
+        gray_overlay:"#ababab2a"
       },
 
       fontFamily: {

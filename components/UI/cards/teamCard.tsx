@@ -19,7 +19,7 @@ export const TeamCard = ({
   background,
 }: TeamCardType) => {
   return (
-    <div className="relative flex flex-col rounded-3xl border p-6 shadow-xl hover:-translate-y-2 duration-500">
+    <div className="relative flex flex-col rounded-3xl border p-6 shadow-lg hover:shadow-xl duration-500">
       <div
         className="relative h-[140px] rounded-xl"
         style={{
@@ -49,10 +49,16 @@ export const TeamCard = ({
       </div>
 
       {/* social media Icons */}
-      <div className="flex flex-row gap-2 mx-auto mt-8">
+      <div className="flex flex-row gap-3 mx-auto mt-8">
         {Social.map(({ href, image }, index) => {
           return (
-            <Link key={index} href={href} target={"_blank"} rel={"noreferrer"}>
+            <Link
+              key={index}
+              href={href}
+              target={"_blank"}
+              rel={"noreferrer"}
+              className="p-2 rounded-xl border hover:bg-gray_overlay duration-300 shadow-sm"
+            >
               <Image src={image} alt="icon" height={25} width={25} />
             </Link>
           );

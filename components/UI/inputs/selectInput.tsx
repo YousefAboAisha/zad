@@ -1,59 +1,51 @@
-import { useState } from "react"
-import { IoIosArrowDown } from "react-icons/io"
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 type SelectProps = {
-  title: string
+  title: string;
   options: {
-    title: string
-    id: number
-  }[]
-  style?: string
-  icon?: JSX.Element
-} & React.ComponentProps<"select">
+    title: string;
+    id: number;
+  }[];
+  additionalStyles?: string;
+  icon?: JSX.Element;
+} & React.ComponentProps<"select">;
 
-const Select = ({ title, options, icon, style, ...rest }: SelectProps) => {
-  const [IsActive, setIsActive] = useState(false)
-
+const Select = ({
+  title,
+  options,
+  additionalStyles = "",
+  className = "",
+  ...rest
+}: SelectProps) => {
   return (
-    <div className="relative dark:bg-background_dark bg-background_light">
-      <div className="absolute flex justify-center p-2 rounded-l-md items-center left-1 top-[50%] translate-y-[-50%] h-full border-none outline-none text-text_light dark:text-white">
-        {icon}
-      </div>
-
-      <div className="absolute flex justify-center p-2 rounded-l-md items-center right-1 top-[50%] translate-y-[-50%] h-full border-none outline-none text-white">
-        <IoIosArrowDown
-          size={20}
-          className={`${
-            IsActive ? "rotate-180" : "0"
-          } duration-300 text-text_light dark:text-white`}
-        />
+    <div className="relative bg-gray-50 rounded-xl">
+      <div className="absolute flex justify-center p-2 items-center right-1 top-[50%] translate-y-[-50%] h-full border-none outline-none">
+        <MdKeyboardArrowDown size={20} />
       </div>
 
       <select
-        className={`relative h-[56px] pl-12 border border-light dark:border-dark text-text_light dark:text-text_dark rounded-[8px] outline-none duration-300 w-full focus:valid:border-primary focus:border-primary disabled:cursor-not-allowed bg-transparent cursor-pointer ${style}`}
+        className={`relative h-[56px] pr-10 rounded-[8px] outline-none duration-300 w-full focus:valid:border-blue focus:border-blue disabled:cursor-not-allowed bg-transparent cursor-pointer bg-gray-50 rounde-2xl ${additionalStyles} ${className}`}
         {...rest}
-        onFocus={() => setIsActive(true)}
-        onBlur={() => setIsActive(false)}
+        name="studylevel"
+        aria-label={title}
       >
-        <option value="" disabled hidden>
+        <option value="null" defaultChecked hidden className="">
           {title}
         </option>
 
-        {options.map((elem) => {
-          return (
-            <option
-              key={elem.id}
-              className="dark:bg-background_dark bg-background_light p-2"
-              value={elem.id}
-              onChange={() => setIsActive(false)}
-            >
-              {elem.title}
-            </option>
-          )
-        })}
+        {options.map((elem) => (
+          <option
+            key={elem.id}
+            className="p-2"
+            value={elem.id}
+            title={elem.title}
+          >
+            {elem.title}
+          </option>
+        ))}
       </select>
     </div>
-  )
-}
+  );
+};
 
-export default Select
+export default Select;
