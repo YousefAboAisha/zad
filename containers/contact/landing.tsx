@@ -14,7 +14,7 @@ const Landing = () => {
   };
 
   return (
-    <div className="relative flex flex-col justify-center items-start w-full min-h-[90vh] mt-[70px] bg-home-landing bg-cover before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#0000009a] bg-fixed">
+    <div className="relative flex flex-col justify-center items-start w-full min-h-[90vh] mt-[70px] bg-contact bg-cover before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-[#0000009a] bg-fixed">
       <div className="flex flex-col gap-4 abs-center p-4 py-6 rounded-3xl backdrop-blur-sm w-full md:w-8/12 lg:w-6/12">
         <Heading
           title=""

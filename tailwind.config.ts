@@ -72,8 +72,9 @@ module.exports = {
       },
       backgroundImage: {
         "home-landing": "url('/home-landing.jpg')",
-        "main-pattern": "url('/mainPattern.svg')",
-        "main-pattern2": "url('/mainPattern2.svg')",
+        "subscribe": "url('/subscribe.jpg')",
+        "about": "url('/about.jpg')",
+        "contact": "url('/contact.jpg')",
       },
     },
   },
