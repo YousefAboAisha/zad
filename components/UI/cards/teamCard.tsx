@@ -29,14 +29,14 @@ export const TeamCard = ({
       >
         <Image
           src={image}
-          width={100}
-          height={100}
-          className="absolute bottom-0 left-[50%] translate-x-[-50%] rounded-full mx-auto w-[100px] h-[100px] translate-y-10 border-white border-8"
+          width={500}
+          height={500}
+          className="absolute bottom-0 left-[50%] translate-x-[-50%] rounded-full mx-auto w-[125px] h-[125px] translate-y-12 border-white border-8"
           alt="Profile Image"
         />
       </div>
 
-      <div className="flex flex-col gap-4 items-center justify-center mt-12">
+      <div className="flex flex-col gap-4 items-center justify-center mt-14">
         <h2 className="font-bold">{name}</h2>
         <p
           className="text-sm font-bold"

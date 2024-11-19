@@ -4,7 +4,7 @@ type SelectProps = {
   title: string;
   options: {
     title: string;
-    id: number;
+    value: number;
   }[];
   additionalStyles?: string;
   icon?: JSX.Element;
@@ -29,18 +29,13 @@ const Select = ({
         name="studylevel"
         aria-label={title}
       >
-        <option value="null" defaultChecked hidden className="">
+        <option value="" defaultChecked hidden className="">
           {title}
         </option>
 
-        {options.map((elem) => (
-          <option
-            key={elem.id}
-            className="p-2"
-            value={elem.id}
-            title={elem.title}
-          >
-            {elem.title}
+        {options.map(({ title, value }) => (
+          <option key={value} className="p-2" value={value} title={title}>
+            {title}
           </option>
         ))}
       </select>

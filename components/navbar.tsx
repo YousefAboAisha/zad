@@ -5,9 +5,11 @@ import Link from "next/link";
 import Sidebar from "./sidebar";
 import Modal from "./UI/modals/modal";
 import { Fade as Hamburger } from "hamburger-react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [sidebarIsOpen, setsidebarIsOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <nav
@@ -15,28 +17,29 @@ const Navbar = () => {
     >
       <div className="container flex flex-row justify-between items-center h-full">
         <div className={`flex items-center gap-8 md:gap-6 lg:gap-8`}>
-        <div className="flex md:hidden cursor-pointer">
-            <Hamburger toggled={sidebarIsOpen} toggle={setsidebarIsOpen} size={24} />
+          <div className="flex md:hidden cursor-pointer">
+            <Hamburger
+              toggled={sidebarIsOpen}
+              toggle={setsidebarIsOpen}
+              size={24}
+            />
           </div>
 
           <div className="hidden md:flex gap-6">
-            {Routes.map((elem, index) => {
-              const isPending = false;
-              const isActive = false;
+            {Routes.map(({ title, href }, index) => {
+              const pathname = router.pathname;
+              console.log([pathname, title]);
+
               return (
                 <Link
                   key={index}
-                  href={elem.href}
-                  className={`cursor-pointer min-w-fit hover:text-blue duration-500 text-md font-primary outline-none ${
-                    isPending
-                      ? "animate-pulse"
-                      : isActive
-                      ? "cursor-pointer min-w-fit text-primary border-b-2 border-primary "
-                      : ""
+                  href={href}
+                  className={`cursor-pointer min-w-fit hover:text-primary duration-500 text-md font-primary outline-none ${
+                    href == pathname ? "text-primary font-normal" : ""
                   }`}
-                  title={elem.title}
+                  title={title}
                 >
-                  {elem.title}
+                  {title}
                 </Link>
               );
             })}

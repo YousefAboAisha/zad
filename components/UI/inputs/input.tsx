@@ -32,7 +32,7 @@ const Input = ({
         {...rest}
         className={`h-full w-full ${
           Icon ? "pr-12" : "px-4"
-        } rounded-xl outline-none duration-300 disabled:cursor-not-allowed bg-gray-50 ${
+        } rounded-xl duration-500 outline-none border border-transparent disabled:cursor-not-allowed bg-gray-50 ${
           error ? "border border-[red] animate-shake" : ""
         } ${additionalStyles} ${className}`}
         placeholder={placeholder}

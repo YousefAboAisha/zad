@@ -10,12 +10,12 @@ export const Routes = [
   },
   {
     title: "من نحن",
-    href: "about",
+    href: "/about",
     icon: RxLayers,
   },
   {
     title: "تواصل معنا",
-    href: "contact",
+    href: "/contact",
     icon: VscMailRead,
   },
 ]

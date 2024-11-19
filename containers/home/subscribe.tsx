@@ -13,7 +13,7 @@ const Subscribe = () => {
       <div className="lg:w-8/12 w-full mx-auto">
         <Heading
           highLightText="اشترك معنا الآن"
-          highlightColor="before:bg-primary"
+          highlightColor="before:bg-blue"
           details="نوصيك بالاشتراك عن طريق تسجيل بريدك الإلكتروني أدناه للحصول على تحديثات يومية عنا "
           title=""
           className="w-full text-center mx-auto text-white"
@@ -28,13 +28,14 @@ const Subscribe = () => {
           type="email"
           placeholder="بريدك الالكتروني"
           icon={BiMailSend}
-          className="!rounded-xl !border-none"
+          className="rounded-xl border-none"
         />
 
         <div className="absolute w-fit text-[12px] top-[50%] translate-y-[-50%] left-0 h-full">
           <Button
             title="اشترك الآن"
-            additionalStyles="hidden md:block lg:block h-full p-4 rounded-xl !rounded-r-none bg-primary"
+            additionalStyles="hidden md:block lg:block h-full p-4 rounded-xl !rounded-r-none bg-blue"
+            hasShiningBar={false}
           />
 
           <div className="bg-primary text-white h-full rounded-xl rounded-r-none w-14 lg:hidden md:hidden flex justify-center items-center cursor-pointer">

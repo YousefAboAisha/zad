@@ -4,7 +4,7 @@ type HeadingProps = {
   highLightText?: string;
   details?: string;
   detailsStyles?: string;
-  highlightColor?: "before:bg-primary" | "before:bg-blue";
+  highlightColor?: "before:bg-primary" | "before:bg-blue" | "before:bg-secondary";
 } & React.HTMLAttributes<HTMLHeadingElement>;
 
 const Heading = ({
@@ -24,7 +24,7 @@ const Heading = ({
     >
       {title}
       <div
-        className={`relative w-fit before:absolute before:right-0 before:h-2/5 before:backdrop:blur-md before:bottom-0 before:rounded-sm before:w-4/12 group-hover:before:w-8/12 duration-500 before:duration-500 before:-z-10 ${highlightColor} ${additionalStyles}`}
+        className={`relative w-fit before:absolute before:right-0 before:h-2/5 before:backdrop:blur-md before:bottom-1 before:rounded-sm before:w-4/12 group-hover:before:w-8/12 duration-500 before:duration-500 before:-z-10 ${highlightColor} ${additionalStyles}`}
       >
         {highLightText}
       </div>

@@ -33,7 +33,7 @@ const ImageText = () => {
 
       <div className="flex justify-center lg:border-primary lg:border-[15px] md:rounded-lg">
         <Image
-          src={"/work3.jpg"}
+          src={"/work.jpg"}
           width={1000}
           height={1000}
           alt="Workspace"

@@ -10,8 +10,9 @@ const Biograph = () => {
           <Heading
             title=""
             highLightText="أهدافنا في زاد"
+            details="ما نسعى لتحقيقه من أهداف وإنجازات"
             highlightColor="before:bg-primary"
-            className="mb-6"
+            className="mb-2"
           />
           <ul className="flex flex-col gap-2 pr-">
             <li>
@@ -43,24 +44,20 @@ const Biograph = () => {
           </ul>
         </div>
 
-        <div
-          //   style={{ borderRadius: "100% 0% 50% 50% / 0% 100% 0% 100% " }}
-          className="border-primary border-[15px] rounded-3xl p-3 shadow-xl w-fit h-fit"
-        >
+        <div className="border-primary border-[15px] rounded-3xl p-3 shadow-xl w-fit h-fit">
           <Image
             src={"/mission.jpg"}
             alt="Image"
             width={700}
             height={700}
             className="rounded-xl"
-            // style={{ borderRadius: "100% 0% 50% 50% / 0% 100% 0% 100% " }}
           />
         </div>
       </div>
 
       {/* Left Text | Right Image */}
-      <div className="cards-grid-2 gap-6">
-        <div className="border-blue border-[15px] rounded-3xl p-3 shadow-xl">
+      <div className="cards-grid-2 gap-6 ">
+        <div className="border-blue border-[15px] rounded-3xl p-3 shadow-xl w-fit h-fit">
           <Image
             src={"/vision.jpg"}
             alt="Image"
@@ -74,8 +71,9 @@ const Biograph = () => {
           <Heading
             title=""
             highLightText="رؤيتنا في زاد"
+            details="ما نتطلع ونسعى للوصول إليه مستقبلاً"
             highlightColor="before:bg-blue"
-            className="mb-6"
+            className="mb-2"
           />
 
           <p>
