@@ -1,7 +1,7 @@
-import facebook from "@/public/facebook.png";
-import instagram from "@/public/instagram.png";
-import twitter from "@/public/twitter.png";
-import whatapp from "@/public/whatapp.png";
+import facebook from "@/public/facebook.svg";
+import instagram from "@/public/instagram.svg";
+import twitter from "@/public/twitter.svg";
+import whastapp from "@/public/whatsapp.svg";
 
 export const Social = [
   {
@@ -18,6 +18,6 @@ export const Social = [
   },
   {
     href: "https://www.instagram.com/zad_space/",
-    image: whatapp,
+    image: whastapp,
   },
 ];

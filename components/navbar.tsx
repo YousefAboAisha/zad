@@ -6,6 +6,8 @@ import Sidebar from "./sidebar";
 import Modal from "./UI/modals/modal";
 import { Fade as Hamburger } from "hamburger-react";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import logo from "@/public/android-chrome-512x512.png";
 
 const Navbar = () => {
   const [sidebarIsOpen, setsidebarIsOpen] = useState(false);
@@ -28,7 +30,7 @@ const Navbar = () => {
           <div className="hidden md:flex gap-6">
             {Routes.map(({ title, href }, index) => {
               const pathname = router.pathname;
-              console.log([pathname, title]);
+              // console.log([pathname, title]);
 
               return (
                 <Link
@@ -46,9 +48,8 @@ const Navbar = () => {
           </div>
         </div>
         {/* Logo text and Image  */}
-        <Link href={"/"} className="flex items-center gap-2 text-xl">
-          <h2 className="font-secondary">زاد </h2>
-          {/* <Image src={logo} className="min-w-[30px] h-[30px]" alt="Logo" /> */}
+        <Link href={"/"} className="flex items-center">
+          <Image src={logo} className="" width={60} height={60} alt="Logo" />
         </Link>
       </div>
 

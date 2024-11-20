@@ -1,7 +1,7 @@
-import clock from "@/public/clock.png";
-import map from "@/public/map.png";
-import phone from "@/public/phone.png";
-import email from "@/public/email.png";
+import clock from "@/public/clock.svg";
+import map from "@/public/map.svg";
+import phone from "@/public/phone.svg";
+import email from "@/public/email.svg";
 
 export const FooterData = [
   {

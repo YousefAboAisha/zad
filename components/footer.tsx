@@ -1,5 +1,5 @@
 import { FooterData } from "@/data/footerData";
-import logo from "@/public/favicon.ico";
+import logo from "@/public/android-chrome-512x512.png";
 import FooterCard from "./UI/cards/footercard";
 import Link from "next/link";
 import { Social } from "@/data/social";
@@ -18,15 +18,12 @@ const Footer = () => {
         })}
       </div>
 
-      <div className="flex flex-col gap-6 items-center justify-center">
-        <div className="max-w-[100px] max-h-[100px] flex flex-col gap-2 justify-center items-center">
-          <Link href={"/"} className="flex items-center gap-2 text-xl">
-            <Image src={logo} className="w-[40px] h-[40px]" alt="Logo" />
-          </Link>
-          <span className="font-noto_kufi font-bold text-2xl">زاد</span>
-        </div>
+      <div className="flex flex-col gap-3 items-center justify-center">
+        <Link href={"/"} className="flex items-center gap-2 text-xl">
+          <Image src={logo} className="" width={100} height={100} alt="Logo" />
+        </Link>
 
-        <div className="flex flex-row gap-3 mx-auto mt-4">
+        <div className="flex flex-row mx-auto">
           {Social.map(({ href, image }, index) => {
             return (
               <Link
@@ -34,14 +31,14 @@ const Footer = () => {
                 href={href}
                 target={"_blank"}
                 rel={"noreferrer"}
-                className="p-2 rounded-xl hover:bg-gray_overlay duration-300 shadow-md"
+                className="p-2 rounded-xl hover:bg-gray_overlay duration-300"
               >
                 <Image src={image} alt="icon" height={25} width={25} />
               </Link>
             );
           })}
         </div>
-        <p className="text-sm text-grey mt-2 text-center">
+        <p className="text-sm text-grey text-center">
           جميع الحقوق محفوظة لدى يوسف رشاد أبو عيشة {date}
         </p>
       </div>
