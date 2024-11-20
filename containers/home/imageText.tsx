@@ -31,13 +31,13 @@ const ImageText = () => {
         </p>
       </div>
 
-      <div className="flex justify-center lg:border-primary lg:border-[15px] md:rounded-lg">
+      <div className="flex justify-center bg-primary rounded-xl shadow-2xl">
         <Image
           src={"/work.jpg"}
           width={1000}
           height={1000}
           alt="Workspace"
-          className="shadow-3xl z-10 translate-x-0 translate-y-0 rounded-lg lg:-translate-x-10 lg:-translate-y-10 "
+          className="shadow-xl translate-x-0 translate-y-0 rounded-xl lg:-translate-x-6 lg:-translate-y-6 z-10"
         />
       </div>
     </div>

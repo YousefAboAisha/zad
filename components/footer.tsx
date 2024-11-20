@@ -26,7 +26,7 @@ const Footer = () => {
           <span className="font-noto_kufi font-bold text-2xl">زاد</span>
         </div>
 
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-3 mx-auto mt-4">
           {Social.map(({ href, image }, index) => {
             return (
               <Link
@@ -34,8 +34,9 @@ const Footer = () => {
                 href={href}
                 target={"_blank"}
                 rel={"noreferrer"}
+                className="p-2 rounded-xl hover:bg-gray_overlay duration-300 shadow-md"
               >
-                <Image src={image} alt="icon" height={30} width={30} />
+                <Image src={image} alt="icon" height={25} width={25} />
               </Link>
             );
           })}

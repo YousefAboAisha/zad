@@ -4,18 +4,16 @@ import { leasingData } from "@/data/leasingData";
 
 const LeasingPlans = () => {
   return (
-    <div className="bg-secondary mt-24">
-      <div className="mt-24 mb-24 container py-10">
-        <div className="w-fit mx-auto">
-          <Heading
-            highLightText=""
-            title="خطط الإيجار"
-            className="w-fit mx-auto text-white"
-            details="خطط عدّة لتناسب جميع الأشخاص"
-            detailsStyles="mx-auto w-fit"
-          />
-        </div>
-        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+    <div className="mt-24 ">
+      <div className="container mt-24 mb-24 py-10">
+        <Heading
+          title="خطط الإيجار"
+          className="w-fit mx-auto text-center"
+          additionalStyles="mx-auto"
+          details="خطط عدّة لتناسب جميع الأشخاص"
+        />
+
+        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
           {leasingData.map(({ type, price, color }, index) => {
             return (
               <LeasingCard

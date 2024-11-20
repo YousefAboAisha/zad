@@ -2,7 +2,7 @@ export const leasingData = [
   {
     type: "ساعة",
     price: 5,
-    color: "#2980b9",
+    color: "#1E3250",
   },
   {
     type: "يومي",

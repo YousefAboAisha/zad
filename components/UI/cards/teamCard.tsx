@@ -57,7 +57,7 @@ export const TeamCard = ({
               href={href}
               target={"_blank"}
               rel={"noreferrer"}
-              className="p-2 rounded-xl border hover:bg-gray_overlay duration-300 shadow-sm"
+              className="p-2 rounded-xl border hover:bg-gray_overlay duration-300"
             >
               <Image src={image} alt="icon" height={25} width={25} />
             </Link>
