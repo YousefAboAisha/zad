@@ -1,5 +1,5 @@
 import { FooterData } from "@/data/footerData";
-import logo from "@/public/android-chrome-512x512.png";
+import logo from "@/public/zad-logo.svg";
 import FooterCard from "./UI/cards/footercard";
 import Link from "next/link";
 import { Social } from "@/data/social";
@@ -19,8 +19,8 @@ const Footer = () => {
       </div>
 
       <div className="flex flex-col gap-3 items-center justify-center">
-        <Link href={"/"} className="flex items-center gap-2 text-xl">
-          <Image src={logo} className="" width={100} height={100} alt="Logo" />
+        <Link href={"/"} className="flex items-center gap-2 text-xl mb-4">
+          <Image src={logo} className="" width={50} height={50} alt="Logo" />
         </Link>
 
         <div className="flex flex-row mx-auto">

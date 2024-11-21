@@ -1,6 +1,7 @@
 import { Routes } from "@/data/routes";
+import Image from "next/image";
 import Link from "next/link";
-// import Image from "next/image";
+import logo from "@/public/zad-logo.svg";
 
 type SidebarTypes = {
   isOpen: boolean;
@@ -8,7 +9,6 @@ type SidebarTypes = {
 
 const Sidebar = ({ isOpen }: SidebarTypes) => {
   const date = new Date().getFullYear();
- 
 
   return (
     <div
@@ -25,22 +25,20 @@ const Sidebar = ({ isOpen }: SidebarTypes) => {
               className={`cursor-pointer p-4 border-b duration-300 hover:text-primary `}
               title={elem.title}
             >
-              <p
-                className={`font-secondary`}
-              >
-                {elem.title}
-              </p>
+              <p className={`font-secondary`}>{elem.title}</p>
             </Link>
           );
         })}
-{/* 
+
         <Image
           src={logo}
-          className="w-[50px] h-[50px] opacity-10 mx-auto"
-          alt="Logo"
-        /> */}
+          width={130}
+          height={130}
+          alt="Zad logo"
+          className="mx-auto bottom-2 opacity-5 mt-6"
+        />
 
-        <p className="text-sm font-light text-grey mt-4 text-center">
+        <p className="text-sm font-light text-grey mt-6 text-center">
           جميع الحقوق محفوظة لدى يوسف رشاد أبو عيشة© {date}
         </p>
       </div>

@@ -7,7 +7,7 @@ import Modal from "./UI/modals/modal";
 import { Fade as Hamburger } from "hamburger-react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import logo from "@/public/android-chrome-512x512.png";
+import logo from "@/public/zad-logo.svg";
 
 const Navbar = () => {
   const [sidebarIsOpen, setsidebarIsOpen] = useState(false);
@@ -48,8 +48,8 @@ const Navbar = () => {
           </div>
         </div>
         {/* Logo text and Image  */}
-        <Link href={"/"} className="flex items-center">
-          <Image src={logo} className="" width={60} height={60} alt="Logo" />
+        <Link href={"/"} className="">
+          <Image src={logo} width={25} height={25} alt="Zad logo" />
         </Link>
       </div>
 

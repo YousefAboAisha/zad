@@ -1,8 +1,9 @@
-import React from "react"
+import Image from "next/image";
+import logo from "@/public/zad-logo.svg";
 
 type SpinnerProps = {
-  additionalStyles?: string
-}
+  additionalStyles?: string;
+};
 
 const Spinner = ({ additionalStyles }: SpinnerProps) => {
   return (
@@ -23,9 +24,15 @@ const Spinner = ({ additionalStyles }: SpinnerProps) => {
           fill="currentFill"
         />
       </svg> */}
-      <h2 className="animate-pulse text-5xl">زاد</h2>
+      <Image
+        src={logo}
+        width={25}
+        height={25}
+        alt="Zad logo"
+        className="animate-pulse"
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Spinner
+export default Spinner;
