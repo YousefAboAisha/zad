@@ -23,7 +23,7 @@ const Footer = () => {
           <Image src={logo} className="" width={50} height={50} alt="Logo" />
         </Link>
 
-        <div className="flex flex-row mx-auto">
+        <div className="flex flex-row mx-auto gap-3 my-2">
           {Social.map(({ href, image }, index) => {
             return (
               <Link
@@ -31,9 +31,8 @@ const Footer = () => {
                 href={href}
                 target={"_blank"}
                 rel={"noreferrer"}
-                className="p-2 rounded-xl hover:bg-gray_overlay duration-300"
               >
-                <Image src={image} alt="icon" height={25} width={25} />
+                <Image src={image} alt="icon" height={20} width={20} />
               </Link>
             );
           })}
