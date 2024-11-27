@@ -12,6 +12,8 @@ import logo from "@/public/zad-logo.svg";
 const Navbar = () => {
   const [sidebarIsOpen, setsidebarIsOpen] = useState(false);
   const router = useRouter();
+  const pathname = router.pathname;
+
 
   return (
     <nav
@@ -29,15 +31,14 @@ const Navbar = () => {
 
           <div className="hidden md:flex gap-6">
             {Routes.map(({ title, href }, index) => {
-              const pathname = router.pathname;
-              // console.log([pathname, title]);
+              console.log([pathname, href]);
 
               return (
                 <Link
                   key={index}
                   href={href}
                   className={`cursor-pointer min-w-fit hover:text-primary duration-500 text-md font-primary outline-none ${
-                    href == pathname ? "text-primary font-normal" : ""
+                    pathname == `${href}` ? "text-primary font-normal" : ""
                   }`}
                   title={title}
                 >

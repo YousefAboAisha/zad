@@ -2,6 +2,7 @@ import { Routes } from "@/data/routes";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/zad-logo.svg";
+import { useRouter } from "next/router";
 
 type SidebarTypes = {
   isOpen: boolean;
@@ -9,6 +10,8 @@ type SidebarTypes = {
 
 const Sidebar = ({ isOpen }: SidebarTypes) => {
   const date = new Date().getFullYear();
+  const router = useRouter();
+  const pathname = router.pathname;
 
   return (
     <div
@@ -17,15 +20,21 @@ const Sidebar = ({ isOpen }: SidebarTypes) => {
       }`}
     >
       <div className="flex flex-col gap-4 mt-4 ">
-        {Routes.map((elem, index) => {
+        {Routes.map(({ href, title }, index) => {
           return (
             <Link
               key={index}
-              href={elem.href}
+              href={href}
               className={`cursor-pointer p-4 border-b duration-300 hover:text-primary `}
-              title={elem.title}
+              title={title}
             >
-              <p className={`font-secondary`}>{elem.title}</p>
+              <p
+                className={`font-secondary ${
+                  pathname == `${href}` ? "text-primary font-normal" : ""
+                }`}
+              >
+                {title}
+              </p>
             </Link>
           );
         })}

@@ -8,7 +8,7 @@ const Gallery = () => {
   return (
     <div className="container grid grid-cols-2 md:grid-cols-4 mt-32 gap-10">
       {galleryData.map(({ alt, src }, index) => {
-        console.log([index, src, alt]);
+        // console.log([index, src, alt]);
 
         return (
           <PhotoProvider key={index}>

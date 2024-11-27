@@ -38,7 +38,7 @@ const Subscribe = () => {
             hasShiningBar={false}
           />
 
-          <div className="bg-primary text-white h-full rounded-xl rounded-r-none w-14 lg:hidden md:hidden flex justify-center items-center cursor-pointer">
+          <div className="bg-blue text-white h-full rounded-xl rounded-r-none w-14 lg:hidden md:hidden flex justify-center items-center cursor-pointer">
             <FiSend size={22} />
           </div>
         </div>
