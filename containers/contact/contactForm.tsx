@@ -15,7 +15,7 @@ const ContactForm = () => {
       date: date,
     });
 
-    console.log(contactData);
+    // console.log(contactData);
   };
 
   const [contactData, setContactData] = useState<{

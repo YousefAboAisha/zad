@@ -31,7 +31,7 @@ const Navbar = () => {
 
           <div className="hidden md:flex gap-6">
             {Routes.map(({ title, href }, index) => {
-              console.log([pathname, href]);
+              // console.log([pathname, href]);
 
               return (
                 <Link
