@@ -1,11 +1,14 @@
 import ContactForm from "@/containers/contact/contactForm";
 import Landing from "@/containers/contact/landing";
+import { useRef } from "react";
 
 export default function Contact() {
+  const contactFormRef = useRef<HTMLDivElement | null>(null); 
+
   return (
     <>
-      <Landing />
-      <div id="contactForm" className="container">
+      <Landing contactFormRef={contactFormRef} />
+      <div ref={contactFormRef} className="container">
         <ContactForm />
       </div>
     </>

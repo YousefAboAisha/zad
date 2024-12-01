@@ -1,14 +1,21 @@
 import Button from "@/components/UI/inputs/button";
 import Heading from "@/components/UI/typography/heading";
 import { PiShootingStarThin } from "react-icons/pi";
+import { RefObject } from "react";
 
-const Landing = () => {
+// Correct type for props
+type LandingProps = {
+  contactFormRef: RefObject<HTMLDivElement>; // RefObject type from React
+};
+
+const Landing = ({ contactFormRef }: LandingProps) => {
   const scrollIntoView = () => {
-    const targetElement = document.getElementById("contactForm");
-    if (targetElement) {
+    if (contactFormRef.current) {
       const yOffset = -150; // Adjust offset as needed
       const yPosition =
-        targetElement.getBoundingClientRect().top + window.scrollY + yOffset;
+        contactFormRef.current.getBoundingClientRect().top +
+        window.scrollY +
+        yOffset;
       window.scrollTo({ top: yPosition, behavior: "smooth" });
     }
   };
@@ -20,12 +27,11 @@ const Landing = () => {
           title=""
           highLightText="انضمّ إلينا الآن!"
           highlightColor="before:bg-blue"
-          details="منصة فرصة هي منصة تعمل عن بُعد وتهدف إلى توفير تجربة تواصل مثالية بين الشركات والطلاب. نحن نوفر بيئة افتراضية حيث يمكن للشركات وأصحاب العمل إيجاد المواهب المناسبة والمؤهلة لمشاريعهم ووظائفهم الحالية والمستقبلية."
+          details="نحن في زاد نرحب بجميع استفساراتكم وآرائكم ونسعى للتواصل معكم لدعم أفكاركم ومشاريعكم. لا تترددوا في التواصل معنا عبر النموذج أدناه أو من خلال وسائل الاتصال المتاحة. نحن هنا لنستمع إليكم ونعمل معًا لتحقيق الإبداع والابتكار."
           className="text-white w-fit"
           additionalStyles="mx-auto"
           detailsStyles="mt-6 mx-auto text-center w-fit w-8/12"
         />
-
         <div className="w-8/12 mx-auto">
           <Button
             title="انضم الآن"

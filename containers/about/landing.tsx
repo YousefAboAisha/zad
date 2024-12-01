@@ -8,7 +8,7 @@ const Landing = () => {
           title=""
           highLightText="تعرّف على &quot;زاد&quot; "
           highlightColor="before:bg-blue"
-          details="منصة فرصة هي منصة تعمل عن بُعد وتهدف إلى توفير تجربة تواصل مثالية بين الشركات والطلاب. نحن نوفر بيئة افتراضية حيث يمكن للشركات وأصحاب العمل إيجاد المواهب المناسبة والمؤهلة لمشاريعهم ووظائفهم الحالية والمستقبلية."
+          details="زاد هي منصة تمكين مجتمعي تهدف إلى دعم الشباب والمبدعين من خلال توفير بيئة محفزة للتعلم، الإبداع، وريادة الأعمال"
           className="text-white"
           additionalStyles="mx-auto !w-fit"
           detailsStyles="mt-6 mx-auto text-center w-fit w-8/12"
