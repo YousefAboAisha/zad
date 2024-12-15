@@ -1,14 +1,10 @@
 export const leasingPlansOptions = [
   {
-    title: "يومي",
+    title: "أسبوعي",
     value: 1,
   },
   {
-    title: "أسبوعي",
-    value: 2,
-  },
-  {
     title: "شهري",
-    value: 3,
+    value: 2,
   },
 ];

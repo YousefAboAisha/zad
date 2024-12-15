@@ -1,56 +1,92 @@
-import { AiOutlineLock } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import { MdAlternateEmail } from "react-icons/md";
-import Input from "../inputs/input";
-import Button from "../inputs/button";
+import Button from "@/components/UI/inputs/button";
+import Input from "@/components/UI/inputs/input";
+import { FormEvent, useState } from "react";
+import { BiMailSend, BiUser } from "react-icons/bi";
+import Heading from "../typography/heading";
+import { PiSignIn } from "react-icons/pi";
+import { useModal } from "@/context/modalContext";
 
 const Signin = () => {
-  return (
-    <div className="relative flex flex-col rtl p-6">
-      <h2 className="font-bold text-xl mx-auto border-primary w-fit border-b-4 pb-1 my-4">
-        تسجيل الدخول
-      </h2>
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const date = new Date().toLocaleDateString();
+    setContactData({
+      ...contactData,
+      date: date,
+    });
 
-      <div className="mt-6 flex flex-col gap-4">
+    // console.log(contactData);
+  };
+
+  const [contactData, setContactData] = useState<{
+    email: string;
+    password: string;
+    date: string;
+  }>({
+    email: "",
+    password: "",
+    date: "",
+  });
+
+  const { openModal, closeModal } = useModal();
+
+  return (
+    <div className="w-full mx-auto border p-8 rounded-3xl shadow-sm">
+      <Heading
+        highLightText="تسجيل الدخول"
+        title=""
+        highlightColor="before:bg-primary"
+        className="mb-8 mx-auto"
+        additionalStyles="text-[30px] text-center mx-auto"
+      />
+      <form className="flex flex-col gap-4" onSubmit={(e) => submitHandler(e)}>
         <Input
           type="email"
-          placeholder="example@gmail.com"
-          icon={MdAlternateEmail}
-          className="w-full"
+          placeholder="البريد الالكتروني"
+          icon={BiUser}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              email: e.target.value,
+            })
+          }
+          value={contactData.email}
         />
+
         <Input
           type="password"
           placeholder="كلمة المرور"
-          icon={AiOutlineLock}
-          className="w-full"
+          icon={BiMailSend}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              password: e.target.value,
+            })
+          }
+          value={contactData.password}
         />
 
-        <label className="flex flex-row gap-2 items-center w-fit">
-          <input type={"checkbox"} />
-          <span className="font-light select-none">تذكر كلمة المرور</span>
-        </label>
+        <Button
+          title="تسجيل الدخول"
+          className="bg-primary mt-2 w-full mx-auto"
+          icon={<PiSignIn size={22} />}
+        />
 
-        <div className="mt-2 flex flex-col gap-4">
-          <Button title="تسجيل الدخول" />
-          <p className="text-center font-light">
-            أو قم بتسجيل الدخول بواسطة حساب جوجل
-          </p>
-          <Button
-            title="حساب جوجل"
-            className="!bg-green-50 !text-text_light"
-            icon={<FcGoogle size={22} />}
-          />
-        </div>
-
-        <p className="font-light text-center mt-4">
-          إذا كنت لا تمتلك حساب،قم بـ
+        <p className="font-light text-center text-[13px]">
+          إذا كنت لا تمتلك حساب، قم بـ
           <span
-            className="text-primary font-normal cursor-pointer"
+            className="text-primary font-bold cursor-pointer"
+            onClick={() => {
+              closeModal();
+              openModal("signup");
+            }}
           >
-            إنشاء حساب جديد
+            الانضمام إلينا{" "}
           </span>
         </p>
-      </div>
+      </form>
     </div>
   );
 };

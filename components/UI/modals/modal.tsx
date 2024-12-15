@@ -27,7 +27,7 @@ const Modal = ({
         onClick={() => setIsOpen(false)}
       ></div>
       <div
-        className={`abs-center fixed bg-theme max-h-[90%] z-100 w-11/12 md:w-9/12 lg:w-6/12 z-[1000001] overflow-y-auto rounded-xl ${
+        className={`abs-center fixed bg-white max-h-[90%] z-100 w-11/12 md:w-7/12 lg:w-5/12 z-[1000001] overflow-y-auto rounded-xl ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         } duration-300 `}
       >

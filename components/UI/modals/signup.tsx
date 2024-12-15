@@ -1,88 +1,143 @@
-import React from "react";
-import { AiOutlineLock } from "react-icons/ai";
-import { BiUser } from "react-icons/bi";
-import { FcGoogle } from "react-icons/fc";
-import { MdAlternateEmail } from "react-icons/md";
-import Input from "../inputs/input";
-import Button from "../inputs/button";
-
+import Button from "@/components/UI/inputs/button";
+import Input from "@/components/UI/inputs/input";
+import Select from "@/components/UI/inputs/selectInput";
+import { leasingPlansOptions } from "@/data/leasingPlansOptions";
+import { FormEvent, useState } from "react";
+import { BiMailSend, BiPhone, BiStar, BiUser } from "react-icons/bi";
+import { FiArrowDown } from "react-icons/fi";
+import Heading from "../typography/heading";
+import { PiShootingStarThin } from "react-icons/pi";
+import { useModal } from "@/context/modalContext";
 
 const Signup = () => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const date = new Date().toLocaleDateString();
+    setContactData({
+      ...contactData,
+      date: date,
+    });
 
-  
+    // console.log(contactData);
+  };
+
+  const [contactData, setContactData] = useState<{
+    name: string;
+    email: string;
+    phoneNumber: string;
+    profession: string;
+    leasingType: string;
+    date: string;
+  }>({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    profession: "",
+    leasingType: "",
+    date: "",
+  });
+
+  const { openModal, closeModal } = useModal();
 
   return (
-    <div className="relative flex flex-col rtl p-6">
-      <h2 className="font-bold text-xl mx-auto border-primary w-fit border-b-4 pb-1 my-4">
-        إنشاء حساب جديد
-      </h2>
-
-      <div className="mt-6 flex flex-col gap-4">
-        <div className="flex items-center gap-4 w-full">
-          <Input
-            type="text"
-            placeholder="الاسم الأول"
-            icon={BiUser}
-            className="w-full"
-          />
-          <Input
-            type="text"
-            placeholder="اسم العائلة"
-            icon={BiUser}
-            className="w-full"
-          />
-        </div>
+    <div className="w-full mx-auto border p-8 rounded-3xl shadow-sm">
+      <Heading
+        highLightText="انضم إلى زاد"
+        title=""
+        highlightColor="before:bg-primary"
+        className="mb-8 mx-auto"
+        additionalStyles="text-[30px] text-center mx-auto"
+      />
+      <form className="flex flex-col gap-4" onSubmit={(e) => submitHandler(e)}>
+        <Input
+          type="text"
+          placeholder="الاسم رباعي"
+          icon={BiUser}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              name: e.target.value,
+            })
+          }
+          value={contactData.name}
+        />
 
         <Input
           type="email"
-          placeholder="example@gmail.com"
-          icon={MdAlternateEmail}
-          className="w-full"
+          placeholder="البريد الالكتروني"
+          icon={BiMailSend}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              email: e.target.value,
+            })
+          }
+          value={contactData.email}
         />
 
         <Input
-          type="password"
-          placeholder="كلمة المرور"
-          icon={AiOutlineLock}
-          className="w-full"
+          type="text"
+          placeholder="رقم الهاتف"
+          icon={BiPhone}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              phoneNumber: e.target.value,
+            })
+          }
+          value={contactData.phoneNumber}
         />
 
         <Input
-          type="password"
-          placeholder="تأكيد كلمة المرور"
-          icon={AiOutlineLock}
-          className="w-full"
+          type="text"
+          placeholder="التخصص"
+          icon={BiStar}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              profession: e.target.value,
+            })
+          }
+          value={contactData.profession}
         />
 
-        <label className="flex flex-row gap-2 items-center w-fit">
-          <input type={"checkbox"} />
-          <span className="font-light select-none">
-            أوافق على سياسة الخصوصية والاستخدام
-          </span>
-        </label>
+        <Select
+          options={leasingPlansOptions}
+          title="اختر نوع الاشتراك.."
+          icon={<FiArrowDown />}
+          required
+          onChange={(e) =>
+            setContactData({
+              ...contactData,
+              leasingType: e.target.value,
+            })
+          }
+          value={contactData.leasingType}
+        />
 
-        <div className="mt-2 flex flex-col gap-4">
-          <Button title="إنشاء حساب" className="mt-2" />
-          <p className="text-center font-light">
-            أو قم بتسجيل الدخول بواسطة حساب جوجل
-          </p>
-          <Button
-            title="حساب جوجل"
-            className="!bg-green-50 !text-text_light"
-            icon={<FcGoogle size={22} />}
-          />
-        </div>
+        <Button
+          title="انضمام"
+          className="bg-primary mt-2 w-full mx-auto"
+          icon={<PiShootingStarThin size={22} />}
+        />
 
-        <p className="font-light text-center mt-4">
-          إذا كنت تمتلك حساب،قم بـ
+        <p className="font-light text-center text-[13px]">
+          إذا كنت تمتلك حساباً، قم بـ
           <span
-        
-            className="text-primary font-normal cursor-pointer"
+            className="text-primary font-bold cursor-pointer"
+            onClick={() => {
+              closeModal();
+              openModal("signin");
+            }}
           >
             تسجيل الدخول
           </span>
         </p>
-      </div>
+      </form>
     </div>
   );
 };

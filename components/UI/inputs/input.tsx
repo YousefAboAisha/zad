@@ -9,7 +9,6 @@ type InputProps = {
   required?: boolean;
 } & React.ComponentProps<"input">;
 
-// eslint-disable-next-line react/display-name
 const Input = ({
   placeholder,
   className = "",
@@ -32,9 +31,9 @@ const Input = ({
         {...rest}
         className={`h-full w-full ${
           Icon ? "pr-12" : "px-4"
-        } rounded-xl duration-500 outline-none border border-transparent disabled:cursor-not-allowed bg-gray-50 ${
+        } rounded-xl duration-200 outline-none border-2 border-transparent disabled:cursor-not-allowed bg-gray-50 focus:border-primary focus:border-2 ${
           error ? "border border-[red] animate-shake" : ""
-        } ${additionalStyles} ${className}`}
+        } ${additionalStyles} ${className} z-10`}
         placeholder={placeholder}
         pattern={pattern}
         required={required}
