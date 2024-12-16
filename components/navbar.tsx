@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
           {/* Sign In and Sign Up Buttons */}
           <Button
             title="انضم إلينا"
-            className="bg-primary text-sm px-1 sm:px-2 w-[120px]"
+            className="bg-primary text-sm px-1 sm:px-2 min-w-[100px]"
             onClick={() => {
               closeModal();
               openModal("signup");

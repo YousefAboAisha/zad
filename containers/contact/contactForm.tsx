@@ -113,6 +113,7 @@ const ContactForm = () => {
           icon={<FiSend />}
         />
       </form>
+
     </div>
   );
 };
