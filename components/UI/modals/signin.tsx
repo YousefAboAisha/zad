@@ -43,6 +43,7 @@ const Signin = () => {
         <Input
           type="email"
           placeholder="البريد الالكتروني"
+          label="البريد الالكتروني"
           icon={BiUser}
           required
           onChange={(e) =>
@@ -57,6 +58,7 @@ const Signin = () => {
         <Input
           type="password"
           placeholder="كلمة المرور"
+          label="كلمة المرور"
           icon={BiMailSend}
           required
           onChange={(e) =>

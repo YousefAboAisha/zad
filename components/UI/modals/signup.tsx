@@ -52,6 +52,7 @@ const Signup = () => {
         <Input
           type="text"
           placeholder="الاسم رباعي"
+          label="الاسم رباعي"
           icon={BiUser}
           required
           onChange={(e) =>
@@ -66,6 +67,7 @@ const Signup = () => {
         <Input
           type="email"
           placeholder="البريد الالكتروني"
+          label="البريد الالكتروني"
           icon={BiMailSend}
           required
           onChange={(e) =>
@@ -80,6 +82,7 @@ const Signup = () => {
         <Input
           type="text"
           placeholder="رقم الهاتف"
+          label="رقم الهاتف"
           icon={BiPhone}
           required
           onChange={(e) =>
@@ -94,6 +97,7 @@ const Signup = () => {
         <Input
           type="text"
           placeholder="التخصص"
+          label="التخصص"
           icon={BiStar}
           required
           onChange={(e) =>
@@ -106,6 +110,7 @@ const Signup = () => {
         />
 
         <Select
+          label="نوع الاشتراكذ"
           options={leasingPlansOptions}
           title="اختر نوع الاشتراك.."
           icon={<FiArrowDown />}
