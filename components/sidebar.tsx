@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/zad-logo.svg";
 import { useRouter } from "next/router";
-import { FaTimes } from "react-icons/fa";
 
 type SidebarTypes = {
   isOpen: boolean;
