@@ -1,5 +1,7 @@
-import AddnewCustomerForm from "@/components/addnewCustomerForm";
-import Landing from "@/containers/contact/landing";
+// import AddnewCustomerForm from "@/components/addnewCustomerForm";
+import CustomerProfile from "@/components/customerProfile";
+// import SuccessMessage from "@/components/UI/cards/successMessage";
+// import Landing from "@/containers/contact/landing";
 import { useRef } from "react";
 
 export default function Contact() {
@@ -7,10 +9,12 @@ export default function Contact() {
 
   return (
     <>
-      <Landing contactFormRef={contactFormRef} />
+      {/* <Landing contactFormRef={contactFormRef} /> */}
       <div ref={contactFormRef} className="container">
         {/* <ContactForm /> */}
-      <AddnewCustomerForm />
+        {/* <AddnewCustomerForm /> */}
+        {/* <SuccessMessage /> */}
+        <CustomerProfile />
       </div>
     </>
   );
