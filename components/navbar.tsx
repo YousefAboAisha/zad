@@ -76,11 +76,7 @@ const Navbar: React.FC = () => {
 
       {/* Sidebar */}
       <Sidebar isOpen={sidebarIsOpen} />
-      <Modal
-        isOpen={sidebarIsOpen}
-        setIsOpen={() => setSidebarIsOpen(false)}
-        className="!top-[70px]"
-      />
+      <Modal isOpen={sidebarIsOpen} setIsOpen={() => setSidebarIsOpen(false)} />
     </nav>
   );
 };

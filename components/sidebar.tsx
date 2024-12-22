@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/zad-logo.svg";
 import { useRouter } from "next/router";
+import { FaTimes } from "react-icons/fa";
 
 type SidebarTypes = {
   isOpen: boolean;
@@ -15,11 +16,11 @@ const Sidebar = ({ isOpen }: SidebarTypes) => {
 
   return (
     <div
-      className={`fixed rtl h-full w-full md:w-6/12 md:hidden sm:fixed right-0 top-[70px] z-[10000] bg-white duration-500 ${
+      className={`fixed rtl h-full w-full md:w-6/12 md:hidden sm:fixed right-0 top-0 z-[10000] bg-white duration-500 ${
         isOpen ? "translate-x-0" : "translate-x-[100%]"
       }`}
     >
-      <div className="flex flex-col gap-4 mt-4 ">
+      <div className="flex flex-col gap-4 mt-6">
         {Routes.map(({ href, title }, index) => {
           return (
             <Link
