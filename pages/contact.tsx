@@ -1,4 +1,4 @@
-// import AddnewCustomerForm from "@/components/addnewCustomerForm";
+import AddnewCustomerForm from "@/components/addnewCustomerForm";
 import CustomerProfile from "@/components/customerProfile";
 // import SuccessMessage from "@/components/UI/cards/successMessage";
 // import Landing from "@/containers/contact/landing";
@@ -12,7 +12,7 @@ export default function Contact() {
       {/* <Landing contactFormRef={contactFormRef} /> */}
       <div ref={contactFormRef} className="container">
         {/* <ContactForm /> */}
-        {/* <AddnewCustomerForm /> */}
+        <AddnewCustomerForm />
         {/* <SuccessMessage /> */}
         <CustomerProfile />
       </div>

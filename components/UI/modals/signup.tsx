@@ -77,7 +77,6 @@ const Signup = () => {
                 placeholder="الاسم رباعي"
                 label="الاسم رباعي"
                 icon={BiUser}
-                required
                 className={`focus:border-primary ${
                   loading ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}
@@ -98,7 +97,6 @@ const Signup = () => {
                 placeholder="البريد الالكتروني"
                 label="البريد الالكتروني"
                 icon={BiMailSend}
-                required
                 className={`focus:border-primary ${
                   loading ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}
@@ -119,7 +117,6 @@ const Signup = () => {
                 placeholder="رقم الهاتف"
                 label="رقم الهاتف"
                 icon={BiPhone}
-                required
                 className={`focus:border-primary ${
                   loading ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}
@@ -140,7 +137,6 @@ const Signup = () => {
                 placeholder="التخصص"
                 label="التخصص"
                 icon={BiStar}
-                required
                 className={`focus:border-primary ${
                   loading ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}
@@ -159,7 +155,6 @@ const Signup = () => {
                 options={leasingPlansOptions}
                 title="اختر نوع الاشتراك.."
                 icon={<FiArrowDown />}
-                required
                 value={values.leasingType}
                 onChange={(e) => setFieldValue("leasingType", e.target.value)}
                 className={`focus:border-primary ${

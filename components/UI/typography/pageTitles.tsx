@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 
@@ -8,8 +9,11 @@ type PageTitlesProps = {
 const PageTitles = ({ title }: PageTitlesProps) => {
   return (
     <div className="flex items-center">
-      <p className="text-gray-500">الرئيسية</p>
-      <MdKeyboardArrowLeft size={20} className="text-gray-500" />
+      <Link href={"/"} className="flex items-center text-gray-500 hover:underline">
+        الرئيسية
+        <MdKeyboardArrowLeft size={20} />
+      </Link>
+
       <p className="mr-1">{title}</p>
     </div>
   );

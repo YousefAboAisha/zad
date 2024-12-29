@@ -67,7 +67,6 @@ const Signin = () => {
                 placeholder="البريد الالكتروني"
                 label="البريد الالكتروني"
                 icon={BiUser}
-                required
                 className={`focus:border-primary ${
                   loading ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}
@@ -88,7 +87,6 @@ const Signin = () => {
                 placeholder="كلمة المرور"
                 label="كلمة المرور"
                 icon={BiLock}
-                required
                 className={`focus:border-primary ${
                   loading ? "bg-gray-200 cursor-not-allowed" : ""
                 }`}
