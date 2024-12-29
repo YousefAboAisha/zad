@@ -1,34 +1,26 @@
+import { BiLock, BiUser } from "react-icons/bi";
+import { PiSignIn } from "react-icons/pi";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useModal } from "@/context/modalContext";
+import Heading from "../typography/heading";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
-import { FormEvent, useState } from "react";
-import { BiMailSend, BiUser } from "react-icons/bi";
-import Heading from "../typography/heading";
-import { PiSignIn } from "react-icons/pi";
-import { useModal } from "@/context/modalContext";
+import { useState } from "react";
 
 const Signin = () => {
-  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const date = new Date().toLocaleDateString();
-    setContactData({
-      ...contactData,
-      date: date,
-    });
-
-    // console.log(contactData);
-  };
-
-  const [contactData, setContactData] = useState<{
-    email: string;
-    password: string;
-    date: string;
-  }>({
-    email: "",
-    password: "",
-    date: "",
-  });
-
   const { openModal, closeModal } = useModal();
+  const [loading, setLoading] = useState(false);
+
+  // Validation schema using Yup
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .email("البريد الإلكتروني غير صالح.")
+      .required("يرجى إدخال البريد الإلكتروني."),
+    password: Yup.string()
+      .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل.")
+      .required("يرجى إدخال كلمة المرور."),
+  });
 
   return (
     <div className="w-full mx-auto border p-8 rounded-3xl shadow-sm">
@@ -39,56 +31,98 @@ const Signin = () => {
         className="mb-8 mx-auto"
         additionalStyles="text-[30px] text-center mx-auto"
       />
-      <form className="flex flex-col gap-4" onSubmit={(e) => submitHandler(e)}>
-        <Input
-          type="email"
-          placeholder="البريد الالكتروني"
-          label="البريد الالكتروني"
-          icon={BiUser}
-          required
-          onChange={(e) =>
-            setContactData({
-              ...contactData,
-              email: e.target.value,
-            })
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={async (values, { resetForm }) => {
+          setLoading(true); // Start loading
+          try {
+            const date = new Date().toLocaleDateString();
+            const loginData = { ...values, date };
+
+            // Simulating an API call
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            console.log(loginData);
+
+            resetForm(); // Clear the form after successful submission
+          } catch (error) {
+            console.error("Login error:", error);
+          } finally {
+            setLoading(false); // End loading
           }
-          value={contactData.email}
-        />
+        }}
+      >
+        {() => (
+          <Form className="flex flex-col gap-4">
+            <div>
+              <Field
+                disabled={loading} // Disable input during loading
+                name="email"
+                as={Input}
+                type="email"
+                placeholder="البريد الالكتروني"
+                label="البريد الالكتروني"
+                icon={BiUser}
+                required
+                className={`focus:border-primary ${
+                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                }`}
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500 mt-2 font-medium text-[12px]"
+              />
+            </div>
 
-        <Input
-          type="password"
-          placeholder="كلمة المرور"
-          label="كلمة المرور"
-          icon={BiMailSend}
-          required
-          onChange={(e) =>
-            setContactData({
-              ...contactData,
-              password: e.target.value,
-            })
-          }
-          value={contactData.password}
-        />
+            <div>
+              <Field
+                disabled={loading} // Disable input during loading
+                name="password"
+                as={Input}
+                type="password"
+                placeholder="كلمة المرور"
+                label="كلمة المرور"
+                icon={BiLock}
+                required
+                className={`focus:border-primary ${
+                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                }`}
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500 mt-2 font-medium text-[12px]"
+              />
+            </div>
 
-        <Button
-          title="تسجيل الدخول"
-          className="bg-primary mt-2 w-full mx-auto"
-          icon={<PiSignIn size={22} />}
-        />
+            <Button
+              title="تسجيل الدخول"
+              type="submit"
+              className="bg-primary mt-2 w-full mx-auto"
+              icon={<PiSignIn size={22} className="rotate-180" />}
+              loading={loading}
+            />
 
-        <p className="font-light text-center text-[13px]">
-          إذا كنت لا تمتلك حساب، قم بـ
-          <span
-            className="text-primary font-bold cursor-pointer"
-            onClick={() => {
-              closeModal();
-              openModal("signup");
-            }}
-          >
-            الانضمام إلينا{" "}
-          </span>
-        </p>
-      </form>
+            <p className="font-light text-center text-[13px]">
+              إذا كنت لا تمتلك حساب، قم بـ
+              <span
+                className="text-primary font-bold cursor-pointer"
+                onClick={() => {
+                  closeModal();
+                  openModal("signup");
+                }}
+              >
+                الانضمام إلينا{" "}
+              </span>
+            </p>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

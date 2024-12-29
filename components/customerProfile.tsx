@@ -1,13 +1,18 @@
+import PageTitles from "./UI/typography/pageTitles";
+
 const CustomerProfile = () => {
   return (
-    <div className="relative">
+    <div className="relative mt-24">
+      {/* Page title */}
+      <PageTitles title="صفحتي الشخصية" />
+
       {/* Customer's name  */}
-      <div className="flex items-center gap-1 mt-28">
-        <h2 className="text-2xl">مرحباً بعودتك،</h2>
-        <h2 className="font-bold text-lg">يوسف رشاد أبو عيشة</h2>
+      <div className="flex items-center gap-1 mt-12">
+        <h2 className="text-lg">مرحباً بعودتك،</h2>
+        <h2 className="font-bold text-lg">يوسف رشاد أبو عيشة.</h2>
       </div>
 
-      <div className="cards-grid-3 mt-12">
+      <div className="cards-grid-3 mt-6">
         {/* Start date */}
         <div className="flex flex-col items-center justify-center gap-4 p-8 rounded-2xl text-white bg-[#AA5486]">
           <p>تاريخ البدء</p>
