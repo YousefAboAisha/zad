@@ -1,10 +1,14 @@
 import CustomerProfile from "@/components/customerProfile";
+import PageTitles from "@/components/UI/typography/pageTitles";
 import React from "react";
 
 const Profile = () => {
   return (
     <div className="container">
-      <CustomerProfile />
+      <div className="mt-28">
+        <PageTitles title="الصقحة الشخصية" />
+        <CustomerProfile />
+      </div>
     </div>
   );
 };

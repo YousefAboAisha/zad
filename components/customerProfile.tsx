@@ -1,13 +1,8 @@
-import PageTitles from "./UI/typography/pageTitles";
-
 const CustomerProfile = () => {
   return (
-    <div className="relative mt-24">
-      {/* Page title */}
-      <PageTitles title="صفحتي الشخصية" />
-
+    <div className="w-full relative">
       {/* Customer's name  */}
-      <div className="flex items-center gap-1 mt-12">
+      <div className="flex items-center gap-1">
         <h2 className="text-lg">مرحباً بعودتك،</h2>
         <h2 className="font-bold text-lg">يوسف رشاد أبو عيشة.</h2>
       </div>

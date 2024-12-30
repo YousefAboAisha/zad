@@ -8,7 +8,7 @@ type PageTitlesProps = {
 
 const PageTitles = ({ title }: PageTitlesProps) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mb-12">
       <Link href={"/"} className="flex items-center text-gray-500 hover:underline">
         الرئيسية
         <MdKeyboardArrowLeft size={20} />
