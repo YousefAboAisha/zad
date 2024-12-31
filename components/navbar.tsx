@@ -12,6 +12,7 @@ import Signup from "./UI/modals/signup";
 import Button from "./UI/inputs/button";
 import { useModal } from "../context/modalContext";
 import ProfilePopper from "./UI/modals/profilePopper";
+import { FiUser } from "react-icons/fi";
 
 const Navbar: React.FC = () => {
   const { openModal, closeModal, isOpen } = useModal();
@@ -35,14 +36,15 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Sign In and Sign Up Buttons */}
-          {!user ? (
+          {user ? (
             <Button
-              title="انضم إلينا"
-              className="bg-primary text-sm px-1 sm:px-2 min-w-[100px]"
+              title="تسجيل الدخول"
+              className="bg-primary text-sm px-3 md:px-1"
               onClick={() => {
                 closeModal();
-                openModal("signup");
+                openModal("signin");
               }}
+              icon={<FiUser />}
             />
           ) : (
             <ProfilePopper />

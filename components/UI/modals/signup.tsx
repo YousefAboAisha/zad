@@ -9,25 +9,54 @@ import Heading from "../typography/heading";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Select from "@/components/UI/inputs/selectInput";
-import { useState } from "react";
 
 const Signup = () => {
   const { openModal, closeModal } = useModal();
-  const [loading, setLoading] = useState(false);
+
+  const initialValues = {
+    name: "",
+    email: "",
+    phoneNumber: "",
+    profession: "",
+    leasingType: "",
+  };
 
   // Validation schema using Yup
   const validationSchema = Yup.object({
-    name: Yup.string().required("يرجى إدخال الاسم رباعي."),
+    name: Yup.string().required("يرجى إدخال الاسم رباعي"),
     email: Yup.string()
-      .email("البريد الإلكتروني غير صالح.")
-      .required("يرجى إدخال البريد الإلكتروني."),
+      .email("البريد الإلكتروني غير صالح")
+      .required("يرجى إدخال البريد الإلكتروني"),
     phoneNumber: Yup.string()
-      .matches(/^[0-9]+$/, "يرجى إدخال أرقام فقط.")
-      .min(10, "رقم الهاتف يجب أن يكون 10 أرقام على الأقل.")
-      .required("يرجى إدخال رقم الهاتف."),
-    profession: Yup.string().required("يرجى إدخال التخصص."),
-    leasingType: Yup.string().required("يرجى اختيار نوع الاشتراك."),
+      .matches(/^[0-9]+$/, "يرجى إدخال أرقام فقط")
+      .min(10, "رقم الهاتف يجب أن يكون 10 أرقام على الأقل")
+      .required("يرجى إدخال رقم الهاتف"),
+    profession: Yup.string().required("يرجى إدخال التخصص"),
+    leasingType: Yup.string().required("يرجى اختيار نوع الاشتراك"),
   });
+
+  const handleSubmit = async (
+    values: typeof initialValues,
+    {
+      resetForm,
+      setSubmitting,
+    }: {
+      resetForm: () => void;
+      setSubmitting: (isSubmitting: boolean) => void;
+    }
+  ) => {
+    try {
+      // Simulating an API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      console.log(values);
+      setSubmitting(false);
+      resetForm();
+    } catch (error) {
+      setSubmitting(false);
+      console.error("Profile edit error:", error);
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on error
+    }
+  };
 
   return (
     <div className="w-full mx-auto border p-8 rounded-3xl shadow-sm">
@@ -39,38 +68,15 @@ const Signup = () => {
         additionalStyles="text-[30px] text-center mx-auto"
       />
       <Formik
-        initialValues={{
-          name: "",
-          email: "",
-          phoneNumber: "",
-          profession: "",
-          leasingType: "",
-        }}
+        initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={async (values, { resetForm }) => {
-          setLoading(true); // Start loading
-          try {
-            const date = new Date().toLocaleDateString();
-            const loginData = { ...values, date };
-
-            // Simulating an API call
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-
-            console.log(loginData);
-
-            resetForm(); // Clear the form after successful submission
-          } catch (error) {
-            console.error("Login error:", error);
-          } finally {
-            setLoading(false); // End loading
-          }
-        }}
+        onSubmit={handleSubmit}
       >
-        {({ setFieldValue, values }) => (
+        {({ setFieldValue, values, isSubmitting, errors }) => (
           <Form className="flex flex-col gap-4">
             <div>
               <Field
-                disabled={loading} // Disable input during loading
+                disabled={isSubmitting} // Disable input during loading
                 name="name"
                 as={Input}
                 type="text"
@@ -78,19 +84,19 @@ const Signup = () => {
                 label="الاسم رباعي"
                 icon={BiUser}
                 className={`focus:border-primary ${
-                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                  errors.name && "!border-[red]"
                 }`}
               />
               <ErrorMessage
                 name="name"
                 component="div"
-                className="text-red-500 mt-2 font-medium text-[12px]"
+                className="text-red-500 mt-2 font-bold text-[12px]"
               />
             </div>
 
             <div>
               <Field
-                disabled={loading} // Disable input during loading
+                disabled={isSubmitting} // Disable input during loading
                 name="email"
                 as={Input}
                 type="email"
@@ -98,19 +104,19 @@ const Signup = () => {
                 label="البريد الالكتروني"
                 icon={BiMailSend}
                 className={`focus:border-primary ${
-                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                  errors.email && "!border-[red]"
                 }`}
               />
               <ErrorMessage
                 name="email"
                 component="div"
-                className="text-red-500 mt-2 font-medium text-[12px]"
+                className="text-red-500 mt-2 font-bold text-[12px]"
               />
             </div>
 
             <div>
               <Field
-                disabled={loading} // Disable input during loading
+                disabled={isSubmitting} // Disable input during loading
                 name="phoneNumber"
                 as={Input}
                 type="text"
@@ -118,19 +124,19 @@ const Signup = () => {
                 label="رقم الهاتف"
                 icon={BiPhone}
                 className={`focus:border-primary ${
-                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                  errors.phoneNumber && "!border-[red]"
                 }`}
               />
               <ErrorMessage
                 name="phoneNumber"
                 component="div"
-                className="text-red-500 mt-2 font-medium text-[12px]"
+                className="text-red-500 mt-2 font-bold text-[12px]"
               />
             </div>
 
             <div>
               <Field
-                disabled={loading} // Disable input during loading
+                disabled={isSubmitting} // Disable input during loading
                 name="profession"
                 as={Input}
                 type="text"
@@ -138,19 +144,19 @@ const Signup = () => {
                 label="التخصص"
                 icon={BiStar}
                 className={`focus:border-primary ${
-                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                  errors.profession && "!border-[red]"
                 }`}
               />
               <ErrorMessage
                 name="profession"
                 component="div"
-                className="text-red-500 mt-2 font-medium text-[12px]"
+                className="text-red-500 mt-2 font-bold text-[12px]"
               />
             </div>
 
             <div>
               <Select
-                disabled={loading} // Disable input during loading
+                disabled={isSubmitting} // Disable input during loading
                 label="نوع الاشتراك"
                 options={leasingPlansOptions}
                 title="اختر نوع الاشتراك.."
@@ -158,13 +164,13 @@ const Signup = () => {
                 value={values.leasingType}
                 onChange={(e) => setFieldValue("leasingType", e.target.value)}
                 className={`focus:border-primary ${
-                  loading ? "bg-gray-200 cursor-not-allowed" : ""
+                  errors.leasingType && "!border-[red]"
                 }`}
               />
               <ErrorMessage
                 name="leasingType"
                 component="div"
-                className="text-red-500 mt-2 font-medium text-[12px]"
+                className="text-red-500 mt-2 font-bold text-[12px]"
               />
             </div>
 
@@ -173,21 +179,23 @@ const Signup = () => {
               type="submit"
               className="bg-primary mt-2 w-full mx-auto"
               icon={<PiShootingStarThin size={22} />}
-              loading={loading}
+              disabled={isSubmitting} // Disable input during loading
+              loading={isSubmitting}
             />
-
-            <p className="font-light text-center text-[13px]">
-              إذا كنت تمتلك حساباً، قم بـ
-              <span
-                className="text-primary font-bold cursor-pointer"
-                onClick={() => {
-                  closeModal();
-                  openModal("signin");
-                }}
-              >
-                تسجيل الدخول
-              </span>
-            </p>
+            {isSubmitting ? null : (
+              <p className="font-light text-center text-[13px]">
+                إذا كنت تمتلك حساباً، قم بـ
+                <span
+                  className="text-primary font-bold cursor-pointer"
+                  onClick={() => {
+                    closeModal();
+                    openModal("signin");
+                  }}
+                >
+                  تسجيل الدخول
+                </span>
+              </p>
+            )}
           </Form>
         )}
       </Formik>

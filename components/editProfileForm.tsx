@@ -11,7 +11,6 @@ import {
 } from "react-icons/lia";
 import { CiEdit } from "react-icons/ci";
 import Heading from "@/components/UI/typography/heading";
-import { useState } from "react";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -35,32 +34,25 @@ const EditProfileForm = () => {
     profession: "",
   };
 
-  interface FormValues {
-    username: string;
-    name: string;
-    email: string;
-    phoneNumber: string;
-    profession: string;
-  }
-
-  const [loading, setLoading] = useState(false);
-  // const formRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-  const onSubmit = async (values: FormValues) => {
-    setLoading(true); // Start loading
+  const handleSubmit = async (
+    values: typeof initialValues,
+    {
+      resetForm,
+      setSubmitting,
+    }: {
+      resetForm: () => void;
+      setSubmitting: (isSubmitting: boolean) => void;
+    }
+  ) => {
     try {
       // Simulating an API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
       console.log(values);
-
-      // Clear the form after successful submission
-      setLoading(false);
+      setSubmitting(false);
+      resetForm();
     } catch (error) {
+      setSubmitting(false);
       console.error("Profile edit error:", error);
-      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on error
-    } finally {
-      setLoading(false); // End loading
       window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on error
     }
   };
@@ -69,9 +61,9 @@ const EditProfileForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
     >
-      {({ isSubmitting }) => (
+      {({ isSubmitting, errors }) => (
         <Form className="flex flex-col gap-4 border p-8 rounded-2xl shadow-sm">
           <Heading
             title=""
@@ -88,93 +80,103 @@ const EditProfileForm = () => {
             placeholder="اسم المستخدم"
             icon={LiaUserLockSolid}
             value="yousef_aboesha"
-            className="focus:border-primary"
+            className={`focus:border-primary`}
             disabled
           />
 
           {/* Name Field */}
           <div>
             <Field
-              className="focus:border-primary"
+              className={`focus:border-primary ${
+                errors.name && "!border-[red]"
+              }`}
               name="name"
               type="text"
               placeholder="يوسف رشاد أبو عيشة"
               as={Input}
               label="الاسم ثلاثي"
               icon={LiaUser}
+              disabled={isSubmitting} // Disable input during loading
             />
             <ErrorMessage
               name="name"
               component="div"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-[12px] mt-1 font-bold"
             />
           </div>
 
           {/* Email Field */}
           <div>
             <Field
-              className="focus:border-primary"
+              className={`focus:border-primary ${
+                errors.email && "!border-[red]"
+              }`}
               name="email"
               type="email"
               placeholder="example@gmail.com"
               as={Input}
               label="البريد الالكتروني"
               icon={LiaMailBulkSolid}
+              disabled={isSubmitting} // Disable input during loading
             />
             <ErrorMessage
               name="email"
               component="div"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-[12px] mt-1 font-bold"
             />
           </div>
 
           {/* Phone Number Field */}
           <div>
             <Field
-              className="focus:border-primary"
+              className={`focus:border-primary ${
+                errors.phoneNumber && "!border-[red]"
+              }`}
               name="phoneNumber"
               type="text"
               placeholder="0569824542"
               as={Input}
               label="رقم الجوال"
               icon={LiaPhoneSolid}
+              disabled={isSubmitting}
             />
             <ErrorMessage
               name="phoneNumber"
               component="div"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-[12px] mt-1 font-bold"
             />
           </div>
 
           {/* Profession Field */}
           <div>
             <Field
-              className="focus:border-primary"
+              className={`focus:border-primary ${
+                errors.profession && "!border-[red]"
+              }`}
               name="profession"
               type="text"
               placeholder="هندسة أنظمة الحاسوب"
               as={Input}
               label="تخصصك الدراسي أو المهني"
               icon={LiaStar}
+              disabled={isSubmitting}
             />
             <ErrorMessage
               name="profession"
               component="div"
-              className="text-red-500 text-sm mt-1"
+              className="text-red-500 text-[12px] mt-1 font-bold"
             />
           </div>
 
           {/* Submit Button */}
           <Button
             type="submit"
-            title={isSubmitting ? "جاري التعديل..." : "تعديل"}
-            className={`bg-primary mt-4 ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            title={"تعديل"}
+            className={`bg-primary mt-4 `}
             icon={<CiEdit size={24} />}
             hasShiningBar={false}
             disabled={isSubmitting}
-            loading={loading}
+            loading={isSubmitting}
           />
         </Form>
       )}
