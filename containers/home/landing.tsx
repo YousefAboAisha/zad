@@ -1,10 +1,6 @@
-// import Button from "@/components/UI/inputs/button";
-import Heading from "@/components/UI/typography/heading";
-// import Link from "next/link";
-// import { PiShootingStarThin } from "react-icons/pi";
-// import { LuMouse } from "react-icons/lu";
 import Image from "next/image";
 import scrollDown from "@/public/scrollDown.gif";
+import Heading from "@/components/UI/typography/heading";
 
 const Landing = () => {
   return (

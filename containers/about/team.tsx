@@ -1,3 +1,4 @@
+
 import { TeamCard } from "@/components/UI/cards/teamCard";
 import Heading from "@/components/UI/typography/heading";
 import { TeamData } from "@/data/teamData";

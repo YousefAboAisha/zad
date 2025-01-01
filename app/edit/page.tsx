@@ -1,6 +1,5 @@
 import EditProfileForm from "@/components/UI/Forms/editProfileForm";
 import PageTitles from "@/components/UI/typography/pageTitles";
-import React from "react";
 
 const Edit = () => {
   return (

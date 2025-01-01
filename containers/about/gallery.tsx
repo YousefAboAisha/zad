@@ -1,3 +1,4 @@
+'use client'
 import { galleryData } from "@/data/galleryData";
 import Image from "next/image";
 import { PhotoProvider, PhotoView } from "react-photo-view";

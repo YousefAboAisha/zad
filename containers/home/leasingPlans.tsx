@@ -2,6 +2,7 @@ import LeasingCard from "@/components/UI/cards/leasingCard";
 import Heading from "@/components/UI/typography/heading";
 import { leasingData } from "@/data/leasingData";
 
+
 const LeasingPlans = () => {
   return (
     <div className="mt-24 ">

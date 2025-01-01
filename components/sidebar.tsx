@@ -2,7 +2,8 @@ import { Routes } from "@/data/routes";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/zad-logo.svg";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+// import { useRouter } from "next/router";
 
 type SidebarTypes = {
   isOpen: boolean;
@@ -10,8 +11,8 @@ type SidebarTypes = {
 
 const Sidebar = ({ isOpen }: SidebarTypes) => {
   const date = new Date().getFullYear();
-  const router = useRouter();
-  const pathname = router.pathname;
+    const pathname = usePathname();
+  
 
   return (
     <div

@@ -1,10 +1,11 @@
+"use client";
 import React, { useState } from "react";
 import { Routes } from "../data/routes";
 import Link from "next/link";
 import Sidebar from "./sidebar";
 import Modal from "./UI/modals/modal";
 import { Fade as Hamburger } from "hamburger-react";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/zad-logo.svg";
 import Signin from "./UI/Forms/signin";
@@ -17,8 +18,7 @@ import { FiUser } from "react-icons/fi";
 const Navbar: React.FC = () => {
   const { openModal, closeModal, isOpen } = useModal();
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const router = useRouter();
-  const pathname = router.pathname;
+  const pathname = usePathname();
   const user = true;
 
   return (

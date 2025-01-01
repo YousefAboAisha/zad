@@ -9,9 +9,13 @@ const PageNotFound = () => {
       <h2 className="text-[120px] font-bold">404</h2>
       <p className="">الصفحة غير متوفرة</p>
       <Link href={"/"} className="w-full">
-      <Button title=" الصفحة الرئيسية" className="mt-4 bg-primary w-full md:w-3/12 mx-auto" hasShiningBar={false} icon={<RiArrowGoBackFill/>} />
+        <Button
+          title=" الصفحة الرئيسية"
+          className="mt-4 bg-primary w-full md:w-3/12 mx-auto"
+          hasShiningBar={false}
+          icon={<RiArrowGoBackFill />}
+        />
       </Link>
-      
     </div>
   );
 };
