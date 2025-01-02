@@ -2,7 +2,6 @@ import { leasingPlansOptions } from "@/data/leasingPlansOptions";
 import { BiMailSend, BiPhone, BiStar, BiUser } from "react-icons/bi";
 import { FiArrowDown } from "react-icons/fi";
 import { PiShootingStarThin } from "react-icons/pi";
-import { useModal } from "@/context/modalContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Heading from "../typography/heading";
@@ -11,8 +10,6 @@ import Input from "@/components/UI/inputs/input";
 import Select from "@/components/UI/inputs/selectInput";
 
 const Signup = () => {
-  const { openModal, closeModal } = useModal();
-
   const initialValues = {
     name: "",
     email: "",
@@ -185,13 +182,7 @@ const Signup = () => {
             {isSubmitting ? null : (
               <p className="font-light text-center text-[13px]">
                 إذا كنت تمتلك حساباً، قم بـ
-                <span
-                  className="text-primary font-bold cursor-pointer"
-                  onClick={() => {
-                    closeModal();
-                    openModal("signin");
-                  }}
-                >
+                <span className="text-primary font-bold cursor-pointer">
                   تسجيل الدخول
                 </span>
               </p>

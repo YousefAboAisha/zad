@@ -36,6 +36,7 @@ const Navbar: React.FC = () => {
                 title="تسجيل الدخول"
                 className="bg-primary text-sm px-3 md:px-1"
                 icon={<FiUser />}
+                hasShiningBar={false}
               />
             </Link>
           ) : (
