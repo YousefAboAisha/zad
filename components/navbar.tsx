@@ -11,14 +11,10 @@ import logo from "@/public/zad-logo.svg";
 import Button from "./UI/inputs/button";
 import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
-// import { getSession } from "@/lib/session";
 
 const Navbar: React.FC = () => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const pathname = usePathname();
-  // const cookie = getSession();
-  // console.log("This is user cookie", cookie);
-
   return (
     <nav
       className={`fixed w-full h-[70px] top-0 left-0 z-[1000] items-center bg-white text-black duration-500 border-light border-b shadow-sm`}
