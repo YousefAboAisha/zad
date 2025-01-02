@@ -8,18 +8,16 @@ import { Fade as Hamburger } from "hamburger-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/public/zad-logo.svg";
-import Signin from "./UI/Forms/signin";
-import Signup from "./UI/Forms/signup";
 import Button from "./UI/inputs/button";
-import { useModal } from "../context/modalContext";
 import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
+// import { getSession } from "@/lib/session";
 
 const Navbar: React.FC = () => {
-  const { openModal, closeModal, isOpen } = useModal();
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const pathname = usePathname();
-  const user = true;
+  // const cookie = getSession();
+  // console.log("This is user cookie", cookie);
 
   return (
     <nav
@@ -36,16 +34,14 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Sign In and Sign Up Buttons */}
-          {user ? (
-            <Button
-              title="تسجيل الدخول"
-              className="bg-primary text-sm px-3 md:px-1"
-              onClick={() => {
-                closeModal();
-                openModal("signin");
-              }}
-              icon={<FiUser />}
-            />
+          {1 ? (
+            <Link href={"/login"} className="h-full w-full">
+              <Button
+                title="تسجيل الدخول"
+                className="bg-primary text-sm px-3 md:px-1"
+                icon={<FiUser />}
+              />
+            </Link>
           ) : (
             <ProfilePopper />
           )}
@@ -73,17 +69,11 @@ const Navbar: React.FC = () => {
         </Link>
       </div>
 
-      {/* Modals */}
-      <Modal isOpen={isOpen("signin")} setIsOpen={closeModal}>
-        <Signin />
-      </Modal>
-
-      <Modal isOpen={isOpen("signup")} setIsOpen={closeModal}>
-        <Signup />
-      </Modal>
-
       {/* Sidebar */}
-      <Sidebar isOpen={sidebarIsOpen} />
+      <Sidebar
+        isOpen={sidebarIsOpen}
+        setIsOpen={() => setSidebarIsOpen(false)}
+      />
       <Modal isOpen={sidebarIsOpen} setIsOpen={() => setSidebarIsOpen(false)} />
     </nav>
   );

@@ -23,14 +23,14 @@ const Button = ({
       title={title}
       className={`relative group uppercase text-white w-full py-[10px] outline-none flex justify-center gap-3 items-center disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer transition shadow-lg rounded-md border-transparent border-[1px] hover:border-[1px] duration-500 overflow-hidden hover:shadow-2xl ${additionalStyles} ${className}`}
     >
-      <span className="flex flex-row gap-2 items-center font-secondary">
+      <p className="flex flex-row gap-2 items-center font-secondary">
         {title}
         {loading ? (
           <AiOutlineLoading3Quarters size={20} className="animate-spin" />
         ) : (
           icon
         )}
-      </span>
+      </p>
 
       {/* Shining Bar */}
 

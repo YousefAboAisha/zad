@@ -1,5 +1,5 @@
 // global.d.ts
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 declare global {
   const mongoose: {

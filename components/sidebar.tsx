@@ -3,16 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/public/zad-logo.svg";
 import { usePathname } from "next/navigation";
+import { Dispatch, SetStateAction } from "react";
 // import { useRouter } from "next/router";
 
 type SidebarTypes = {
   isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const Sidebar = ({ isOpen }: SidebarTypes) => {
+const Sidebar = ({ isOpen, setIsOpen }: SidebarTypes) => {
   const date = new Date().getFullYear();
-    const pathname = usePathname();
-  
+  const pathname = usePathname();
 
   return (
     <div
@@ -28,6 +29,7 @@ const Sidebar = ({ isOpen }: SidebarTypes) => {
               href={href}
               className={`cursor-pointer p-4 border-b duration-300 hover:text-primary `}
               title={title}
+              onClick={() => setIsOpen(false)}
             >
               <p
                 className={`font-secondary ${
