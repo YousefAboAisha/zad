@@ -9,9 +9,6 @@ import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
 import { FcGoogle } from "react-icons/fc";
 import { login } from "../actions/registerActions";
-import { Bounce, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS
-
 
 const Signin = () => {
   const [state, action, isPending] = useActionState(login, undefined);
@@ -46,7 +43,6 @@ const Signin = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              toast.play();
               // Create a FormData object and append the form values
               const formData = new FormData();
               formData.append("email", values.email);
@@ -111,7 +107,7 @@ const Signin = () => {
                 />
 
                 {state?.errors && (
-                  <div className="rounded-lg p-4 bg-red-200 text-[red] text-[13px] w-full">
+                  <div className="rounded-lg p-4 w-full bg-red-200 text-[red] text-[13px]">
                     {state?.errors.email}
                   </div>
                 )}
@@ -132,20 +128,6 @@ const Signin = () => {
           </button>
         </div>
       </div>
-
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </>
   );
 };

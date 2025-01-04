@@ -8,10 +8,6 @@ export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.includes(path);
 
-  // console.error("This is path: ", path);
-  // console.error("Is Protected path: ", isProtectedRoute);
-  // console.error("Is Public path: ", isPublicRoute);
-
   const cookie = (await cookies()).get("session")?.value;
   const session = await decrypt(cookie);
 
@@ -20,7 +16,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   if (session?.userId) {
-    if (path == "/login" || path == "/login") {
+    if (path == "/login") {
       return NextResponse.redirect(new URL("/", req.nextUrl));
     }
   }
