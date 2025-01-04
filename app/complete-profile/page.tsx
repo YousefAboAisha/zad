@@ -1,15 +1,17 @@
+"use client";
 import { leasingPlansOptions } from "@/data/leasingPlansOptions";
 import { BiMailSend, BiPhone, BiStar, BiUser } from "react-icons/bi";
 import { FiArrowDown } from "react-icons/fi";
 import { PiShootingStarThin } from "react-icons/pi";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Heading from "../typography/heading";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Select from "@/components/UI/inputs/selectInput";
+import Heading from "@/components/UI/typography/heading";
+import { LiaUserLockSolid } from "react-icons/lia";
 
-const Signup = () => {
+const CompleteProfile = () => {
   const initialValues = {
     name: "",
     email: "",
@@ -56,7 +58,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-full mx-auto border p-8 rounded-3xl shadow-sm">
+    <div className="w-11/12 md:w-7/12 lg:w-6/12 abs-center mx-auto border p-8 rounded-3xl shadow-sm bg-white">
       <Heading
         highLightText="انضم إلى زاد"
         title=""
@@ -72,83 +74,98 @@ const Signup = () => {
         {({ setFieldValue, values, isSubmitting, errors }) => (
           <Form className="flex flex-col gap-4">
             <div>
-              <Field
-                disabled={isSubmitting} // Disable input during loading
-                name="name"
-                as={Input}
+              <Input
+                label="اسم المستخدم"
                 type="text"
-                placeholder="الاسم رباعي"
-                label="الاسم رباعي"
-                icon={BiUser}
-                className={`focus:border-primary ${
-                  errors.name && "!border-[red]"
-                }`}
-              />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className="text-red-500 mt-2 font-bold text-[12px]"
+                placeholder="اسم المستخدم"
+                icon={LiaUserLockSolid}
+                value="yousef_aboesha"
+                className={`focus:border-primary`}
+                disabled
               />
             </div>
 
-            <div>
-              <Field
-                disabled={isSubmitting} // Disable input during loading
-                name="email"
-                as={Input}
-                type="email"
-                placeholder="البريد الالكتروني"
-                label="البريد الالكتروني"
-                icon={BiMailSend}
-                className={`focus:border-primary ${
-                  errors.email && "!border-[red]"
-                }`}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 mt-2 font-bold text-[12px]"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div>
+                <Field
+                  disabled={isSubmitting} // Disable input during loading
+                  name="name"
+                  as={Input}
+                  type="text"
+                  placeholder="الاسم رباعي"
+                  label="الاسم رباعي"
+                  icon={BiUser}
+                  className={`focus:border-primary ${
+                    errors.name && "!border-[red]"
+                  }`}
+                />
+                <ErrorMessage
+                  name="name"
+                  component="div"
+                  className="text-red-500 mt-2 font-bold text-[12px]"
+                />
+              </div>
+              <div>
+                <Field
+                  disabled={isSubmitting} // Disable input during loading
+                  name="email"
+                  as={Input}
+                  type="email"
+                  placeholder="البريد الالكتروني"
+                  label="البريد الالكتروني"
+                  icon={BiMailSend}
+                  className={`focus:border-primary ${
+                    errors.email && "!border-[red]"
+                  }`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-500 mt-2 font-bold text-[12px]"
+                />
+              </div>
             </div>
 
-            <div>
-              <Field
-                disabled={isSubmitting} // Disable input during loading
-                name="phoneNumber"
-                as={Input}
-                type="text"
-                placeholder="رقم الهاتف"
-                label="رقم الهاتف"
-                icon={BiPhone}
-                className={`focus:border-primary ${
-                  errors.phoneNumber && "!border-[red]"
-                }`}
-              />
-              <ErrorMessage
-                name="phoneNumber"
-                component="div"
-                className="text-red-500 mt-2 font-bold text-[12px]"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div>
+                <Field
+                  disabled={isSubmitting} // Disable input during loading
+                  name="phoneNumber"
+                  as={Input}
+                  type="text"
+                  placeholder="رقم الهاتف"
+                  label="رقم الهاتف"
+                  icon={BiPhone}
+                  className={`focus:border-primary ${
+                    errors.phoneNumber && "!border-[red]"
+                  }`}
+                />
+                <ErrorMessage
+                  name="phoneNumber"
+                  component="div"
+                  className="text-red-500 mt-2 font-bold text-[12px]"
+                />
+              </div>
 
-            <div>
-              <Field
-                disabled={isSubmitting} // Disable input during loading
-                name="profession"
-                as={Input}
-                type="text"
-                placeholder="التخصص"
-                label="التخصص"
-                icon={BiStar}
-                className={`focus:border-primary ${
-                  errors.profession && "!border-[red]"
-                }`}
-              />
-              <ErrorMessage
-                name="profession"
-                component="div"
-                className="text-red-500 mt-2 font-bold text-[12px]"
-              />
+              <div>
+                <Field
+                  disabled={isSubmitting} // Disable input during loading
+                  name="profession"
+                  as={Input}
+                  type="text"
+                  placeholder="التخصص"
+                  label="التخصص"
+                  icon={BiStar}
+                  className={`focus:border-primary ${
+                    errors.profession && "!border-[red]"
+                  }`}
+                />
+                <ErrorMessage
+                  name="profession"
+                  component="div"
+                  className="text-red-500 mt-2 font-bold text-[12px]"
+                />
+              </div>
             </div>
 
             <div>
@@ -179,14 +196,6 @@ const Signup = () => {
               disabled={isSubmitting} // Disable input during loading
               loading={isSubmitting}
             />
-            {isSubmitting ? null : (
-              <p className="font-light text-center text-[13px]">
-                إذا كنت تمتلك حساباً، قم بـ
-                <span className="text-primary font-bold cursor-pointer">
-                  تسجيل الدخول
-                </span>
-              </p>
-            )}
           </Form>
         )}
       </Formik>
@@ -194,4 +203,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default CompleteProfile;

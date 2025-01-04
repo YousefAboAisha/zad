@@ -72,9 +72,8 @@ module.exports = {
       },
       backgroundImage: {
         "home-landing": "url('/home-landing.jpg')",
+        "about-landing": "url('/about-landing.jpg')",
         "subscribe": "url('/subscribe.jpg')",
-        "about": "url('/about.jpg')",
-        "contact": "url('/contact.jpg')",
       },
     },
   },

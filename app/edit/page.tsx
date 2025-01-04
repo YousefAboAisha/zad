@@ -6,7 +6,7 @@ const Edit = () => {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="container mb-12">
         <div className=" w-full md:8/12 lg:w-7/12  mx-auto mt-28">
           <PageTitles title="تعديل  البيانات" />
           <EditProfileForm />

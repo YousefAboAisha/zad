@@ -8,7 +8,7 @@ const LeasingCard = ({ type, price, color }: LeasingCardProps) => {
   return (
     <div
       style={{ color: "white", borderColor: color }}
-      className={`group relative flex flex-col items-center justify-center gap-6 p-8 border`}
+      className={`group relative flex flex-col items-center justify-center gap-6 p-8 border bg-white`}
     >
       <h2
         style={{ color: color }}

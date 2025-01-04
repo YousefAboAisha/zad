@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Routes } from "../data/routes";
 import Link from "next/link";
 import Sidebar from "./sidebar";
-import Modal from "./UI/modals/modal";
 import { Fade as Hamburger } from "hamburger-react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -15,6 +14,7 @@ import { FiUser } from "react-icons/fi";
 const Navbar: React.FC = () => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const pathname = usePathname();
+
   return (
     <nav
       className={`fixed w-full h-[70px] top-0 left-0 z-[1000] items-center bg-white text-black duration-500 border-light border-b shadow-sm`}
@@ -30,8 +30,11 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Sign In and Sign Up Buttons */}
-          {1 ? (
-            <Link href={"/login"} className="h-full w-full">
+          {true ? (
+            <Link
+              href={"/login"}
+              className="h-full w-full px-3 md:px-1 outline-none"
+            >
               <Button
                 title="تسجيل الدخول"
                 className="bg-primary text-sm px-3 md:px-1"
@@ -62,7 +65,7 @@ const Navbar: React.FC = () => {
 
         {/* Logo */}
         <Link href={"/"}>
-          <Image src={logo} width={25} height={25} alt="Zad logo" />
+          <Image src={logo} width={25} alt="Zad logo" className="h-auto" />
         </Link>
       </div>
 
@@ -71,7 +74,6 @@ const Navbar: React.FC = () => {
         isOpen={sidebarIsOpen}
         setIsOpen={() => setSidebarIsOpen(false)}
       />
-      <Modal isOpen={sidebarIsOpen} setIsOpen={() => setSidebarIsOpen(false)} />
     </nav>
   );
 };

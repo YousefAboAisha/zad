@@ -9,7 +9,7 @@ const Footer = () => {
   const date = new Date().getFullYear();
 
   return (
-    <footer className="relative container grid grid-cols-1 lg:grid-cols-2 mt-24 mb-12 p-6 gap-4 border rounded-md">
+    <footer className="relative container grid grid-cols-1 lg:grid-cols-2 mt-24 mb-12 p-6 gap-4 border rounded-md bg-white">
       <div className="flex flex-col gap-4">
         {FooterData.map(({ label, value, image }, index) => {
           return (
@@ -20,7 +20,7 @@ const Footer = () => {
 
       <div className="flex flex-col gap-3 items-center justify-center">
         <Link href={"/"} className="flex items-center gap-2 text-xl mb-4">
-          <Image src={logo} className="" width={50} height={50} alt="Logo" />
+          <Image src={logo} width={50} alt="Zad logo" className="h-auto" />
         </Link>
 
         <div className="flex flex-row mx-auto gap-3 my-2">

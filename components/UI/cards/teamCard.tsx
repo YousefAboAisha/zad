@@ -25,7 +25,7 @@ export const TeamCard = ({
           borderColor: color,
         }
       }
-      className="group relative flex flex-col rounded-xl p-6 shadow-lg hover:shadow-xl duration-500 border-b-8 hover:-translate-y-2"
+      className="group relative flex flex-col rounded-xl p-6 shadow-lg hover:shadow-xl duration-500 border-b-8 hover:-translate-y-2 bg-white"
     >
       <div
         className="relative h-[140px] rounded-xl overflow-hidden"

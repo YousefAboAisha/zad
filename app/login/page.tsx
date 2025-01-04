@@ -8,6 +8,7 @@ import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
 import { FcGoogle } from "react-icons/fc";
+import Navbar from "@/components/navbar";
 
 const Signin = () => {
   // Validation schema using Yup
@@ -25,6 +26,10 @@ const Signin = () => {
     password: "",
   };
 
+  const wait = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+  };
+
   const handleSubmit = async (
     values: typeof initialValues,
     {
@@ -37,7 +42,7 @@ const Signin = () => {
   ) => {
     try {
       // Simulating an API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await wait();
       console.log(values);
       setSubmitting(false);
 
@@ -53,98 +58,91 @@ const Signin = () => {
   };
 
   return (
-    <div className="w-11/12 md:w-7/12 lg:w-5/12 abs-center mx-auto border p-8 rounded-3xl shadow-sm">
-      <Heading
-        highLightText="تسجيل الدخول"
-        title=""
-        highlightColor="before:bg-primary"
-        className="mb-8 mx-auto"
-        additionalStyles="text-[30px] text-center mx-auto"
-      />
+    <>
+      <Navbar />
+      <div className="flex items-center justify-center w-screen h-screen">
+        <div className="w-11/12 md:w-7/12 lg:w-5/12  mx-auto border p-8 rounded-3xl shadow-sm mt-[70px] bg-white">
+          <Heading
+            highLightText="تسجيل الدخول"
+            title=""
+            highlightColor="before:bg-primary"
+            className="mb-8 mx-auto"
+            additionalStyles="text-[30px] text-center mx-auto"
+          />
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting, errors }) => (
-          <Form className="flex flex-col gap-4">
-            <div>
-              <Field
-                disabled={isSubmitting} // Disable input during loading
-                name="email"
-                as={Input}
-                type="email"
-                placeholder="البريد الالكتروني"
-                label="البريد الالكتروني"
-                icon={BiUser}
-                className={`focus:border-primary ${
-                  errors.email && "!border-[red]"
-                }`}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 mt-2 font-bold text-[12px]"
-              />
-            </div>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting, errors }) => (
+              <Form className="flex flex-col gap-4">
+                <div>
+                  <Field
+                    disabled={isSubmitting} // Disable input during loading
+                    name="email"
+                    as={Input}
+                    type="email"
+                    placeholder="البريد الالكتروني"
+                    label="البريد الالكتروني"
+                    icon={BiUser}
+                    className={`focus:border-primary ${
+                      errors.email && "!border-[red]"
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 mt-2 font-bold text-[12px]"
+                  />
+                </div>
 
-            <div>
-              <Field
-                disabled={isSubmitting} // Disable input during loading
-                name="password"
-                as={Input}
-                type="password"
-                placeholder="كلمة المرور"
-                label="كلمة المرور"
-                icon={BiLock}
-                className={`focus:border-primary ${
-                  errors.password && "!border-[red]"
-                }`}
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 mt-2 font-bold text-[12px]"
-              />
-            </div>
+                <div>
+                  <Field
+                    disabled={isSubmitting} // Disable input during loading
+                    name="password"
+                    as={Input}
+                    type="password"
+                    placeholder="كلمة المرور"
+                    label="كلمة المرور"
+                    icon={BiLock}
+                    className={`focus:border-primary ${
+                      errors.password && "!border-[red]"
+                    }`}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-500 mt-2 font-bold text-[12px]"
+                  />
+                </div>
 
-            <Button
-              title={"تسجيل الدخول"}
-              type="submit"
-              className="bg-primary mt-2 w-full mx-auto hover:shadow-lg"
-              icon={<PiSignIn size={22} className="rotate-180" />}
-              loading={isSubmitting}
-              disabled={isSubmitting}
-            />
+                <Button
+                  title={"تسجيل الدخول"}
+                  type="submit"
+                  className="bg-primary mt-2 w-full mx-auto hover:shadow-lg"
+                  icon={<PiSignIn size={22} className="rotate-180" />}
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
+                />
+              </Form>
+            )}
+          </Formik>
 
-            {/* {isSubmitting ? null : (
-              <p className="font-light text-center text-[13px]">
-                إذا كنت لا تمتلك حساب، قم بـ
-                <Link
-                  href={"/signup"}
-                  className="text-primary font-bold cursor-pointer"
-                >
-                  الانضمام إلينا{" "}
-                </Link>
-              </p>
-            )} */}
-          </Form>
-        )}
-      </Formik>
+          <div className="relative w-full h-full p-2 my-10 items-center justify-center">
+            <p className="text-md text-center abs-center top-[50%] translate-y-[-50%] bg-white w-[10%] text-gray-500 font-light">
+              أو
+            </p>
+            <hr />
+          </div>
 
-      <div className="relative w-full h-full p-2 my-10 items-center justify-center">
-        <p className="text-md text-center abs-center top-[50%] translate-y-[-50%] bg-white w-[10%] text-gray-500 font-light">
-          أو
-        </p>
-        <hr />
+          <button className="flex items-center justify-center gap-2 border p-4 rounded-xl w-full mt-6">
+            تسجيل بواسطة جوجل
+            <FcGoogle size={20} />
+          </button>
+        </div>
       </div>
-
-      <button className="flex items-center justify-center gap-2 border p-4 rounded-xl w-full mt-6">
-        تسجيل بواسطة جوجل
-        <FcGoogle size={20} />
-      </button>
-    </div>
+    </>
   );
 };
 

@@ -65,7 +65,7 @@ const EditProfileForm = () => {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, errors }) => (
-        <Form className="flex flex-col gap-4 border p-8 rounded-2xl shadow-sm">
+        <Form className="flex flex-col gap-4 border p-8 rounded-2xl shadow-sm bg-white">
           <Heading
             title=""
             highLightText="تعديل البيانات"
