@@ -1,7 +1,7 @@
 "use server";
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import { createSession, deleteSession } from "./lib/session";
+import { createSession, deleteSession } from "@/app/lib/session";
 
 const testUser = {
   id: "1",
@@ -31,7 +31,7 @@ export async function login(prevState: unknown, formData: FormData) {
   if (email !== testUser.email || password !== testUser.password) {
     return {
       errors: {
-        email: ["Invalid email or password"],
+        email: ["خطأ في البريد الالكتروني أو كلمة المرور"],
       },
     };
   }
@@ -43,5 +43,5 @@ export async function login(prevState: unknown, formData: FormData) {
 
 export async function logout() {
   await deleteSession();
-  redirect("/login");
+  redirect("/");
 }

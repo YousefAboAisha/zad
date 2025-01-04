@@ -1,5 +1,4 @@
 import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
 import Features from "@/containers/home/features";
 import Hero from "@/containers/home/hero";
 import ImageText from "@/containers/home/imageText";
@@ -26,7 +25,6 @@ export const viewport = "width=device-width, initial-scale=1";
 export default function Home() {
   return (
     <>
-      <Navbar />
       <Landing />
       <div className="container mx-auto">
         <ImageText />

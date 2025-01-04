@@ -1,3 +1,4 @@
+import { logout } from "@/app/actions/registerActions";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Link from "next/link";
 import { CiEdit, CiLogout, CiUser } from "react-icons/ci";
@@ -45,7 +46,7 @@ function ProfilePopper() {
         </MenuItem>
 
         <MenuItem>
-          <div className="flex items-center gap-2 p-3 cursor-pointer text-sm rounded-lg bg-[red] text-white">
+          <div className="flex items-center gap-2 p-3 cursor-pointer text-sm rounded-lg bg-[red] text-white" onClick={() => logout()}>
             <CiLogout size={20} />
             <p>تسجيل الخروج</p>
           </div>

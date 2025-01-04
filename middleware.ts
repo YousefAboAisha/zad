@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./lib/session";
+import { decrypt } from "./app/lib/session";
 
 const protectedRoutes = ["/edit", "/profile", "complete-profile"];
 

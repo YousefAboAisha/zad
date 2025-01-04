@@ -1,4 +1,5 @@
-import '@/app/globals.css';
+import "@/app/globals.css";
+import NavbarWrapper from "./navbarWrapper";
 
 export async function generateMetadata() {
   return {
@@ -24,7 +25,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar">
-      <body suppressHydrationWarning={true} dir="rtl" className='bg-[#f8f8f8]'>
+      <body suppressHydrationWarning={true} dir="rtl" className="bg-[#f8f8f8]">
+        <NavbarWrapper /> {/* Use the server-side wrapper */}
         {children}
       </body>
     </html>

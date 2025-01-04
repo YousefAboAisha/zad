@@ -11,7 +11,14 @@ import Button from "./UI/inputs/button";
 import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  session: {
+    userId: string;
+    expiresAt: Date;
+  } | null;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ session }) => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -29,8 +36,8 @@ const Navbar: React.FC = () => {
             />
           </div>
 
-          {/* Sign In and Sign Up Buttons */}
-          {true ? (
+          {/* Conditionally render Sign In or Profile Icon */}
+          {!session ? (
             <Link
               href={"/login"}
               className="h-full w-full px-3 md:px-1 outline-none"
