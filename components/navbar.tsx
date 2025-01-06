@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Routes } from "../data/routes";
 import Link from "next/link";
 import Sidebar from "./sidebar";
@@ -18,9 +18,27 @@ interface NavbarProps {
   } | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ session }) => {
+const Navbar = ({ session }: NavbarProps) => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const pathname = usePathname();
+
+  // Memoize the routes to avoid unnecessary re-renders
+  const renderedRoutes = useMemo(
+    () =>
+      Routes.map(({ title, href }, index) => (
+        <Link
+          key={index}
+          href={href}
+          className={`cursor-pointer min-w-fit hover:text-primary duration-500 text-md font-primary outline-none ${
+            pathname === `${href}` ? "text-primary font-normal" : ""
+          }`}
+          title={title}
+        >
+          {title}
+        </Link>
+      )),
+    [pathname]
+  );
 
   return (
     <nav
@@ -33,14 +51,16 @@ const Navbar: React.FC<NavbarProps> = ({ session }) => {
               toggled={sidebarIsOpen}
               toggle={setSidebarIsOpen}
               size={24}
+              aria-label="Toggle sidebar"
             />
           </div>
 
           {/* Conditionally render Sign In or Profile Icon */}
           {!session ? (
             <Link
-              href={"/login"}
+              href={"/signin"}
               className="h-full w-full px-3 md:px-1 outline-none"
+              prefetch
             >
               <Button
                 title="تسجيل الدخول"
@@ -54,25 +74,18 @@ const Navbar: React.FC<NavbarProps> = ({ session }) => {
           )}
 
           {/* Routes */}
-          <div className="hidden md:flex gap-6">
-            {Routes.map(({ title, href }, index) => (
-              <Link
-                key={index}
-                href={href}
-                className={`cursor-pointer min-w-fit hover:text-primary duration-500 text-md font-primary outline-none ${
-                  pathname === `${href}` ? "text-primary font-normal" : ""
-                }`}
-                title={title}
-              >
-                {title}
-              </Link>
-            ))}
-          </div>
+          <div className="hidden md:flex gap-6">{renderedRoutes}</div>
         </div>
 
         {/* Logo */}
         <Link href={"/"}>
-          <Image src={logo} width={25} alt="Zad logo" className="h-auto" />
+          <Image
+            src={logo}
+            width={25}
+            alt="Zad logo"
+            className="h-auto"
+            priority // Optimize for above-the-fold images
+          />
         </Link>
       </div>
 

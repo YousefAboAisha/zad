@@ -7,7 +7,7 @@ import { IoIosArrowDown } from "react-icons/io";
 function ProfilePopper() {
   return (
     <Menu as={"div"}>
-      <MenuButton as={"div"}>
+      <MenuButton as={"div"} className="cursor-pointer">
         {({ active }) => (
           <div className="flex items-center gap-1">
             <IoIosArrowDown
@@ -29,6 +29,7 @@ function ProfilePopper() {
           <Link
             href={"/profile"}
             className="flex items-center gap-2 p-3 hover:bg-gray-300 cursor-pointer duration-100 text-sm rounded-lg"
+            prefetch
           >
             <CiUser size={20} />
             <span>الصفحة الشخصية</span>

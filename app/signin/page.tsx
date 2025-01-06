@@ -1,5 +1,5 @@
 "use client"; // Ensure this is a client component
-import React, { useActionState, useTransition } from "react";
+import React, { useState } from "react";
 import { BiLock, BiUser } from "react-icons/bi";
 import { PiSignIn } from "react-icons/pi";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -7,12 +7,12 @@ import * as Yup from "yup";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
-import { FcGoogle } from "react-icons/fc";
-import { login } from "../actions/registerActions";
+// import { loginSchema } from "../schemas";
+// import { redirect } from "next/navigation";
 
 const Signin = () => {
-  const [state, action, isPending] = useActionState(login, undefined);
-  const [isPendingTransition, startTransition] = useTransition();
+  // State to track form submission errors as a string
+  const [formErrors, setFormErrors] = useState<string>("");
 
   // Validation schema using Yup
   const validationSchema = Yup.object({
@@ -24,9 +24,83 @@ const Signin = () => {
       .required("يرجى إدخال كلمة المرور"),
   });
 
+  // Test user to compare the input values
+  // const testUser = {
+  //   id: "1",
+  //   email: "faw@gmail.com",
+  //   password: "12345678",
+  // };
+
+  // Initial values for the form
   const initialValues = {
     email: "",
     password: "",
+  };
+
+  const handleSubmit = async (
+    values: { email: string; password: string },
+    {
+      setSubmitting,
+    }: {
+      setSubmitting: (isSubmitting: boolean) => void;
+      setErrors: (errors: { [key: string]: string }) => void;
+    }
+  ) => {
+    // Reset form errors
+    setFormErrors("");
+
+    // Validate the form data using Zod
+    // const result = loginSchema.safeParse(values);
+
+    // if (!result.success) {
+    //   // If validation fails, set the errors in state as a single string
+    //   const errorMessages = Object.values(
+    //     result.error.flatten().fieldErrors
+    //   ).flat();
+    //   setFormErrors(errorMessages.join(", ")); // Combine errors into a single string
+    //   setSubmitting(false);
+    //   return;
+    // }
+
+    // const { email, password } = result.data;
+
+    // Check if the email and password match the test user
+    // if (email !== testUser.email || password !== testUser.password) {
+    //   setFormErrors("خطأ في البريد الالكتروني أو كلمة المرور");
+    //   setSubmitting(false);
+    //   return;
+    // }
+
+    try {
+      // Send data to the backend API route
+      const response = await fetch("/api/users/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+      console.log("Data Object is:", data);
+
+      if (!response.ok) {
+        // If the API returns an error, set the error in state as a single string
+        setFormErrors(data.error);
+        console.log("Error is:", data.error);
+        return;
+      }
+
+      setSubmitting(false);
+      console.log("User has been created successfully!", data);
+    } catch (error) {
+      setSubmitting(false);
+      // Handle unexpected errors
+      setFormErrors((error as Error).message);
+      console.error("Error creating user", error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -42,24 +116,13 @@ const Signin = () => {
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              // Create a FormData object and append the form values
-              const formData = new FormData();
-              formData.append("email", values.email);
-              formData.append("password", values.password);
-
-              // Wrap the action call in startTransition
-              startTransition(() => {
-                action(formData);
-              });
-              setSubmitting(false);
-            }}
+            onSubmit={handleSubmit}
           >
             {({ isSubmitting, errors }) => (
               <Form className="flex flex-col gap-4">
                 <div>
                   <Field
-                    disabled={isSubmitting} // Disable input during loading
+                    disabled={isSubmitting}
                     name="email"
                     as={Input}
                     type="email"
@@ -79,7 +142,7 @@ const Signin = () => {
 
                 <div>
                   <Field
-                    disabled={isSubmitting} // Disable input during loading
+                    disabled={isSubmitting}
                     name="password"
                     as={Input}
                     type="password"
@@ -102,30 +165,18 @@ const Signin = () => {
                   type="submit"
                   className="bg-primary mt-2 w-full mx-auto hover:shadow-lg"
                   icon={<PiSignIn size={22} className="rotate-180" />}
-                  loading={isSubmitting || isPendingTransition || isPending}
-                  disabled={isSubmitting || isPendingTransition || isPending}
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
                 />
 
-                {state?.errors && (
+                {formErrors && (
                   <div className="rounded-lg p-4 w-full bg-red-200 text-[red] text-[13px]">
-                    {state?.errors.email}
+                    {formErrors}
                   </div>
                 )}
               </Form>
             )}
           </Formik>
-
-          <div className="relative w-full h-full p-2 my-10 items-center justify-center">
-            <p className="text-md text-center abs-center top-[50%] translate-y-[-50%] bg-white w-[10%] text-gray-500 font-light">
-              أو
-            </p>
-            <hr />
-          </div>
-
-          <button className="flex items-center justify-center gap-2 border p-4 rounded-xl w-full mt-6">
-            تسجيل بواسطة جوجل
-            <FcGoogle size={20} />
-          </button>
         </div>
       </div>
     </>
