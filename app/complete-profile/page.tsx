@@ -58,7 +58,7 @@ const CompleteProfile = () => {
   };
 
   return (
-    <div className="w-11/12 md:w-7/12 lg:w-6/12 abs-center mx-auto border p-8 rounded-3xl shadow-sm bg-white">
+    <div className="abs-center w-11/12 md:w-7/12 lg:w-6/12 mx-auto border p-8 rounded-3xl shadow-sm bg-white">
       <Heading
         highLightText="انضم إلى زاد"
         title=""
