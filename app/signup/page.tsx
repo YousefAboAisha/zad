@@ -1,13 +1,10 @@
 "use client";
-import { leasingPlansOptions } from "@/data/leasingPlansOptions";
 import { BiLock, BiMailSend, BiPhone, BiStar, BiUser } from "react-icons/bi";
-import { FiArrowDown } from "react-icons/fi";
 import { PiShootingStarThin } from "react-icons/pi";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
-import Select from "@/components/UI/inputs/selectInput";
 import Heading from "@/components/UI/typography/heading";
 import Link from "next/link";
 import { useState } from "react";
@@ -20,7 +17,6 @@ const Signup = () => {
     email: "",
     phoneNumber: "",
     profession: "",
-    leasingType: "",
     password: "",
     confirmPassword: "",
   };
@@ -36,7 +32,6 @@ const Signup = () => {
       .min(10, "رقم الهاتف يجب أن يكون 10 أرقام على الأقل")
       .required("يرجى إدخال رقم الهاتف"),
     profession: Yup.string().required("يرجى إدخال التخصص"),
-    leasingType: Yup.string().required("يرجى اختيار نوع الاشتراك"),
     password: Yup.string()
       .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل")
       .required("يرجى إدخال كلمة المرور"),
@@ -105,7 +100,7 @@ const Signup = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ setFieldValue, values, isSubmitting, errors }) => (
+          {({ isSubmitting, errors }) => (
             <Form className="flex flex-col gap-4">
               {/* Name Field */}
               <div>
@@ -246,29 +241,6 @@ const Signup = () => {
                 </div>
               </div>
 
-              {/* Leasing Type Field */}
-              <div>
-                <Select
-                  disabled={isSubmitting}
-                  label="نوع الاشتراك"
-                  options={leasingPlansOptions}
-                  title="اختر نوع الاشتراك.."
-                  icon={<FiArrowDown />}
-                  value={values.leasingType}
-                  onChange={(e) => setFieldValue("leasingType", e.target.value)}
-                  className={`focus:border-primary ${
-                    errors.leasingType && "!border-[red]"
-                  }`}
-                  aria-label="نوع الاشتراك"
-                  aria-invalid={!!errors.leasingType}
-                />
-                <ErrorMessage
-                  name="leasingType"
-                  component="div"
-                  className="text-red-500 mt-2 font-bold text-[12px]"
-                />
-              </div>
-
               {/* Submit Button */}
               <Button
                 title="انضمام"
@@ -296,7 +268,6 @@ const Signup = () => {
                   </Link>
                 </div>
               )}
-              
             </Form>
           )}
         </Formik>

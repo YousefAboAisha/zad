@@ -1,6 +1,7 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt"; // For password hashing and verification
+import { createSession } from "@/app/lib/session";
 
 export async function POST(req: Request) {
   try {
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
     if (!customer) {
       // If the customer does not exist, return an error
       return NextResponse.json(
-        { error: "البريد الالكتروني غير مسجل، قم بالانضمام إلينا أولاً" }, // Email not registered
+        { error: "البريد الالكتروني غير مُسجل، قم بالانضمام إلينا أولاً" }, // Email not registered
         { status: 404 }
       );
     }
@@ -31,14 +32,18 @@ export async function POST(req: Request) {
     if (!isPasswordValid) {
       // If the password is invalid, return an error
       return NextResponse.json(
-        { error: "كلمة المرور غير صحيحة" }, // Incorrect password
+        { error: "الرجاء التأكد من كلمة المرور" }, // Incorrect password
         { status: 401 }
       );
     }
 
     // If the email and password are valid, return the customer's object
     // Exclude sensitive data like the password before sending the response
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...customerData } = customer;
+
+    await createSession(customer._id.toString());
 
     return NextResponse.json(
       { message: "تم تسجيل الدخول بنجاح", customer: customerData }, // Sign-in successful

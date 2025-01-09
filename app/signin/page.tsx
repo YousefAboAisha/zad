@@ -7,14 +7,14 @@ import * as Yup from "yup";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
-import { signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
+// import { signIn } from "next-auth/react";
+// import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 
 const Signin = () => {
   const [formErrors, setFormErrors] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false); // New state for Google Sign-In loading
+  // const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false); // New state for Google Sign-In loading
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -34,10 +34,8 @@ const Signin = () => {
     values: typeof initialValues,
     {
       setSubmitting,
-      resetForm,
     }: {
       setSubmitting: (isSubmitting: boolean) => void;
-      resetForm: () => void;
     }
   ) => {
     setFormErrors("");
@@ -56,13 +54,13 @@ const Signin = () => {
 
       if (!response.ok) {
         setFormErrors(data.error);
-        console.log("Error is:", data.error);
+        console.log("Sign in Error:", data.error);
         return;
       }
 
-      setSubmitting(false);
+      window.location.href = "/profile";
       console.log("User has been created successfully!", data);
-      resetForm();
+      setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
       setFormErrors((error as Error).message);
@@ -72,17 +70,17 @@ const Signin = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true); // Set loading state to true
-    try {
-      await signIn("google"); // Initiate Google Sign-In
-    } catch (error) {
-      console.error("Error during Google Sign-In:", error);
-      setFormErrors("حدث خطأ أثناء تسجيل الدخول بواسطة جوجل");
-    } finally {
-      setIsGoogleLoading(false); // Reset loading state
-    }
-  };
+  // const handleGoogleSignIn = async () => {
+  //   setIsGoogleLoading(true); // Set loading state to true
+  //   try {
+  //     await signIn("google"); // Initiate Google Sign-In
+  //   } catch (error) {
+  //     console.error("Error during Google Sign-In:", error);
+  //     setFormErrors("حدث خطأ أثناء تسجيل الدخول بواسطة جوجل");
+  //   } finally {
+  //     setIsGoogleLoading(false); // Reset loading state
+  //   }
+  // };
 
   return (
     <div className="relative mb-14 flex items-center justify-center">
@@ -190,23 +188,23 @@ const Signin = () => {
           )}
         </Formik>
 
-        <div className="relative w-full h-full p-2 my-10 items-center justify-center">
-          <p className="text-md text-center abs-center top-[50%] translate-y-[-50%] bg-white w-[10%] text-gray-500 font-light">
+        {/* <div className="relative w-full h-full p-2 my-8 items-center justify-center">
+          <p className="text-lg text-center abs-center top-[50%] translate-y-[-50%] bg-white w-[10%] text-gray-500 font-light">
             أو
           </p>
           <hr />
-        </div>
+        </div> */}
 
         {/* Google Sign-In Button */}
-        <Button
+        {/* <Button
           title="تسجيل بواسطة جوجل"
           onClick={handleGoogleSignIn}
           disabled={isGoogleLoading} // Disable button when loading
-          className="flex items-center justify-center gap-2 rounded-xl w-full mt-6 !text-black !shadow-sm !border-gray-200"
+          className="flex items-center justify-center gap-2 rounded-xl w-full mt-6 !text-black !shadow-sm !border-gray-200 !p-4"
           icon={<FcGoogle size={24} />}
           hasShiningBar={false}
           loading={isGoogleLoading} // Show loading spinner when loading
-        ></Button>
+        /> */}
       </div>
     </div>
   );

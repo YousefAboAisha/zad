@@ -1,4 +1,5 @@
 import Footer from "@/components/footer";
+import Comments from "@/containers/home/comments";
 import Features from "@/containers/home/features";
 import Hero from "@/containers/home/hero";
 import ImageText from "@/containers/home/imageText";
@@ -33,6 +34,7 @@ export default function Home() {
       <LeasingPlans />
       <div className="container">
         <Hero />
+        <Comments />
       </div>
       <Footer />
     </>

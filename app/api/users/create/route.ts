@@ -1,13 +1,12 @@
 import clientPromise from "@/app/lib/mongodb";
 import User from "@/app/models/user";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt"; // For password hashing and verification
-
+import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
   try {
     const client = await clientPromise;
-    const db = client.db("zad"); // Replace with your database name
+    const db = client.db("zad");
     const collection = db.collection("customers");
 
     // Parse the request body
@@ -17,20 +16,11 @@ export async function POST(req: Request) {
     const { name, email, password, phoneNumber, profession, leasingType } =
       body;
 
-    console.log("Parsed Request Body:", {
-      name,
-      email,
-      password,
-      phoneNumber,
-      profession,
-      leasingType,
-    });
-
     // Check if the user already exists
     const existingUser = await collection.findOne({ email });
 
     if (existingUser) {
-      // If the user already exists, return an error response
+      // If the user already exists, return an error response - Email is already exist
       return NextResponse.json(
         {
           error:
@@ -52,7 +42,7 @@ export async function POST(req: Request) {
       leasingType,
     });
 
-    console.log("New User:", user);
+    console.log("New User has been created:", user);
 
     await collection.insertOne(user);
 
@@ -62,7 +52,7 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Error inserting data:", error);
+    console.error("Error while creating customer:", error);
     return NextResponse.json({ error: "خطاً في الخادم " }, { status: 500 });
   }
 }

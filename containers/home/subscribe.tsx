@@ -9,15 +9,15 @@ const Subscribe = () => {
       <Heading
         highLightText="انضم إلى مجتمع زاد"
         highlightColor="before:bg-blue"
-        details="نوصيك بالاشتراك عن طريق تسجيل بريدك الإلكتروني أدناه للحصول على تحديثات يومية عنا "
+        details="قم بإنشاء حساب الآن لتصبح فرداً من مجتمعنا المُميز!"
         title=""
-        className="w-full text-white"
+        className="w-fit text-white"
       />
 
-      <Link href={"/signin"}>
+      <Link href={"/signin"} className="w-10/12 md:w-6/12 lg:w-3/12 outline-none">
         <Button
           title="الانضمام الآن"
-          className="bg-blue w-10/12 md:w-6/12 lg:w-3/12 mt-4"
+          className="bg-blue w-full h-full mt-4"
           hasShiningBar={false}
         />
       </Link>

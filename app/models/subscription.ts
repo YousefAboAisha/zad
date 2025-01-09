@@ -1,33 +1,29 @@
 import { Schema, model, models } from "mongoose";
 
-// Define the User schema
-const userSchema = new Schema({
-  name: {
+// Define the subscriptionSchema schema
+const subscriptionSchema = new Schema({
+  customer_id: {
     type: String,
     required: true,
   },
-  email: {
+  subscription_type: {
+    type: String,
+    required: true,
+  },
+  start_date: {
     type: String,
     required: true,
     unique: true,
   },
-  password: {
+  end_date: {
     type: String,
     required: true,
   },
-  phoneNumber: {
+  payment_method: {
     type: Number,
     required: true,
   },
-  profession: {
-    type: String,
-    required: true,
-  },
-  rememberMe: {
-    type: Boolean,
-    default: false,
-  },
-  isVerified: {
+  isLastingCustomer: {
     type: Boolean,
     default: false,
   },
@@ -38,6 +34,7 @@ const userSchema = new Schema({
 });
 
 // Check if the model already exists, otherwise create it
-const User = models.User || model("User", userSchema);
+const Subscription =
+  models.Subscription || model("Subscription", subscriptionSchema);
 
-export default User;
+export default Subscription;
