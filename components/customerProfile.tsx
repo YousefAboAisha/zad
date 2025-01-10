@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { MdCircleNotifications } from "react-icons/md";
 import Modal from "./UI/modals/modal";
-import AddSubscription from "@/app/addSubscription/page";
+import AddSubscription from "@/components/addSubscription";
 
 const CustomerProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
