@@ -11,9 +11,9 @@ export async function POST(req: Request) {
 
     // Parse the request body
     const body = await req.json();
-    const { email, password, rememberMe } = body;
+    const { email, password, rememberMe, _id } = body;
 
-    console.log("Sign-in Request Body:", { email, password, rememberMe });
+    console.log("Sign-in Request Body:", { email, password, rememberMe, _id });
 
     // Check if the customer exists
     const customer = await collection.findOne({ email });
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...customerData } = customer;
 
-    await createSession(customer._id.toString());
+    await createSession(customer._id.toString(), email);
 
     return NextResponse.json(
       { message: "تم تسجيل الدخول بنجاح", customer: customerData }, // Sign-in successful

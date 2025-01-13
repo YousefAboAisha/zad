@@ -11,10 +11,11 @@ import Button from "./UI/inputs/button";
 import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
 
-interface NavbarProps {
+export interface NavbarProps {
   session: {
     userId: string;
     expiresAt: Date;
+    email: string;
   } | null;
 }
 
@@ -70,7 +71,7 @@ const Navbar = ({ session }: NavbarProps) => {
               />
             </Link>
           ) : (
-            <ProfilePopper />
+            <ProfilePopper session={session} />
           )}
 
           {/* Routes */}

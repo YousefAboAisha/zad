@@ -153,6 +153,7 @@ const Signin = () => {
                     onChange={(e) => setRememberMe(e.target.checked)}
                     checked={rememberMe}
                     aria-label="تذكر كلمة المرور"
+                    required={false}
                   />
                 </label>
               </div>

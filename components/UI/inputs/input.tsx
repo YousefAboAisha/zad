@@ -17,7 +17,7 @@ const Input = ({
   icon,
   error,
   pattern,
-  required = false,
+  required = true,
   label,
   ...rest
 }: InputProps) => {
@@ -27,7 +27,7 @@ const Input = ({
     <div>
       {label && (
         <div className="flex items-center gap-1">
-          <span className="text-[red]">*</span>
+          {required && <span className="text-[red]">*</span>}
           <p className="text-[12px] mb-1">{label}</p>
         </div>
       )}

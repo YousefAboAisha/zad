@@ -23,6 +23,11 @@ const subscriptionSchema = new Schema({
     type: Number,
     required: true,
   },
+  notes: {
+    type: String,
+    required: false,
+    default: "",
+  },
   isLastingCustomer: {
     type: Boolean,
     default: false,

@@ -18,7 +18,7 @@ module.exports = {
         text_dark: "#EEEEEE",
 
         // Light theme variables
-        background_light: "#F9F9F9",
+        background_light: "#f8f8f8",
         text_light: "#181D31",
 
         // Primary theme variables

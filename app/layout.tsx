@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar">
-      <body suppressHydrationWarning={true} dir="rtl" className="relative w-full h-full bg-[#f8f8f8]">
+      <body suppressHydrationWarning={true} dir="rtl" className="relative w-full h-full bg-background_light">
         <NavbarWrapper /> {/* Use the server-side wrapper */}
         {children}
       </body>

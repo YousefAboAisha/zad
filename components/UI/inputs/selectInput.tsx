@@ -9,6 +9,7 @@ type SelectProps = {
   additionalStyles?: string;
   icon?: JSX.Element;
   label?: string;
+  required?: boolean;
 } & React.ComponentProps<"select">;
 
 const Select = ({
@@ -17,13 +18,14 @@ const Select = ({
   additionalStyles = "",
   className = "",
   label,
+  required = true,
   ...rest
 }: SelectProps) => {
   return (
     <div>
       {label && (
         <div className="flex items-center gap-1">
-          <span className="text-[red]">*</span>
+          {required && <span className="text-[red]">*</span>}
           <p className="text-[12px] mb-1">{label}</p>
         </div>
       )}
