@@ -7,8 +7,8 @@ import { ObjectId } from "mongodb";
 export async function POST(req: Request) {
   try {
     const client = await clientPromise;
-    const db = client.db("zad");
-    const customersCollection = db.collection("customers");
+    const db = client.db("zad_space");
+    const customersCollection = db.collection("users");
 
     // Parse the request body
     const body = await req.json();
