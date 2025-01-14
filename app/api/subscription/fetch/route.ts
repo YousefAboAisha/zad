@@ -6,14 +6,12 @@ import { ObjectId } from "mongodb"; // Import ObjectId from MongoDB
 export async function GET() {
   try {
     const client = await clientPromise;
-    const db = client.db("zad_space");
-    const collection = db.collection("users");
+    const db = client.db("zad");
+    const collection = db.collection("subscriptions");
 
     const session = await getSession();
     console.log("Session", session);
     const userId = session?.userId;
-
-    console.log("Customer user ID", userId);
 
     if (!userId) {
       return NextResponse.json(
@@ -30,25 +28,19 @@ export async function GET() {
       );
     }
 
-    // Convert userId to ObjectId
-    const userIdObject = new ObjectId(userId);
-
     // Check if the customer exists
-    const customer = await collection.findOne({ _id: userIdObject });
+    const subscription = await collection.findOne({ customer_id: userId });
 
-    if (!customer) {
+    if (!subscription) {
       // If the customer does not exist, return an error
       return NextResponse.json(
-        { error: "المستخدم غير موجود" }, // User not found
+        { error: "الاشتراك غير موجود" }, // User not found
         { status: 404 }
       );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...customerData } = customer;
-
     return NextResponse.json(
-      { message: "تم جلب البيانات بنجاح", customer: customerData }, // Data fetched successfully
+      { message: "تم جلب البيانات بنجاح", subscription }, // Data fetched successfully
       { status: 200 }
     );
   } catch (error) {

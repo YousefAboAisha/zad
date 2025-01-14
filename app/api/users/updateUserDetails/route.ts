@@ -6,14 +6,14 @@ import { getSession } from "@/app/lib/session";
 export async function PUT(req: Request) {
   try {
     const client = await clientPromise;
-    const db = client.db("zad");
-    const collection = db.collection("customers");
+    const db = client.db("zad_space");
+    const collection = db.collection("users");
 
     // Parse the request body
     const body = await req.json();
     console.log("Raw Request Body:", body);
 
-    const { email, name, phoneNumber, profession } = body;
+    const { name, phoneNumber, profession } = body;
 
     const session = await getSession();
     console.log("Session", session);
@@ -46,7 +46,6 @@ export async function PUT(req: Request) {
 
     // Prepare the update object
     const updateFields: any = {};
-    if (email) updateFields.email = email;
     if (name) updateFields.name = name;
     if (phoneNumber) updateFields.phoneNumber = phoneNumber;
     if (profession) updateFields.profession = profession;

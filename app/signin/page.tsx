@@ -7,14 +7,13 @@ import * as Yup from "yup";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
-// import { signIn } from "next-auth/react";
-// import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signin = () => {
   const [formErrors, setFormErrors] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  // const [isGoogleLoading, setIsGoogleLoading] = useState<boolean>(false); // New state for Google Sign-In loading
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -58,32 +57,42 @@ const Signin = () => {
         return;
       }
 
-      window.location.href = "/profile";
+      // Show success toast
+      toast.success("تم تسجيل الدخول بنجاح!");
+
+      // Redirect to profile after a short delay
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 1000);
+
       console.log("User has been created successfully!", data);
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
       setFormErrors((error as Error).message);
+      toast.error("حدث خطأ أثناء تسجيل الدخول"); // Show error toast
       console.error("Error creating user", error);
     } finally {
       setSubmitting(false);
     }
   };
 
-  // const handleGoogleSignIn = async () => {
-  //   setIsGoogleLoading(true); // Set loading state to true
-  //   try {
-  //     await signIn("google"); // Initiate Google Sign-In
-  //   } catch (error) {
-  //     console.error("Error during Google Sign-In:", error);
-  //     setFormErrors("حدث خطأ أثناء تسجيل الدخول بواسطة جوجل");
-  //   } finally {
-  //     setIsGoogleLoading(false); // Reset loading state
-  //   }
-  // };
-
   return (
     <div className="relative mb-14 flex items-center justify-center">
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true} // Right-to-left for Arabic
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <div className="w-11/12 md:w-7/12 lg:w-5/12 border p-8 rounded-3xl shadow-sm bg-white mt-40">
         <Heading
           title="تسجيل الدخول"
@@ -188,24 +197,6 @@ const Signin = () => {
             </Form>
           )}
         </Formik>
-
-        {/* <div className="relative w-full h-full p-2 my-8 items-center justify-center">
-          <p className="text-lg text-center abs-center top-[50%] translate-y-[-50%] bg-white w-[10%] text-gray-500 font-light">
-            أو
-          </p>
-          <hr />
-        </div> */}
-
-        {/* Google Sign-In Button */}
-        {/* <Button
-          title="تسجيل بواسطة جوجل"
-          onClick={handleGoogleSignIn}
-          disabled={isGoogleLoading} // Disable button when loading
-          className="flex items-center justify-center gap-2 rounded-xl w-full mt-6 !text-black !shadow-sm !border-gray-200 !p-4"
-          icon={<FcGoogle size={24} />}
-          hasShiningBar={false}
-          loading={isGoogleLoading} // Show loading spinner when loading
-        /> */}
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
 import Link from "next/link";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 const Signup = () => {
   const [formErrors, setFormErrors] = useState<string>("");
@@ -44,10 +45,8 @@ const Signup = () => {
     values: typeof initialValues,
     {
       setSubmitting,
-      resetForm,
     }: {
       setSubmitting: (isSubmitting: boolean) => void;
-      resetForm: () => void;
     }
   ) => {
     setFormErrors("");
@@ -72,13 +71,21 @@ const Signup = () => {
         console.log("Error is:", data.error);
         return;
       }
+      console.log("User has been created successfully!", data);
+
+      // Show success toast
+      toast.success("تم تسجيل الدخول بنجاح!");
+
+      // Redirect to profile after a short delay
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 1000);
 
       setSubmitting(false);
-      console.log("User has been created successfully!", data);
-      resetForm();
+      window.location.href = "/profile";
     } catch (error) {
       setSubmitting(false);
-      setFormErrors((error as Error).message || "حدث خطأ غير متوقع");
+      toast.error("حدث خطأ أثناء تسجيل الدخول"); // Show error toast
       console.error("Error creating user", error);
     } finally {
       setSubmitting(false);
@@ -87,6 +94,18 @@ const Signup = () => {
 
   return (
     <div className="relative mb-14 flex items-center justify-center">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true} // Right-to-left for Arabic
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="w-11/12 md:w-7/12 lg:w-5/12 border p-8 rounded-3xl shadow-sm bg-white mt-40">
         <Heading
           highLightText="انضم إلى زاد"

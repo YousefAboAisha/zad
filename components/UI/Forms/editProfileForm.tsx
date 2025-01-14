@@ -3,12 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
-import {
-  LiaUser,
-  LiaMailBulkSolid,
-  LiaPhoneSolid,
-  LiaStar,
-} from "react-icons/lia";
+import { LiaUser, LiaPhoneSolid, LiaStar } from "react-icons/lia";
 import { CiEdit } from "react-icons/ci";
 import Heading from "@/components/UI/typography/heading";
 import { useEffect, useState } from "react";
@@ -16,9 +11,6 @@ import { useEffect, useState } from "react";
 // Validation schema using Yup
 const validationSchema = Yup.object({
   name: Yup.string().required("الاسم ثلاثي مطلوب"),
-  email: Yup.string()
-    .email("البريد الالكتروني غير صالح")
-    .required("البريد الالكتروني مطلوب"),
   phoneNumber: Yup.string()
     .matches(/^\d{10}$/, "رقم الجوال غير صالح (يجب أن يحتوي على 10 أرقام)")
     .required("رقم الجوال مطلوب"),
@@ -33,7 +25,6 @@ const EditProfileForm = () => {
   // Initial values for the form
   const [initialValues, setInitialValues] = useState({
     name: "",
-    email: "",
     phoneNumber: "",
     profession: "",
   });
@@ -99,7 +90,6 @@ const EditProfileForm = () => {
         // Update initialValues state
         setInitialValues({
           name: res.customer.name,
-          email: res.customer.email,
           phoneNumber: res.customer.phoneNumber,
           profession: res.customer.profession,
         });
@@ -136,8 +126,6 @@ const EditProfileForm = () => {
           {/* Name Field */}
           {loading ? (
             <div className="flex flex-col gap-1">
-
-
               <div className="h-3 bg-gray-300 rounded-lg w-20 animate-pulse"></div>
               <div className="h-12 bg-gray-300 rounded-lg w-full animate-pulse"></div>
             </div>
@@ -163,41 +151,9 @@ const EditProfileForm = () => {
             </div>
           )}
 
-          {/* Email Field */}
-          {loading ? (
-            <div className="flex flex-col gap-1">
-
-
-              <div className="h-3 bg-gray-300 rounded-lg w-20 animate-pulse"></div>
-              <div className="h-12 bg-gray-300 rounded-lg w-full animate-pulse"></div>
-            </div>
-          ) : (
-            <div>
-              <Field
-                className={`focus:border-primary ${
-                  errors.email && "!border-[red]"
-                }`}
-                name="email"
-                type="email"
-                placeholder="example@gmail.com"
-                as={Input}
-                label="البريد الالكتروني"
-                icon={LiaMailBulkSolid}
-                disabled={isSubmitting} // Disable input during loading
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-[12px] mt-1 font-bold"
-              />
-            </div>
-          )}
-
           {/* Phone Number Field */}
           {loading ? (
             <div className="flex flex-col gap-1">
-
-
               <div className="h-3 bg-gray-300 rounded-lg w-20 animate-pulse"></div>
               <div className="h-12 bg-gray-300 rounded-lg w-full animate-pulse"></div>
             </div>
@@ -226,8 +182,6 @@ const EditProfileForm = () => {
           {/* Profession Field */}
           {loading ? (
             <div className="flex flex-col gap-1">
-
-
               <div className="h-3 bg-gray-300 rounded-lg w-20 animate-pulse"></div>
               <div className="h-12 bg-gray-300 rounded-lg w-full animate-pulse"></div>
             </div>

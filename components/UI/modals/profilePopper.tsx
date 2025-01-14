@@ -4,6 +4,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Link from "next/link";
 import { CiEdit, CiLogout, CiUser } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ProfilePopper({ session }: NavbarProps) {
   const handleLogout = async () => {
@@ -15,14 +17,34 @@ function ProfilePopper({ session }: NavbarProps) {
       if (!response.ok) {
         throw new Error("Failed to log out");
       }
-      window.location.reload();
+
+      // toast.success("تم تسجيل الخروج بنجاح!");
+
+      // setTimeout(() => {
+        window.location.reload();
+      // }, 1000);
     } catch (error) {
       console.error("Logout failed:", error);
+      toast.error("حدث خطأ أثناء تسجيل الخروج"); // Show error toast
     }
   };
 
   return (
     <>
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true} // Right-to-left for Arabic
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <Menu as={"div"}>
         <MenuButton as={"div"} className="cursor-pointer">
           {({ active }) => (
@@ -31,7 +53,7 @@ function ProfilePopper({ session }: NavbarProps) {
                 className={`${active && "rotate-180"} duration-200`}
                 size={14}
               />
-              <p className="flex items-center justify-center w-12 h-12 bg-primary text-white rounded-full cursor-pointer text-lg shadow-md">
+              <p className="flex items-center justify-center w-12 h-12 bg-primary text-white rounded-full cursor-pointer text-lg shadow-md capitalize">
                 {session?.email.charAt(0)}
               </p>
             </div>
@@ -48,7 +70,7 @@ function ProfilePopper({ session }: NavbarProps) {
             </span>
           </MenuItem>
 
-          <div className=" p-1 flex flex-col gap-2 ">
+          <div className="p-1 flex flex-col gap-2">
             <MenuItem>
               <Link
                 href={"/profile"}
@@ -72,7 +94,7 @@ function ProfilePopper({ session }: NavbarProps) {
 
             <MenuItem>
               <div
-                onClick={() => handleLogout()} // Add onClick handler for logout
+                onClick={handleLogout} // Add onClick handler for logout
                 className="flex items-center gap-2 p-3 cursor-pointer text-sm rounded-lg bg-[red] text-white"
               >
                 <CiLogout size={20} />

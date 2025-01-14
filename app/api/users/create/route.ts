@@ -2,12 +2,13 @@ import clientPromise from "@/app/lib/mongodb";
 import User from "@/app/models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { createSession } from "@/app/lib/session";
 
 export async function POST(req: Request) {
   try {
     const client = await clientPromise;
-    const db = client.db("zad");
-    const collection = db.collection("customers");
+    const db = client.db("zad_space");
+    const collection = db.collection("users");
 
     // Parse the request body
     const body = await req.json();
@@ -40,11 +41,13 @@ export async function POST(req: Request) {
       phoneNumber,
       profession,
       leasingType,
+      subscriptions: [],
     });
 
     console.log("New User has been created:", user);
 
     await collection.insertOne(user);
+    await createSession(user._id.toString(), email);
 
     // Return the response
     return NextResponse.json(

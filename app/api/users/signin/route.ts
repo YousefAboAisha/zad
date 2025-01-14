@@ -6,7 +6,7 @@ import { createSession } from "@/app/lib/session";
 export async function POST(req: Request) {
   try {
     const client = await clientPromise;
-    const db = client.db("zad");
+    const db = client.db("zad_space");
     const collection = db.collection("customers");
 
     // Parse the request body

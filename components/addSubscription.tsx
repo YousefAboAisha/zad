@@ -1,4 +1,4 @@
-import { useEffect } from "react"; // Import useEffect
+import { useEffect, useState } from "react"; // Import useEffect
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { leasingPlansOptions } from "@/data/leasingPlansOptions";
 import { FiArrowDown } from "react-icons/fi";
@@ -12,6 +12,8 @@ import TextArea from "./UI/inputs/textArea";
 import { paymentMethodsOptions } from "@/data/paymentMethodsOptions";
 
 const AddSubscription = () => {
+  const [formErrors, setFormErrors] = useState<string>("");
+
   const initialValues = {
     leasingType: "",
     start_date: "",
@@ -37,22 +39,40 @@ const AddSubscription = () => {
   const handleSubmit = async (
     values: typeof initialValues,
     {
-      resetForm,
       setSubmitting,
     }: {
-      resetForm: () => void;
       setSubmitting: (isSubmitting: boolean) => void;
     }
   ) => {
+    setFormErrors("");
+
     try {
-      // Simulating an API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(values);
+      const response = await fetch("/api/subscription/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...values }),
+      });
+
+      const data = await response.json();
+      console.log("Data Object is:", data);
+
+      if (!response.ok) {
+        setFormErrors(data.error);
+        console.log("Sign in Error:", data.error);
+        return;
+      }
+
+      window.location.reload();
+      console.log("User has been created successfully!", data);
       setSubmitting(false);
-      resetForm();
     } catch (error) {
       setSubmitting(false);
-      console.error("Profile edit error:", error);
+      setFormErrors((error as Error).message);
+      console.error("Error creating user", error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
