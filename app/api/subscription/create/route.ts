@@ -14,17 +14,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     console.log("Raw Request Body:", body);
 
-    const {
-      subscription_type,
-      start_date,
-      end_date,
-      payment_method,
-      notes,
-      isLastingCustomer,
-      room_id,
-      seat_id,
-      createdAt,
-    } = body;
+    const { leasing_type, start_date, end_date, payment_method, notes } = body;
 
     // Get the session and userId
     const session = await getSession();
@@ -64,15 +54,11 @@ export async function POST(req: Request) {
 
     // Create a new subscription object
     const subscription = new Subscription({
-      subscription_type,
+      leasing_type,
       start_date,
       end_date,
       payment_method,
       notes,
-      isLastingCustomer,
-      room_id,
-      seat_id,
-      createdAt,
     });
 
     console.log("New subscription has been added successfully!", subscription);

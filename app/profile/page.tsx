@@ -1,4 +1,4 @@
-import CustomerProfile from "@/components/customerProfile";
+import CustomerProfile from "@/containers/profile/customerProfile";
 import PageTitles from "@/components/UI/typography/pageTitles";
 
 const Profile = () => {

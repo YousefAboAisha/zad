@@ -1,45 +1,31 @@
-import { Document, Schema, model, models } from "mongoose";
-import { SubscriptionInterface } from "./subscription"; // Ensure this import is correct
-
-// Define the User interface
-export interface UserInterface extends Document {
-  name: string;
-  email: string;
-  password: string;
-  phoneNumber: number;
-  profession: string;
-  rememberMe: boolean;
-  isVerified: boolean;
-  hasCompleteProfile: boolean;
-  createdAt: Date;
-  subscriptions: SubscriptionInterface[]; // Array of subscription objects
-}
+import { Schema, model, models } from "mongoose";
+import { UserInterface } from "@/app/interfaces";
 
 // Define the User schema
 const userSchema = new Schema<UserInterface>(
   {
     name: {
       type: String,
-      required: [true, "Name is required"], // Add validation message
+      required: [true, "Name is required and cannot be empty."],
     },
     email: {
       type: String,
-      required: [true, "Email is required"], // Add validation message
+      required: [true, "Email is required and cannot be empty."],
       unique: true,
       trim: true, // Remove extra spaces
       lowercase: true, // Convert email to lowercase
     },
     password: {
       type: String,
-      required: [true, "Password is required"], // Add validation message
+      required: [true, "Password is required and cannot be empty."],
     },
     phoneNumber: {
       type: Number,
-      required: [true, "Phone number is required"], // Add validation message
+      required: [true, "Phone number is required and cannot be empty."],
     },
     profession: {
       type: String,
-      required: [true, "Profession is required"], // Add validation message
+      required: [true, "Profession is required and cannot be empty."],
     },
     rememberMe: {
       type: Boolean,
@@ -52,10 +38,6 @@ const userSchema = new Schema<UserInterface>(
     hasCompleteProfile: {
       type: Boolean,
       default: false, // Default value
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now, // Default value
     },
     subscriptions: {
       type: [{ type: Schema.Types.ObjectId, ref: "Subscription" }],

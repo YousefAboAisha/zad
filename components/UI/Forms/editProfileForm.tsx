@@ -7,6 +7,7 @@ import { LiaUser, LiaPhoneSolid, LiaStar } from "react-icons/lia";
 import { CiEdit } from "react-icons/ci";
 import Heading from "@/components/UI/typography/heading";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -19,7 +20,6 @@ const validationSchema = Yup.object({
 
 const EditProfileForm = () => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<string>("");
 
   // Initial values for the form
@@ -78,7 +78,7 @@ const EditProfileForm = () => {
       const response = await fetch("/api/users/getUserDetails");
 
       if (!response.ok) {
-        setError("Failed to get user details");
+        toast.error("حدث خطأ أثناء جلب بيانات المستخدم"); // Show error toast
       }
 
       const res = await response.json();
@@ -96,7 +96,7 @@ const EditProfileForm = () => {
       }
     } catch (error) {
       console.error("Fetching userDetails failed:", error);
-      setError("Failed to fetch user details. Please try again.");
+      toast.error("حدث خطأ أثناء جلب بيانات المستخدم"); // Show error toast
     } finally {
       setLoading(false);
     }
@@ -223,6 +223,19 @@ const EditProfileForm = () => {
               {formErrors}
             </div>
           )}
+          {/* Toast Container */}
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={true} // Right-to-left for Arabic
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </Form>
       )}
     </Formik>

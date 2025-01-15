@@ -8,24 +8,22 @@ import Heading from "@/components/UI/typography/heading";
 import Select from "@/components/UI/inputs/selectInput";
 import Input from "@/components/UI/inputs/input";
 import Button from "@/components/UI/inputs/button";
-import TextArea from "./UI/inputs/textArea";
+import TextArea from "../../components/UI/inputs/textArea";
 import { paymentMethodsOptions } from "@/data/paymentMethodsOptions";
 
 const AddSubscription = () => {
   const [formErrors, setFormErrors] = useState<string>("");
 
   const initialValues = {
-    leasingType: "",
+    leasing_type: "",
     start_date: "",
     end_date: "",
-    paymentMethod: "",
+    payment_method: "",
     notes: "",
-    room_id: "",
-    seat_id: "",
   };
 
   const validationSchema = Yup.object({
-    leasingType: Yup.string().required("يرجى اختيار نوع الاشتراك"),
+    leasing_type: Yup.string().required("يرجى اختيار نوع الاشتراك"),
     start_date: Yup.date()
       .required("يرجى إدخال تاريخ البدء")
       .typeError("يرجى إدخال تاريخ صحيح")
@@ -33,7 +31,7 @@ const AddSubscription = () => {
         const nowDate = new Date();
         return value > nowDate;
       }),
-    paymentMethod: Yup.string().required("يرجى اختيار طريقة الدفع "),
+    payment_method: Yup.string().required("يرجى اختيار طريقة الدفع "),
   });
 
   const handleSubmit = async (
@@ -92,14 +90,17 @@ const AddSubscription = () => {
       >
         {({ setFieldValue, values, isSubmitting, errors }) => {
           // Use useEffect to watch for changes in leasingType and start_date
+          // eslint-disable-next-line react-hooks/rules-of-hooks
           useEffect(() => {
-            if (values.leasingType && values.start_date) {
+            if (values.leasing_type && values.start_date) {
               const startDate = new Date(values.start_date);
               let endDate;
 
-              if (values.leasingType === "1") {
+              // If the value is eqaul to "Weekly subscription"
+              if (values.leasing_type === "1") {
                 endDate = new Date(startDate.setDate(startDate.getDate() + 7));
-              } else if (values.leasingType === "2") {
+                // If the value is eqaul to "Monthly subscription"
+              } else if (values.leasing_type === "2") {
                 endDate = new Date(startDate.setDate(startDate.getDate() + 30));
               }
 
@@ -107,7 +108,7 @@ const AddSubscription = () => {
                 setFieldValue("end_date", endDate.toISOString().split("T")[0]);
               }
             }
-          }, [values.leasingType, values.start_date, setFieldValue]);
+          }, [values.leasing_type, values.start_date, setFieldValue]);
 
           return (
             <Form className="w-full flex flex-col gap-4">
@@ -119,10 +120,12 @@ const AddSubscription = () => {
                   options={leasingPlansOptions}
                   title="اختر نوع الاشتراك.."
                   icon={<FiArrowDown />}
-                  value={values.leasingType}
-                  onChange={(e) => setFieldValue("leasingType", e.target.value)}
+                  value={values.leasing_type}
+                  onChange={(e) =>
+                    setFieldValue("leasing_type", e.target.value)
+                  }
                   className={`focus:border-primary ${
-                    errors.leasingType && "!border-[red]"
+                    errors.leasing_type && "!border-[red]"
                   }`}
                 />
                 <ErrorMessage
@@ -177,12 +180,12 @@ const AddSubscription = () => {
                   options={paymentMethodsOptions}
                   title="اختر طريقة الدفع.."
                   icon={<FiArrowDown />}
-                  value={values.paymentMethod}
+                  value={values.payment_method}
                   onChange={(e) =>
-                    setFieldValue("paymentMethod", e.target.value)
+                    setFieldValue("payment_method", e.target.value)
                   }
                   className={`focus:border-primary ${
-                    errors.paymentMethod && "!border-[red]"
+                    errors.payment_method && "!border-[red]"
                   }`}
                 />
                 <ErrorMessage
@@ -248,6 +251,12 @@ const AddSubscription = () => {
                 disabled={isSubmitting}
                 loading={isSubmitting}
               />
+
+              {formErrors && (
+                <div className="rounded-lg p-4 w-full bg-red-100 text-[red] text-sm">
+                  {formErrors}
+                </div>
+              )}
             </Form>
           );
         }}

@@ -45,6 +45,7 @@ export async function PUT(req: Request) {
     }
 
     // Prepare the update object
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateFields: any = {};
     if (name) updateFields.name = name;
     if (phoneNumber) updateFields.phoneNumber = phoneNumber;

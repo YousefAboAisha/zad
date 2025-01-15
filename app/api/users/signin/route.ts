@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const client = await clientPromise;
     const db = client.db("zad_space");
-    const collection = db.collection("customers");
+    const collection = db.collection("users");
 
     // Parse the request body
     const body = await req.json();
