@@ -21,7 +21,7 @@ function ProfilePopper({ session }: NavbarProps) {
       // toast.success("تم تسجيل الخروج بنجاح!");
 
       // setTimeout(() => {
-        window.location.reload();
+      window.location.reload();
       // }, 1000);
     } catch (error) {
       console.error("Logout failed:", error);

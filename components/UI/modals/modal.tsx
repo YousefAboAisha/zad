@@ -6,13 +6,13 @@ type ModalType = {
   bg?: string;
   zIndex?: string;
   children?: React.ReactNode;
-  className?:string;
+  className?: string;
 };
 
 const Modal = ({
   setIsOpen,
   isOpen,
-  bg = "bg-[#000000e7]",
+  bg = "bg-[#000000b9]",
   className,
   zIndex = "z-50",
   children,

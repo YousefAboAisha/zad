@@ -83,6 +83,7 @@ const AddSubscription = () => {
         className="mb-8 mx-auto"
         additionalStyles="text-[30px] text-center mx-auto"
       />
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

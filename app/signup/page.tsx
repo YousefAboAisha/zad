@@ -131,9 +131,7 @@ const Signup = () => {
                   placeholder="الاسم رباعي"
                   label="الاسم رباعي"
                   icon={BiUser}
-                  className={`focus:border-primary ${
-                    errors.name && "!border-[red]"
-                  }`}
+                  className={`focus:border-primary`}
                   aria-label="الاسم رباعي"
                   aria-invalid={!!errors.name}
                 />
@@ -154,9 +152,7 @@ const Signup = () => {
                   placeholder="البريد الالكتروني"
                   label="البريد الالكتروني"
                   icon={BiMailSend}
-                  className={`focus:border-primary ${
-                    errors.email && "!border-[red]"
-                  }`}
+                  className={`focus:border-primary`}
                   aria-label="البريد الالكتروني"
                   aria-invalid={!!errors.email}
                 />
@@ -177,9 +173,7 @@ const Signup = () => {
                   placeholder="كلمة المرور"
                   label="كلمة المرور"
                   icon={BiLock}
-                  className={`focus:border-primary ${
-                    errors.password && "!border-[red]"
-                  }`}
+                  className={`focus:border-primary`}
                   aria-label="كلمة المرور"
                   aria-invalid={!!errors.password}
                 />
@@ -200,9 +194,7 @@ const Signup = () => {
                   placeholder="تأكيد كلمة المرور"
                   label="تأكيد كلمة المرور"
                   icon={BiLock}
-                  className={`focus:border-primary ${
-                    errors.confirmPassword && "!border-[red]"
-                  }`}
+                  className={`focus:border-primary`}
                   aria-label="تأكيد كلمة المرور"
                   aria-invalid={!!errors.confirmPassword}
                 />
@@ -224,9 +216,7 @@ const Signup = () => {
                     placeholder="رقم الهاتف"
                     label="رقم الهاتف"
                     icon={BiPhone}
-                    className={`focus:border-primary ${
-                      errors.phoneNumber && "!border-[red]"
-                    }`}
+                    className={`focus:border-primary`}
                     aria-label="رقم الهاتف"
                     aria-invalid={!!errors.phoneNumber}
                   />
@@ -246,9 +236,7 @@ const Signup = () => {
                     placeholder="التخصص"
                     label="التخصص"
                     icon={BiStar}
-                    className={`focus:border-primary ${
-                      errors.profession && "!border-[red]"
-                    }`}
+                    className={`focus:border-primary`}
                     aria-label="التخصص"
                     aria-invalid={!!errors.profession}
                   />

@@ -12,7 +12,7 @@ import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
 
 export interface NavbarProps {
-  session: {
+  session?: {
     userId: string;
     expiresAt: Date;
     email: string;
@@ -41,12 +41,17 @@ const Navbar = ({ session }: NavbarProps) => {
     [pathname]
   );
 
+  // Only render the navbar if it's not an admin page
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <nav
       className={`fixed w-full h-[70px] top-0 left-0 z-[1000] items-center bg-white text-black duration-500 border-light border-b shadow-sm`}
     >
       <div className="container flex flex-row justify-between items-center h-full">
-        <div className={`flex items-center gap-1 md:gap-6 lg:gap-8`}>
+        <div className={`flex items-center gap-1`}>
           <div className="flex md:hidden cursor-pointer">
             <Hamburger
               toggled={sidebarIsOpen}
@@ -75,7 +80,7 @@ const Navbar = ({ session }: NavbarProps) => {
           )}
 
           {/* Routes */}
-          <div className="hidden md:flex gap-6">{renderedRoutes}</div>
+          <div className="hidden md:flex gap-6 mr-4">{renderedRoutes}</div>
         </div>
 
         {/* Logo */}

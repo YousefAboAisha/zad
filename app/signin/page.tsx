@@ -117,9 +117,7 @@ const Signin = () => {
                   placeholder="البريد الالكتروني"
                   label="البريد الالكتروني"
                   icon={BiUser}
-                  className={`focus:border-primary ${
-                    errors.email && "!border-[red]"
-                  }`}
+                  className={`focus:border-primary`}
                   aria-label="البريد الالكتروني"
                   aria-invalid={!!errors.email}
                 />
@@ -140,9 +138,7 @@ const Signin = () => {
                   placeholder="كلمة المرور"
                   label="كلمة المرور"
                   icon={BiLock}
-                  className={`focus:border-primary ${
-                    errors.password && "!border-[red]"
-                  }`}
+                  className={`focus:border-primary`}
                   aria-label="كلمة المرور"
                   aria-invalid={!!errors.password}
                 />
