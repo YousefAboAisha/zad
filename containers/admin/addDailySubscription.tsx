@@ -3,10 +3,11 @@ import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useState } from "react";
-import { PiShootingStarThin } from "react-icons/pi";
 import * as Yup from "yup";
 import DatalistInput from "react-datalist-input";
 import "react-datalist-input/dist/styles.css";
+import { FiPlus } from "react-icons/fi";
+import { BiHourglass } from "react-icons/bi";
 
 const AddDailySubscription = () => {
   const [formErrors, setFormErrors] = useState<string>("");
@@ -109,16 +110,16 @@ const AddDailySubscription = () => {
             <Form className="w-full flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <p
-                  className={`text-sm border p-4 text-center rounded-xl cursor-pointer duration-100 ${
-                    selectedOption == "existing" && "bg-primary text-white"
+                  className={`text-sm p-4 text-center cursor-pointer duration-100 rounded-lg border ${
+                    selectedOption == "existing" && " bg-gray-200"
                   }`}
                   onClick={() => setSelectedOption("existing")}
                 >
                   البحث عن مشترك
                 </p>
                 <p
-                  className={`text-sm border p-4 text-center rounded-xl cursor-pointer duration-100 ${
-                    selectedOption == "new" && "bg-primary text-white"
+                  className={`text-sm p-4 text-center cursor-pointer duration-100 rounded-lg border ${
+                    selectedOption == "new" && "bg-gray-200"
                   }`}
                   onClick={() => setSelectedOption("new")}
                 >
@@ -148,7 +149,7 @@ const AddDailySubscription = () => {
                     ]}
                     inputProps={{
                       className:
-                        "h-[56px] !rounded-xl !pr-4 !focus-visible:border-primary",
+                        "h-[56px]  !pr-4 !focus-visible:border-primary",
                     }}
                     labelProps={{ className: "!mb-1 block text-[12px]" }}
                     listboxOptionProps={{ className: "!list-none !p-3" }}
@@ -244,12 +245,19 @@ const AddDailySubscription = () => {
 
               {/* Submit Button */}
               <Button
-                title={selectedOption == "new" ? "إضافة مشترك" : "بدء الاشتراك"}
+                title={selectedOption == "new" ? "إضافة" : "بدء الاشتراك"}
                 type="submit"
                 className="bg-primary mt-2 w-full mx-auto"
-                icon={<PiShootingStarThin size={22} />}
+                icon={
+                  selectedOption == "new" ? (
+                    <FiPlus />
+                  ) : (
+                    <BiHourglass size={22} />
+                  )
+                }
                 disabled={isSubmitting}
                 loading={isSubmitting}
+                hasShiningBar={false}
               />
 
               {formErrors && (

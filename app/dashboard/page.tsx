@@ -1,25 +1,19 @@
 "use client";
 import Button from "@/components/UI/inputs/button";
-// import Select from "@/components/UI/inputs/selectInput";
 import Modal from "@/components/UI/modals/modal";
 import AddDailySubscription from "@/containers/admin/addDailySubscription";
 import SubscripersTable from "@/containers/dashboard/tables/dailySubscripersTable";
-// import { leasingPlansOptions } from "@/data/leasingPlansOptions";
 import { SubscriptionData } from "@/data/subscripersData";
 import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 
-const Admin = () => {
-  // const [subscriptionType, setSubscriptionType] = useState("");
+const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   return (
     <div className="relative">
-      {/* Sidebar */}
-
-      {/* Section */}
       {/* Start Grid Cards */}
-      <div className="cards-grid-4">
+      <div className="cards-grid-4 mt-6">
         <div className="relative bg-white p-8 border-b-blue border-b-8 border rounded-xl flex flex-col items-center justify-center gap-4">
           <h4 className="text-xl">مشتركو اليوم</h4>
           <h2 className="text-7xl">35</h2>
@@ -44,7 +38,6 @@ const Admin = () => {
       </div>
       {/* End Grid Cards */}
 
-      {/* <div className="flex items-center justify-between mt-12"> */}
       <Button
         title="إضافة مشترك"
         onClick={() => setIsOpenModal(true)}
@@ -64,4 +57,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Dashboard;
