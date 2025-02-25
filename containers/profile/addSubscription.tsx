@@ -10,12 +10,13 @@ import Input from "@/components/UI/inputs/input";
 import Button from "@/components/UI/inputs/button";
 import TextArea from "../../components/UI/inputs/textArea";
 import { paymentMethodsOptions } from "@/data/paymentMethodsOptions";
+import { SubscriptionType } from "@/app/enums";
 
 const AddSubscription = () => {
   const [formErrors, setFormErrors] = useState<string>("");
 
   const initialValues = {
-    leasing_type: "",
+    subscription_type: "",
     start_date: "",
     end_date: "",
     payment_method: "",
@@ -23,7 +24,7 @@ const AddSubscription = () => {
   };
 
   const validationSchema = Yup.object({
-    leasing_type: Yup.string().required("يرجى اختيار نوع الاشتراك"),
+    subscription_type: Yup.string().required("يرجى اختيار نوع الاشتراك"),
     start_date: Yup.date()
       .required("يرجى إدخال تاريخ البدء")
       .typeError("يرجى إدخال تاريخ صحيح")
@@ -90,18 +91,22 @@ const AddSubscription = () => {
         onSubmit={handleSubmit}
       >
         {({ setFieldValue, values, isSubmitting, errors }) => {
+          console.log("Valuse are", values);
+
           // Use useEffect to watch for changes in leasingType and start_date
           // eslint-disable-next-line react-hooks/rules-of-hooks
           useEffect(() => {
-            if (values.leasing_type && values.start_date) {
+            if (values.subscription_type && values.start_date) {
               const startDate = new Date(values.start_date);
               let endDate;
 
               // If the value is eqaul to "Weekly subscription"
-              if (values.leasing_type === "1") {
+              if (values.subscription_type === SubscriptionType.WEEKLY) {
                 endDate = new Date(startDate.setDate(startDate.getDate() + 7));
                 // If the value is eqaul to "Monthly subscription"
-              } else if (values.leasing_type === "2") {
+              } else if (
+                values.subscription_type === SubscriptionType.MONTHLY
+              ) {
                 endDate = new Date(startDate.setDate(startDate.getDate() + 30));
               }
 
@@ -109,7 +114,7 @@ const AddSubscription = () => {
                 setFieldValue("end_date", endDate.toISOString().split("T")[0]);
               }
             }
-          }, [values.leasing_type, values.start_date, setFieldValue]);
+          }, [values.subscription_type, values.start_date, setFieldValue]);
 
           return (
             <Form className="w-full flex flex-col gap-4">
@@ -121,12 +126,12 @@ const AddSubscription = () => {
                   options={leasingPlansOptions}
                   title="اختر نوع الاشتراك.."
                   icon={<FiArrowDown />}
-                  value={values.leasing_type}
+                  value={values.subscription_type}
                   onChange={(e) =>
-                    setFieldValue("leasing_type", e.target.value)
+                    setFieldValue("subscription_type", e.target.value)
                   }
                   className={`focus:border-primary ${
-                    errors.leasing_type && "!border-[red]"
+                    errors.subscription_type && "!border-[red]"
                   }`}
                 />
                 <ErrorMessage
@@ -190,7 +195,7 @@ const AddSubscription = () => {
                   }`}
                 />
                 <ErrorMessage
-                  name="leasingType"
+                  name="payment_method"
                   component="div"
                   className="text-red-500 mt-2 font-bold text-[12px]"
                 />

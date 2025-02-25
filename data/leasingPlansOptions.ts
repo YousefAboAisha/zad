@@ -1,10 +1,12 @@
+import { SubscriptionType } from "@/app/enums";
+
 export const leasingPlansOptions = [
   {
     title: "أسبوعي",
-    value: 1,
+    value: SubscriptionType.WEEKLY,
   },
   {
     title: "شهري",
-    value: 2,
+    value: SubscriptionType.MONTHLY,
   },
 ];

@@ -29,20 +29,25 @@ const userSchema = new Schema<UserInterface>(
     },
     rememberMe: {
       type: Boolean,
-      default: false, // Default value
+      default: false,
     },
-    isVerified: {
+    isActive: {
       type: Boolean,
-      default: false, // Default value
+      default: false,
     },
     hasCompleteProfile: {
       type: Boolean,
-      default: false, // Default value
+      default: false,
     },
-    subscriptions: {
-      type: [{ type: Schema.Types.ObjectId, ref: "Subscription" }],
-      default: [], // Default value (empty array)
-    },
+    dailySubscriptions: [
+      { type: Schema.Types.ObjectId, ref: "DailySubscription" },
+    ],
+    weeklySubscriptions: [
+      { type: Schema.Types.ObjectId, ref: "WeeklySubscription" },
+    ],
+    monthlySubscriptions: [
+      { type: Schema.Types.ObjectId, ref: "MonthlySubscription" },
+    ],
   },
   {
     timestamps: true, // Automatically add `createdAt` and `updatedAt` fields

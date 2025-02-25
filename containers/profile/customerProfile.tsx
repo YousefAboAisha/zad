@@ -6,6 +6,11 @@ import AddSubscription from "@/containers/profile/addSubscription";
 import { CiCircleCheck } from "react-icons/ci";
 import { toast, ToastContainer } from "react-toastify";
 import { UserInterface } from "@/app/interfaces";
+import {
+  dateFormating,
+  paymentMethodConverter,
+  subscriptionTypeConverter,
+} from "@/utils/conversions";
 
 const CustomerProfile = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -39,93 +44,77 @@ const CustomerProfile = () => {
     getUserDetails();
   }, []);
 
-  const subscriptionTypeConverter = (type: string | undefined) => {
-    let text = "";
-    if (type == "1") {
-      return (text = "أسبوعي");
-    } else if (type == "2") {
-      text = "شهري";
-    } else {
-      return;
-    }
-    return text;
-  };
-
-  const paymentMethodConverter = (type: string | undefined) => {
-    let text = "";
-    if (type == "1") {
-      return (text = "كاش");
-    } else if (type == "2") {
-      text = "بنكي";
-    } else {
-      return;
-    }
-    return text;
-  };
+  // Extract active subscription
+  const activeSubscription = userDetailsData?.active_subscription || null;
 
   // Render loading skeletons
   const renderLoadingSkeletons = () => (
     <div className="cards-grid-3 mt-6">
       {/* Start date */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
+      <div className="flex flex-col items-center justify-center gap-4 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
 
       {/* End Date */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
+      <div className="flex flex-col items-center justify-center gap-4 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
 
       {/* Subscription type */}
       <div className="flex flex-col items-center justify-center p-12 gap-2 rounded-2xl bg-gray-300 animate-pulse row-span-2"></div>
 
       {/* Subscription type */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
+      <div className="flex flex-col items-center justify-center gap-4 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
 
       {/* Subscription type */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
+      <div className="flex flex-col items-center justify-center gap-4 p-12 h-40 rounded-2xl bg-gray-300 animate-pulse"></div>
     </div>
   );
 
   // Render active subscription details
   const renderActiveSubscription = () => (
     <div className="cards-grid-3 mt-6">
-      {/* Start date */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 rounded-2xl text-white bg-[#AA5486]">
-        <p>تاريخ البدء</p>
-        <h2 className="font-bold text-4xl">
-          {userDetailsData?.subscriptions[0].start_date}
+      {/* Start Date */}
+      <div className="flex flex-col items-center justify-center gap-4 p-12 rounded-2xl text-white bg-[#AA5486]">
+        <p className="text-xl">تاريخ البدء</p>
+        <h2 className="font-bold text-2xl">
+          {dateFormating(activeSubscription?.start_date)}
         </h2>
       </div>
 
       {/* End Date */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 rounded-2xl text-white bg-[#4DA1A9]">
-        <p>تاريخ الانتهاء</p>
-        <h2 className="font-bold text-4xl">
-          {userDetailsData?.subscriptions[0].end_date}
+      <div className="flex flex-col items-center justify-center gap-4 p-12 rounded-2xl text-white bg-[#4DA1A9]">
+        <p className="text-xl">تاريخ الانتهاء</p>
+        <h2 className="font-bold text-2xl">
+          {dateFormating(activeSubscription?.end_date)}
         </h2>
       </div>
 
-      {/* Subscription type */}
+      {/* Days Remaining */}
       <div className="flex flex-col items-center justify-center p-12 gap-2 rounded-2xl bg-[#1E3250] text-white row-span-2">
         <p className="text-lg">متبقي</p>
-        <h2 className="font-bold text-9xl ">7</h2>
+        <h2 className="font-bold text-9xl">
+          {Math.max(
+            Math.ceil(
+              (new Date(activeSubscription?.end_date ?? "").getTime() -
+                new Date().getTime()) /
+                (1000 * 60 * 60 * 24)
+            ),
+            0
+          )}
+        </h2>
         <p className="text-lg">أيام</p>
       </div>
 
-      {/* Subscription type */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 rounded-2xl bg-[#f39c12] text-white">
-        <p>نوع الاشتراك</p>
-        <h2 className="font-bold text-4xl">
-          {subscriptionTypeConverter(
-            userDetailsData?.subscriptions[0]?.leasing_type
-          )}
+      {/* Subscription Type */}
+      <div className="flex flex-col items-center justify-center gap-4 p-12 rounded-2xl bg-[#f39c12] text-white">
+        <p className="text-xl">نوع الاشتراك</p>
+        <h2 className="font-bold text-2xl">
+          {subscriptionTypeConverter(activeSubscription?.subscription_type)}
         </h2>
       </div>
 
-      {/* Subscription type */}
-      <div className="flex flex-col items-center justify-center gap-6 p-12 rounded-2xl bg-[#5CB338] text-white">
-        <p>طريقة الدفع</p>
-        <h2 className="font-bold text-5xl">
-          {paymentMethodConverter(
-            userDetailsData?.subscriptions[0]?.payment_method
-          )}
+      {/* Payment Method */}
+      <div className="flex flex-col items-center justify-center gap-4 p-12 rounded-2xl bg-[#5CB338] text-white">
+        <p className="text-xl">طريقة الدفع</p>
+        <h2 className="font-bold text-2xl">
+          {paymentMethodConverter(activeSubscription?.payment_method)}
         </h2>
       </div>
     </div>
@@ -185,9 +174,9 @@ const CustomerProfile = () => {
         {/* Render content based on loading and subscription status */}
         {loading
           ? renderLoadingSkeletons()
-          : userDetailsData?.subscriptions?.[0]?.status === "1"
+          : activeSubscription
           ? renderActiveSubscription()
-          : userDetailsData?.subscriptions?.[0]?.status === "0"
+          : userDetailsData?.isActive
           ? renderSubscriptionRequestSuccess()
           : renderNoSubscription()}
       </div>

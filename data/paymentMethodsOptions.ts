@@ -1,11 +1,12 @@
+import { PaymentMethod } from "@/app/enums";
+
 export const paymentMethodsOptions = [
-    {
-      title: "كاش",
-      value: 1,
-    },
-    {
-      title: "بنكي",
-      value: 2,
-    },
-  ];
-  
+  {
+    title: "كاش",
+    value: PaymentMethod.CASH,
+  },
+  {
+    title: "بنكي",
+    value: PaymentMethod.BOP,
+  },
+];
