@@ -1,22 +1,74 @@
+import { UserInterface } from "@/app/interfaces";
 import Button from "@/components/UI/inputs/button";
 import Modal from "@/components/UI/modals/modal";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { dateFormating, subscriptionTypeConverter } from "@/utils/conversions";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BiInfoCircle } from "react-icons/bi";
 import { BsCircleFill } from "react-icons/bs";
 import { FiCheck, FiEdit3, FiTrash } from "react-icons/fi";
+import TableLoader from "./tableLoader";
+import { SubscriptionStatus, SubscriptionType } from "@/app/enums";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const SubscriptionRequestsTable = ({ data }) => {
+const SubscriptionRequestsTable = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [modalName, setModalName] = useState<"finish" | "edit" | "delete">();
+  const [modalName, setModalName] = useState<"approve" | "edit" | "delete">();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [data, setData] = useState<UserInterface[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("/api/subscriptionRequests/fetch");
+      const result = await response.json();
+      console.log("Result", result.pendingSubscriptions);
+      setData(result.pendingSubscriptions);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError(String(error));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) return <TableLoader />;
+  if (error) return <p className="text-red-500">حدث خطأ: {error}</p>;
 
   const renderredModal = () => {
-    if (modalName == "finish") {
-      return <FinishSubscription setModal={setIsOpenModal} />;
-    } else if (modalName == "edit") {
-      return <EditSubscription setModal={setIsOpenModal} />;
-    } else if (modalName == "delete") {
-      return <DeleteSubscription setModal={setIsOpenModal} />;
-    }
+    if (!selectedId) return null;
+    if (modalName === "approve")
+      return (
+        <ApproveSubscription
+          setModal={setIsOpenModal}
+          id={selectedId}
+          refetch={fetchData}
+        />
+      );
+    if (modalName === "edit")
+      return (
+        <EditSubscription
+          setModal={setIsOpenModal}
+          id={selectedId}
+          refetch={fetchData}
+        />
+      );
+    if (modalName === "delete")
+      return (
+        <DeleteSubscription
+          setModal={setIsOpenModal}
+          id={selectedId}
+          refetch={fetchData}
+        />
+      );
   };
 
   return (
@@ -24,72 +76,113 @@ const SubscriptionRequestsTable = ({ data }) => {
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="py-3 px-4 border-b text-right">الاسم</th>
-            <th className="py-3 px-4 border-b text-right">البريد الإلكتروني</th>
-            <th className="py-3 px-4 border-b text-right">رقم الهاتف</th>
-            <th className="py-3 px-4 border-b text-right">التخصص</th>
-            <th className="py-3 px-4 border-b text-right">نوع الاشتراك</th>
-            <th className="py-3 px-4 border-b text-right">تاريخ البدء</th>
-            <th className="py-3 px-4 border-b text-right">تاريخ الانتهاء</th>
-            <th className="py-3 px-4 border-b text-right">الحالة</th>
-            <th className="py-3 px-4 border-b text-right">العمليات</th>
+            <th className="text-sm py-3 px-4 border-b text-right">الاسم</th>
+            <th className="text-sm py-3 px-4 border-b text-right">
+              البريد الإلكتروني
+            </th>
+            <th className="text-sm py-3 px-4 border-b text-right">
+              رقم الهاتف
+            </th>
+            <th className="text-sm py-3 px-4 border-b text-right">التخصص</th>
+            <th className="text-sm py-3 px-4 border-b text-right">
+              نوع الاشتراك
+            </th>
+            <th className="text-sm py-3 px-4 border-b text-right">
+              تاريخ البدء
+            </th>
+            <th className="text-sm py-3 px-4 border-b text-right">
+              تاريخ الانتهاء
+            </th>
+            <th className="text-sm py-3 px-4 border-b text-right">الحالة</th>
+            <th className="text-sm py-3 px-4 border-b text-right">العمليات</th>
           </tr>
         </thead>
 
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index} className="hover:bg-gray-50">
-              <td className="py-3 px-4 border-b text-right">{item.name}</td>
-              <td className="py-3 px-4 border-b text-right">{item.email}</td>
-              <td className="py-3 px-4 border-b text-right">
-                {item.phoneNumber}
-              </td>
-              <td className="py-3 px-4 border-b text-right">
-                {item.profession}
-              </td>
-              <td className="py-3 px-4 border-b text-right">{item.price}</td>
-              <td className="py-3 px-4 border-b text-right">
-                {item.startDate}
-              </td>
-              <td className="py-3 px-4 border-b text-right">{item.endDate}</td>
-              <td className="py-3 px-4 border-b text-right">
-                <BsCircleFill className="text-[orange] mx-auto" size={10} />
-              </td>
-              <td className="py-3 px-4 border-b text-right">
-                <div className="flex items-center gap-3">
-                  <FiCheck
-                    size={22}
-                    className="text-[green] cursor-pointer"
-                    title="إنهاء الحجز"
-                    onClick={() => {
-                      setIsOpenModal(true);
-                      setModalName("finish");
-                    }}
-                  />
-                  <FiEdit3
-                    size={18}
-                    className="cursor-pointer"
-                    title="تعديل الحجز"
-                    onClick={() => {
-                      setIsOpenModal(true);
-                      setModalName("edit");
-                    }}
-                  />
-                  <FiTrash
-                    size={18}
-                    className="text-[red] cursor-pointer"
-                    title="حذف الحجز"
-                    onClick={() => {
-                      setIsOpenModal(true);
-                      setModalName("delete");
-                    }}
-                  />
-                </div>
+        <tbody className="w-full">
+          {data && data.length > 0 ? (
+            data.map((user, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  {user.name}
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  {user.email}
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  {user.phoneNumber}
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  {user.profession}
+                </td>
+                <td className={`text-sm py-3 px-4 border-b text-right`}>
+                  <div
+                    className={`p-2 text-center text-white rounded-md text-[13px] ${
+                      user.active_subscription?.subscription_type ===
+                      SubscriptionType.MONTHLY
+                        ? "bg-secondary"
+                        : "bg-blue"
+                    }`}
+                  >
+                    {subscriptionTypeConverter(
+                      user.active_subscription?.subscription_type
+                    )}
+                  </div>
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  {dateFormating(user.active_subscription?.start_date)}
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  {dateFormating(user.active_subscription?.end_date)}
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  <BsCircleFill className="text-[orange] mx-auto" size={10} />
+                </td>
+                <td className="text-sm py-3 px-4 border-b text-right">
+                  <div className="flex items-center gap-3">
+                    <FiCheck
+                      size={18}
+                      className="text-[green] cursor-pointer"
+                      title="تأكيد الحجز"
+                      onClick={() => {
+                        setIsOpenModal(true);
+                        setModalName("approve");
+                        setSelectedId(user._id as string);
+                      }}
+                    />
+                    <FiEdit3
+                      size={16}
+                      className="cursor-pointer"
+                      title="تعديل الحجز"
+                      onClick={() => {
+                        setIsOpenModal(true);
+                        setModalName("edit");
+                        setSelectedId(user._id as string);
+                      }}
+                    />
+                    <FiTrash
+                      size={16}
+                      className="text-[red] cursor-pointer"
+                      title="حذف الحجز"
+                      onClick={() => {
+                        setIsOpenModal(true);
+                        setModalName("delete");
+                        setSelectedId(user._id as string);
+                      }}
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={9} className="text-center text-gray-500 py-4 h-40">
+                لا توجد طلبات اشتراك حالية!
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
+
       <Modal
         isOpen={isOpenModal}
         setIsOpen={setIsOpenModal}
@@ -104,27 +197,69 @@ const SubscriptionRequestsTable = ({ data }) => {
 
 type ModalType = {
   setModal: Dispatch<SetStateAction<boolean>>;
+  id: string;
+  refetch: () => void; // 🔄 Accept refetch function as prop
 };
 
-const FinishSubscription = ({ setModal }: ModalType) => {
+const ApproveSubscription = ({ setModal, id, refetch }: ModalType) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const handleSubscriptionStatus = async () => {
+    setLoading(true);
+    console.log("The user ID is:", id);
+
+    try {
+      const response = await fetch(`/api/subscription/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: SubscriptionStatus.ACTIVE }),
+      });
+
+      setLoading(false);
+      setModal(false);
+      refetch(); // 🔄 Refetch data after update
+
+      // toast.success("تم بدء الاشتراك بنجاح!");
+    } catch (error) {
+      setLoading(false);
+      console.error("Error updating status:", error);
+      alert("حدث خطأ أثناء تحديث الحالة");
+    }
+  };
+
   return (
     <div className="flex flex-col bg-white p-8">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true} // Right-to-left for Arabic
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <div className="flex items-center gap-2">
         <BiInfoCircle size={35} />
-        <h2 className="text-xl font-bold">إنهاء الحجز</h2>
+        <h2 className="text-xl font-bold">تأكيد الحجز</h2>
       </div>
 
       <hr className="mt-4" />
 
       <p className="mt-6">
-        سيؤدي هذا الإجراء إلى إنهاء الحجز اليومي، هل أنت متأكد من ذلك؟
+        سيؤدي هذا الإجراء إلى تأكيد الحجز وبدء الاشتراك، هل أنت متأكد من ذلك؟
       </p>
 
       <div className="flex items-center gap-4 mt-6 w-10/12">
         <Button
-          title="إنهاء الآن"
+          loading={loading}
+          disabled={loading}
+          title="بدء الآن"
           className="bg-primary"
           hasShiningBar={false}
+          onClick={handleSubscriptionStatus}
         />
         <Button
           title="إلغاء الأمر"
@@ -148,8 +283,7 @@ const EditSubscription = ({ setModal }: ModalType) => {
       <hr className="mt-4" />
 
       <p className="mt-6">
-        سيؤدي هذا الإجراء إلى تعديل بيانات الحجز اليومي المحدد، هل أنت متأكد من
-        ذلك؟
+        سيؤدي هذا الإجراء إلى تعديل بيانات الحجز المحدد، هل أنت متأكد من ذلك؟
       </p>
       <div className="flex items-center gap-4 mt-6 w-10/12">
         <Button
@@ -179,7 +313,7 @@ const DeleteSubscription = ({ setModal }: ModalType) => {
       <hr className="mt-4" />
 
       <p className="mt-6">
-        سيؤدي هذا الإجراء إلى حذف الحجز اليومي المحدد، هل أنت متأكد من ذلك؟
+        سيؤدي هذا الإجراء إلى حذف الحجز المحدد، هل أنت متأكد من ذلك؟
       </p>
       <div className="flex items-center gap-4 mt-6 w-10/12">
         <Button title="حذف الآن" className="bg-[red]" hasShiningBar={false} />

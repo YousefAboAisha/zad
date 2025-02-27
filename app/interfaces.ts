@@ -32,6 +32,7 @@ export interface UserInterface extends Document {
 // Define the DailySubscriptionInterface
 export interface DailySubscriptionInterface extends BaseSubscriptionInterface {
   subscription_type: SubscriptionType;
+  status: SubscriptionStatus;
   start_date: Date;
   end_date: Date;
   price: number;

@@ -18,7 +18,7 @@ const dailySubscriptionSchema = new Schema({
     enum: Object.values(PaymentMethod),
     required: true,
   },
-  subscription_status: {
+  status: {
     type: String,
     enum: Object.values(SubscriptionStatus),
     required: true,

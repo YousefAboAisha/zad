@@ -1,8 +1,6 @@
 "use client";
 import PageTitles from "@/components/UI/typography/pageTitles";
 import SubscriptionRequestsTable from "@/containers/dashboard/tables/subscriptionRequestsTable";
-import { SubscriptionData } from "@/data/subscripersData";
-import React from "react";
 
 const SubscriptionRequests = () => {
   return (
@@ -35,11 +33,9 @@ const SubscriptionRequests = () => {
       </div>
       {/* End cards-grid-4 */}
 
-      {/* Start Of Data Table */}
       <div className="relative mt-8">
-        <SubscriptionRequestsTable data={SubscriptionData} />
+        <SubscriptionRequestsTable />
       </div>
-      {/* End Of Data Table */}
     </div>
   );
 };

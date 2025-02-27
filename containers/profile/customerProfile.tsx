@@ -123,7 +123,7 @@ const CustomerProfile = () => {
   // Render subscription request success message
   const renderSubscriptionRequestSuccess = () => (
     <div className="abs-center flex flex-col gap-2 items-center justify-center">
-      <CiCircleCheck size={80} className="text-[green]" />
+      <CiCircleCheck size={65} className="text-[green]" />
       <p className="text-center md:w-8/12 w-10/12 mx-auto">
         تم إرسال طلب الاشتراك بنجاح، سيتم التواصل معكم في أقرب وقت ممكن!
       </p>
@@ -163,21 +163,24 @@ const CustomerProfile = () => {
       <div className="relative min-h-[70vh]">
         {/* Customer's name */}
         <div className="flex items-center gap-1">
-          <h2 className="text-lg">مرحباً بعودتك،</h2>
+          <h2 className="text-md">مرحباً بعودتك،</h2>
           {loading ? (
             <div className="h-5 bg-gray-300 rounded-sm w-48 animate-pulse"></div>
           ) : (
-            <h2 className="font-bold text-lg">{userDetailsData?.name}</h2>
+            <h2 className="font-bold text-md">{userDetailsData?.name}</h2>
           )}
         </div>
 
         {/* Render content based on loading and subscription status */}
         {loading
           ? renderLoadingSkeletons()
-          : activeSubscription
+          : activeSubscription &&
+            userDetailsData?.active_subscription?.status === "ACTIVE"
           ? renderActiveSubscription()
-          : userDetailsData?.isActive
+          : userDetailsData?.active_subscription?.status === "PENDING"
           ? renderSubscriptionRequestSuccess()
+          : userDetailsData?.active_subscription?.status === "EXPIRED"
+          ? renderNoSubscription()
           : renderNoSubscription()}
       </div>
 

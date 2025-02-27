@@ -1,35 +1,14 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
-import { getSession } from "@/app/lib/session";
-import { ObjectId } from "mongodb"; // Import ObjectId from MongoDB
 
 export async function GET() {
   try {
     const client = await clientPromise;
     const db = client.db("zad_space");
-    const collection = db.collection("subscriptions");
-
-    const session = await getSession();
-    console.log("Session", session);
-    const userId = session?.userId;
-
-    if (!userId) {
-      return NextResponse.json(
-        { error: "المستخدم غير موجود" }, // User not found
-        { status: 404 }
-      );
-    }
-
-    // Check if the userId is a valid ObjectId
-    if (!ObjectId.isValid(userId)) {
-      return NextResponse.json(
-        { error: "معرف المستخدم غير صالح" }, // Invalid user ID
-        { status: 400 }
-      );
-    }
+    const collection = db.collection("users");
 
     // Check if the customer exists
-    const subscription = await collection.findOne({ customer_id: userId });
+    const subscription = await collection.findOne();
 
     if (!subscription) {
       // If the customer does not exist, return an error
