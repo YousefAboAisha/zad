@@ -15,13 +15,6 @@ export async function GET() {
 
     console.log("pendingSubscriptions", pendingSubscriptions);
 
-    if (pendingSubscriptions.length === 0) {
-      return NextResponse.json(
-        { error: "لا يوجد طلبات اشتراك معلقة" }, // No pending requests
-        { status: 404 }
-      );
-    }
-
     return NextResponse.json(
       { message: "تم جلب البيانات بنجاح", pendingSubscriptions }, // Successfully fetched data
       { status: 200 }

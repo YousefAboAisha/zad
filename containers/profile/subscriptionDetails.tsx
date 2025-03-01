@@ -4,7 +4,6 @@ import { MdCircleNotifications } from "react-icons/md";
 import Modal from "../../components/UI/modals/modal";
 import AddSubscription from "@/containers/profile/addSubscription";
 import { CiCircleCheck } from "react-icons/ci";
-import { toast, ToastContainer } from "react-toastify";
 import { UserInterface } from "@/app/interfaces";
 import {
   dateFormating,
@@ -12,29 +11,27 @@ import {
   subscriptionTypeConverter,
 } from "@/utils/conversions";
 
-const CustomerProfile = () => {
+const SubscriptionDetails = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [userDetailsData, setUserDetailsData] = useState<UserInterface | null>(
     null
   );
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const getUserDetails = async () => {
     try {
       const response = await fetch("/api/users/getUserDetails");
 
-      if (!response.ok) {
-        toast.error("حدث خطأ جلب معلومات المستخدم"); // Show error toast
-        throw new Error("Failed to fetch user details");
-      }
-
       const res = await response.json();
       if (res?.customer) {
         setUserDetailsData(res.customer);
       }
-    } catch (error) {
-      console.error("Fetching userDetails failed:", error);
-      toast.error("حدث خطأ أثناء العملية"); // Show error toast
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+        setLoading(false);
+      }
     } finally {
       setLoading(false);
     }
@@ -144,22 +141,37 @@ const CustomerProfile = () => {
     </div>
   );
 
+  const renderContent = () => {
+    if (error) {
+      return (
+        <div className="flex items-center justify-center min-h-[70vh]">
+          <h2 className="text-[red] text-center">
+            حدث خطأ ما أثناء جلب بيانات المستخدم!
+          </h2>
+          <p>{error}</p>
+        </div>
+      );
+    }
+
+    if (loading) {
+      return renderLoadingSkeletons();
+    }
+
+    if (activeSubscription) {
+      switch (userDetailsData?.active_subscription?.status) {
+        case "ACTIVE":
+          return renderActiveSubscription();
+        case "PENDING":
+          return renderSubscriptionRequestSuccess();
+        case "EXPIRED":
+        default:
+          return renderNoSubscription();
+      }
+    }
+  };
+
   return (
     <div className="relative w-full min-h-[70vh]">
-      {/* Toast Container */}
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true} // Right-to-left for Arabic
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <div className="relative min-h-[70vh]">
         {/* Customer's name */}
         <div className="flex items-center gap-1">
@@ -170,18 +182,7 @@ const CustomerProfile = () => {
             <h2 className="font-bold text-md">{userDetailsData?.name}</h2>
           )}
         </div>
-
-        {/* Render content based on loading and subscription status */}
-        {loading
-          ? renderLoadingSkeletons()
-          : activeSubscription &&
-            userDetailsData?.active_subscription?.status === "ACTIVE"
-          ? renderActiveSubscription()
-          : userDetailsData?.active_subscription?.status === "PENDING"
-          ? renderSubscriptionRequestSuccess()
-          : userDetailsData?.active_subscription?.status === "EXPIRED"
-          ? renderNoSubscription()
-          : renderNoSubscription()}
+        {renderContent()}
       </div>
 
       {/* Modal for adding subscription */}
@@ -192,4 +193,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default SubscriptionDetails;

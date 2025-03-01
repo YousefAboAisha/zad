@@ -2,46 +2,26 @@ import { UserInterface } from "@/app/interfaces";
 import Button from "@/components/UI/inputs/button";
 import Modal from "@/components/UI/modals/modal";
 import { dateFormating, subscriptionTypeConverter } from "@/utils/conversions";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { BiInfoCircle } from "react-icons/bi";
 import { BsCircleFill } from "react-icons/bs";
 import { FiCheck, FiEdit3, FiTrash } from "react-icons/fi";
-import TableLoader from "./tableLoader";
 import { SubscriptionStatus, SubscriptionType } from "@/app/enums";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const SubscriptionRequestsTable = () => {
+type SubscriptionRequestsTableType = {
+  data: UserInterface[];
+  fetchData: () => void;
+};
+
+const SubscriptionRequestsTable = ({
+  data,
+  fetchData,
+}: SubscriptionRequestsTableType) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<"approve" | "edit" | "delete">();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [data, setData] = useState<UserInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch("/api/subscriptionRequests/fetch");
-      const result = await response.json();
-      console.log("Result", result.pendingSubscriptions);
-      setData(result.pendingSubscriptions);
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError(String(error));
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (loading) return <TableLoader />;
-  if (error) return <p className="text-red-500">حدث خطأ: {error}</p>;
 
   const renderredModal = () => {
     if (!selectedId) return null;
@@ -73,6 +53,19 @@ const SubscriptionRequestsTable = () => {
 
   return (
     <div className="overflow-x-auto">
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={true} // Right-to-left for Arabic
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
@@ -208,17 +201,20 @@ const ApproveSubscription = ({ setModal, id, refetch }: ModalType) => {
     console.log("The user ID is:", id);
 
     try {
-      const response = await fetch(`/api/subscription/${id}`, {
+      const response = await fetch(`/api/subscription/updateStatus${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: SubscriptionStatus.ACTIVE }),
       });
 
+      const res = await response.json();
+
+      console.log("Edit status response", res);
+      toast.success("تم بدء الاشتراك بنجاح!");
       setLoading(false);
       setModal(false);
-      refetch(); // 🔄 Refetch data after update
 
-      // toast.success("تم بدء الاشتراك بنجاح!");
+      refetch(); // 🔄 Refetch data after update
     } catch (error) {
       setLoading(false);
       console.error("Error updating status:", error);
@@ -228,19 +224,6 @@ const ApproveSubscription = ({ setModal, id, refetch }: ModalType) => {
 
   return (
     <div className="flex flex-col bg-white p-8">
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true} // Right-to-left for Arabic
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
       <div className="flex items-center gap-2">
         <BiInfoCircle size={35} />
         <h2 className="text-xl font-bold">تأكيد الحجز</h2>
@@ -266,6 +249,7 @@ const ApproveSubscription = ({ setModal, id, refetch }: ModalType) => {
           className="!text-red-500 !shadow"
           hasShiningBar={false}
           onClick={() => setModal(false)}
+          disabled={loading}
         />
       </div>
     </div>

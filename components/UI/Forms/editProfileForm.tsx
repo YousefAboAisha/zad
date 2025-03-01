@@ -7,7 +7,6 @@ import { LiaUser, LiaPhoneSolid, LiaStar } from "react-icons/lia";
 import { CiEdit } from "react-icons/ci";
 import Heading from "@/components/UI/typography/heading";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -77,10 +76,6 @@ const EditProfileForm = () => {
     try {
       const response = await fetch("/api/users/getUserDetails");
 
-      if (!response.ok) {
-        toast.error("حدث خطأ أثناء جلب بيانات المستخدم"); // Show error toast
-      }
-
       const res = await response.json();
       console.log("Response", res);
 
@@ -96,7 +91,6 @@ const EditProfileForm = () => {
       }
     } catch (error) {
       console.error("Fetching userDetails failed:", error);
-      toast.error("حدث خطأ أثناء جلب بيانات المستخدم"); // Show error toast
     } finally {
       setLoading(false);
     }
@@ -224,18 +218,6 @@ const EditProfileForm = () => {
             </div>
           )}
           {/* Toast Container */}
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={true} // Right-to-left for Arabic
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
         </Form>
       )}
     </Formik>
