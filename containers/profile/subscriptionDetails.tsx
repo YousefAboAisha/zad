@@ -10,6 +10,7 @@ import {
   paymentMethodConverter,
   subscriptionTypeConverter,
 } from "@/utils/conversions";
+import NoInternet from "@/components/noInternet";
 
 const SubscriptionDetails = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -30,7 +31,6 @@ const SubscriptionDetails = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
-        setLoading(false);
       }
     } finally {
       setLoading(false);
@@ -141,35 +141,6 @@ const SubscriptionDetails = () => {
     </div>
   );
 
-  const renderContent = () => {
-    if (error) {
-      return (
-        <div className="flex items-center justify-center min-h-[70vh]">
-          <h2 className="text-[red] text-center">
-            حدث خطأ ما أثناء جلب بيانات المستخدم!
-          </h2>
-          <p>{error}</p>
-        </div>
-      );
-    }
-
-    if (loading) {
-      return renderLoadingSkeletons();
-    }
-
-    if (activeSubscription) {
-      switch (userDetailsData?.active_subscription?.status) {
-        case "ACTIVE":
-          return renderActiveSubscription();
-        case "PENDING":
-          return renderSubscriptionRequestSuccess();
-        case "EXPIRED":
-        default:
-          return renderNoSubscription();
-      }
-    }
-  };
-
   return (
     <div className="relative w-full min-h-[70vh]">
       <div className="relative min-h-[70vh]">
@@ -182,7 +153,18 @@ const SubscriptionDetails = () => {
             <h2 className="font-bold text-md">{userDetailsData?.name}</h2>
           )}
         </div>
-        {renderContent()}
+
+        {/* Render content based on loading and subscription status */}
+        {loading
+          ? renderLoadingSkeletons()
+          : activeSubscription &&
+            userDetailsData?.active_subscription?.status === "ACTIVE"
+          ? renderActiveSubscription()
+          : userDetailsData?.active_subscription?.status === "PENDING"
+          ? renderSubscriptionRequestSuccess()
+          : userDetailsData?.active_subscription?.status === "EXPIRED"
+          ? renderNoSubscription()
+          : renderNoSubscription()}
       </div>
 
       {/* Modal for adding subscription */}

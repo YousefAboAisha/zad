@@ -15,7 +15,9 @@ export default function AdminLayout({
       </div>
       <div className="w-[83%] min-h-screen p-4 mb-8">
         {/* Date of the day, with clock  */}
-        <ArabicDateAndTime />
+        <div className="min-h-12">
+          <ArabicDateAndTime />
+        </div>
         {children}
       </div>
     </div>
