@@ -2,7 +2,7 @@
 import Button from "@/components/UI/inputs/button";
 import Modal from "@/components/UI/modals/modal";
 import AddDailySubscription from "@/containers/admin/addDailySubscription";
-import SubscripersTable from "@/containers/dashboard/tables/dailySubscripersTable";
+import DailySubscripersTable from "@/containers/dashboard/tables/dailySubscripersTable";
 import { SubscriptionData } from "@/data/subscripersData";
 import React, { useState } from "react";
 import { FiPlus } from "react-icons/fi";
@@ -47,7 +47,7 @@ const Dashboard = () => {
       />
 
       <div className="relative mt-8">
-        <SubscripersTable data={SubscriptionData} />
+        <DailySubscripersTable data={SubscriptionData} />
       </div>
 
       <Modal isOpen={isOpenModal} setIsOpen={setIsOpenModal} zIndex="z-[1000]">

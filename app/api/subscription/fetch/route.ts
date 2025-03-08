@@ -1,50 +1,33 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
-import { getSession } from "@/app/lib/session";
-import { ObjectId } from "mongodb"; // Import ObjectId from MongoDB
 
 export async function GET() {
   try {
+    // Connect to MongoDB
     const client = await clientPromise;
     const db = client.db("zad_space");
-    const collection = db.collection("subscriptions");
+    const collection = db.collection("users");
 
-    const session = await getSession();
-    console.log("Session", session);
-    const userId = session?.userId;
+    // Find users who have an active subscription
+    const data = await collection.find({}).toArray();
 
-    if (!userId) {
+    console.log("Fetched active subscriptions:", data);
+
+    // If no active subscriptions are found
+    if (data.length === 0) {
       return NextResponse.json(
-        { error: "المستخدم غير موجود" }, // User not found
+        { message: "لا توجد اشتراكات نشطة" }, // No active subscriptions found
         { status: 404 }
       );
     }
 
-    // Check if the userId is a valid ObjectId
-    if (!ObjectId.isValid(userId)) {
-      return NextResponse.json(
-        { error: "معرف المستخدم غير صالح" }, // Invalid user ID
-        { status: 400 }
-      );
-    }
-
-    // Check if the customer exists
-    const subscription = await collection.findOne({ customer_id: userId });
-
-    if (!subscription) {
-      // If the customer does not exist, return an error
-      return NextResponse.json(
-        { error: "الاشتراك غير موجود" }, // User not found
-        { status: 404 }
-      );
-    }
-
+    // ✅ Return all active subscriptions
     return NextResponse.json(
-      { message: "تم جلب البيانات بنجاح", subscription }, // Data fetched successfully
+      { message: "تم جلب جميع الاشتراكات النشطة بنجاح", data },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error during fetching user details", error);
+    console.error("Error fetching active subscriptions:", error);
     return NextResponse.json(
       { error: "خطأ في الخادم" }, // Server error
       { status: 500 }

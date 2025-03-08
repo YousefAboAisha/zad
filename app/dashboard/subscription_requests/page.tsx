@@ -18,8 +18,8 @@ const SubscriptionRequests = () => {
     try {
       const response = await fetch("/api/subscriptionRequests/fetch");
       const result = await response.json();
-      console.log("Result", result.pendingSubscriptions);
-      setTableData(result.pendingSubscriptions);
+      console.log("Result", result.data);
+      setTableData(result.data);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -37,7 +37,7 @@ const SubscriptionRequests = () => {
       const result = await response.json();
 
       console.log("analysisData", result);
-      setAnalysisData(result.pendingSubscriptionsAnalysis);
+      setAnalysisData(result.data);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

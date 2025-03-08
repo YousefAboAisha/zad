@@ -1,4 +1,8 @@
-import { PaymentMethod, SubscriptionType } from "@/app/enums";
+import {
+  PaymentMethod,
+  SubscriptionStatus,
+  SubscriptionType,
+} from "@/app/enums";
 
 export const subscriptionTypeConverter = (type: string | undefined) => {
   let text = "";
@@ -18,6 +22,18 @@ export const paymentMethodConverter = (type: string | undefined) => {
     return (text = "كاش");
   } else if (type == PaymentMethod.BOP) {
     text = "بنكي";
+  } else {
+    return;
+  }
+  return text;
+};
+
+export const subscriptionStausConverter = (type: string | undefined) => {
+  let text = "";
+  if (type == SubscriptionStatus.PENDING) {
+    return (text = "انتظار");
+  } else if (SubscriptionStatus.ACTIVE) {
+    text = "فعّال";
   } else {
     return;
   }

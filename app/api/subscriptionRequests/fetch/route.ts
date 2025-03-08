@@ -9,14 +9,14 @@ export async function GET() {
     const collection = db.collection("users");
 
     // Fetch all pending subscription requests
-    const pendingSubscriptions = await collection
+    const data = await collection
       .find({ "active_subscription.status": SubscriptionStatus.PENDING })
       .toArray();
 
-    console.log("pendingSubscriptions", pendingSubscriptions);
+    console.log("pendingSubscriptions", data);
 
     return NextResponse.json(
-      { message: "تم جلب البيانات بنجاح", pendingSubscriptions }, // Successfully fetched data
+      { message: "تم جلب البيانات بنجاح", data }, // Successfully fetched data
       { status: 200 }
     );
   } catch (error) {

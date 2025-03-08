@@ -25,7 +25,7 @@ export async function GET() {
       .toArray();
 
     // Default structure with 0 values
-    const pendingSubscriptionsAnalysis = {
+    const data = {
       MONTHLY: 0,
       WEEKLY: 0,
     };
@@ -33,14 +33,14 @@ export async function GET() {
     // Populate actual counts from the aggregation
     aggregation.forEach((item) => {
       if (item._id) {
-        pendingSubscriptionsAnalysis[item._id] = item.count;
+        data[item._id] = item.count;
       }
     });
 
     return NextResponse.json(
       {
         message: "تم جلب البيانات بنجاح", // Data fetched successfully
-        pendingSubscriptionsAnalysis,
+        data,
       },
       { status: 200 }
     );

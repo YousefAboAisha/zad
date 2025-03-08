@@ -29,7 +29,7 @@ export async function PUT(
     }
 
     // Construct the update fields dynamically (only include provided values)
-    const updateFields: Record<string, any> = {};
+    const updateFields: Record<string, unknown> = {};
     if (subscription_type)
       updateFields["active_subscription.subscription_type"] = subscription_type;
     if (start_date) updateFields["active_subscription.start_date"] = start_date;
@@ -47,14 +47,14 @@ export async function PUT(
     }
 
     // Update the active subscription details
-    const updatedUser = await collection.findOneAndUpdate(
+    const data = await collection.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(id) }, // Find user by ID
       { $set: updateFields }, // Update operation
       { returnDocument: "after" } // Return updated document
     );
 
     // If user not found
-    if (!updatedUser) {
+    if (!data) {
       return NextResponse.json(
         { error: "User not found or subscription does not exist" },
         { status: 404 }
@@ -62,10 +62,10 @@ export async function PUT(
     }
 
     // Log updated user data
-    console.log("Updated Subscription:", updatedUser);
+    console.log("Updated Subscription:", data);
 
     // ✅ Return success response
-    return NextResponse.json({ success: true, updatedUser }, { status: 200 });
+    return NextResponse.json({ success: true, data }, { status: 200 });
   } catch (error) {
     console.error("Internal Server Error:", error);
     return NextResponse.json(

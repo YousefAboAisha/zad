@@ -1,6 +1,6 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
-import { ObjectId } from "mongodb"; // Import ObjectId from MongoDB
+import { ObjectId } from "mongodb";
 import { getSession } from "@/app/lib/session";
 
 export async function PUT(req: Request) {
@@ -9,69 +9,128 @@ export async function PUT(req: Request) {
     const db = client.db("zad_space");
     const collection = db.collection("users");
 
-    // Parse the request body
+    // Parse request body
     const body = await req.json();
     console.log("Raw Request Body:", body);
 
-    const { name, phoneNumber, profession } = body;
+    const {
+      subscription_id,
+      subscription_type,
+      start_date,
+      end_date,
+      payment_method,
+      notes,
+    } = body;
 
     const session = await getSession();
-    console.log("Session", session);
     const userId = session?.userId;
 
     console.log("Customer user ID", userId);
 
-    if (!userId) {
+    if (!userId || !subscription_id) {
       return NextResponse.json(
-        { error: "المستخدم غير موجود" }, // User not found
+        { error: "المستخدم أو الاشتراك غير موجود" },
         { status: 404 }
       );
     }
 
-    // Convert userId to ObjectId
+    // Convert IDs to ObjectId
     const userIdObject = new ObjectId(userId);
+    const subscriptionIdObject = new ObjectId(subscription_id);
 
-    // Check if the customer exists
+    // Find the user
     const existingUser = await collection.findOne({ _id: userIdObject });
 
     if (!existingUser) {
-      // If the user does not exist, return an error response
       return NextResponse.json(
-        {
-          error: "المستخدم غير موجود",
-        },
+        { error: "المستخدم غير موجود" },
         { status: 404 }
       );
     }
 
-    // Prepare the update object
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const updateFields: any = {};
-    if (name) updateFields.name = name;
-    if (phoneNumber) updateFields.phoneNumber = phoneNumber;
-    if (profession) updateFields.profession = profession;
+    // Find the existing subscription
+    let currentType = "";
+    const subscriptionArrays = [
+      "dailySubscriptions",
+      "weeklySubscriptions",
+      "monthlySubscriptions",
+    ];
+    let existingSubscription = null;
 
-    // Update the user details
+    for (const arrayName of subscriptionArrays) {
+      const found = existingUser[arrayName]?.find(
+        (sub) => sub._id.toString() === subscription_id
+      );
+      if (found) {
+        existingSubscription = found;
+        currentType = arrayName;
+        break;
+      }
+    }
+
+    if (!existingSubscription) {
+      return NextResponse.json(
+        { error: "الاشتراك غير موجود" },
+        { status: 404 }
+      );
+    }
+
+    // Create updated subscription object
+    const updatedSubscription = {
+      ...existingSubscription,
+      subscription_type,
+      start_date,
+      end_date,
+      payment_method,
+      notes,
+      updatedAt: new Date(),
+    };
+
+    // Determine new subscription array
+    let newArrayName = "";
+    if (subscription_type === "DAILY") newArrayName = "dailySubscriptions";
+    else if (subscription_type === "WEEKLY")
+      newArrayName = "weeklySubscriptions";
+    else if (subscription_type === "MONTHLY")
+      newArrayName = "monthlySubscriptions";
+    else {
+      return NextResponse.json(
+        { error: "نوع الاشتراك غير صالح" },
+        { status: 400 }
+      );
+    }
+
+    // Update in database
+    const updateQuery: any = {
+      $set: { active_subscription: updatedSubscription }, // Update active_subscription
+    };
+
+    if (currentType !== newArrayName) {
+      updateQuery.$pull = { [currentType]: { _id: subscriptionIdObject } }; // Remove from old array
+      updateQuery.$push = { [newArrayName]: updatedSubscription }; // Add to new array
+    } else {
+      updateQuery.$set[`${newArrayName}.$[elem]`] = updatedSubscription;
+    }
+
     const result = await collection.updateOne(
       { _id: userIdObject },
-      { $set: updateFields }
+      updateQuery,
+      { arrayFilters: [{ "elem._id": subscriptionIdObject }] } // Ensure correct subscription is updated
     );
 
     if (result.modifiedCount === 0) {
-      // If no fields were updated, return a message
       return NextResponse.json(
-        { message: "لا يوجد تغييرات لتحديثها" },
+        { message: "لم يتم تحديث الاشتراك" },
         { status: 200 }
       );
     }
 
-    // Return the response
     return NextResponse.json(
-      { message: "تم تحديث بيانات المستخدم بنجاح" },
+      { message: "تم تحديث الاشتراك بنجاح", updatedSubscription },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error while updating customer:", error);
-    return NextResponse.json({ error: "خطاً في الخادم" }, { status: 500 });
+    console.error("Error while updating subscription:", error);
+    return NextResponse.json({ error: "خطأ في الخادم" }, { status: 500 });
   }
 }
