@@ -21,57 +21,79 @@ const SubscripersTable = ({ data }: SubscripersTableType) => {
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">الاسم</th>
-            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">البريد الإلكتروني</th>
-            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">رقم الهاتف</th>
-            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">التخصص</th>
-            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">الحالة</th>
-            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-center">العمليات</th>
+            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">
+              الاسم
+            </th>
+            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">
+              البريد الإلكتروني
+            </th>
+            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">
+              رقم الهاتف
+            </th>
+            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">
+              التخصص
+            </th>
+            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-right">
+              الحالة
+            </th>
+            <th className="font-noto_kufi text-sm py-3 px-4 border-b text-center">
+              العمليات
+            </th>
           </tr>
         </thead>
 
         <tbody>
-          {data.map((user, index) => (
-            <tr key={index} className="hover:bg-gray-50">
-              <td className="py-3 px-4 border-b text-right">{user.name}</td>
+          {data && data.length > 0 ? (
+            data?.map((user, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="py-3 px-4 border-b text-right">{user.name}</td>
 
-              <td className="py-3 px-4 border-b text-right">{user.email}</td>
+                <td className="py-3 px-4 border-b text-right">{user.email}</td>
 
-              <td className="py-3 px-4 border-b text-right">
-                {user.phoneNumber}
-              </td>
+                <td className="py-3 px-4 border-b text-right">
+                  {user.phoneNumber}
+                </td>
 
-              <td className="py-3 px-4 border-b text-right">
-                {user.profession}
-              </td>
+                <td className="py-3 px-4 border-b text-right">
+                  {user.profession}
+                </td>
 
-              <td className="py-3 px-4 border-b text-right">
-                <div
-                  className={`text-white rounded-md text-[13px] w-fit p-2 px-4 ${
-                    user.active_subscription?.status ===
-                    SubscriptionStatus.ACTIVE
-                      ? "bg-[green]"
-                      : "bg-[#c0392b]"
-                  }`}
-                >
-                  {subscriptionStausConverter(user.active_subscription?.status)}
-                </div>
-              </td>
+                <td className="py-3 px-4 border-b text-right">
+                  <div
+                    className={`text-white rounded-md text-[13px] w-fit p-2 px-4 ${
+                      user.active_subscription?.status ===
+                      SubscriptionStatus.ACTIVE
+                        ? "bg-[green]"
+                        : "bg-[#c0392b]"
+                    }`}
+                  >
+                    {subscriptionStausConverter(
+                      user.active_subscription?.status
+                    )}
+                  </div>
+                </td>
 
-              <td className="py-3 px-4 border-b text-center">
-                <p
-                  className="cursor-pointer text-sm hover:underline"
-                  title="عرض التفاصيل للمشترك"
-                  onClick={() => {
-                    setIsOpenModal(true);
-                    setUserDetailsData(user); // Pass the clicked user object
-                  }}
-                >
-                  عرض التفاصيل
-                </p>
+                <td className="py-3 px-4 border-b text-center">
+                  <p
+                    className="cursor-pointer text-sm hover:underline"
+                    title="عرض التفاصيل للمشترك"
+                    onClick={() => {
+                      setIsOpenModal(true);
+                      setUserDetailsData(user); // Pass the clicked user object
+                    }}
+                  >
+                    عرض التفاصيل
+                  </p>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={9} className="text-center text-gray-500 py-4 h-40">
+                لا يوجد مشتركون حالية!
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
@@ -79,7 +101,7 @@ const SubscripersTable = ({ data }: SubscripersTableType) => {
         isOpen={isOpenModal}
         setIsOpen={setIsOpenModal}
         zIndex="z-[1000]"
-        containerClassName="lg:w-[30%]"
+        containerClassName="lg:w-[38%]"
       >
         <SubscriperDetails setModal={setIsOpenModal} data={userDetailsData} />
       </Modal>

@@ -23,7 +23,7 @@ const Modal = ({
     // pointer-events-none to hide modal and disable interactions.
     <>
       <div
-        className={`fixed w-full h-full left-0 top-0 duration-300 z-50  ${
+        className={`fixed w-full h-full left-0 top-0 duration-300 z-50 backdrop-blur-sm  ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         } ${bg} ${zIndex} `}
         onClick={() => setIsOpen(false)}

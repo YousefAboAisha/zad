@@ -10,8 +10,8 @@ export const subscriptionTypeConverter = (type: string | undefined) => {
     return (text = "أسبوعي");
   } else if (type == SubscriptionType.MONTHLY) {
     text = "شهري";
-  } else {
-    return;
+  } else if (type == SubscriptionType.DAILY) {
+    text = "يومي";
   }
   return text;
 };
@@ -34,8 +34,8 @@ export const subscriptionStausConverter = (type: string | undefined) => {
     return (text = "انتظار");
   } else if (SubscriptionStatus.ACTIVE) {
     text = "فعّال";
-  } else {
-    return;
+  } else if (SubscriptionStatus.EXPIRED) {
+    text = "مُنتهي";
   }
   return text;
 };
@@ -47,4 +47,18 @@ export const dateFormating = (date: string | number | Date | undefined) => {
     month: "long",
     day: "numeric",
   }).format(new Date(date));
+};
+
+export const timeFormatting = (date: string | number | Date | undefined) => {
+  if (!date) return "";
+
+  const d = new Date(date);
+
+  const formatTime = (date: Date) => {
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  return formatTime(d);
 };

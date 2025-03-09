@@ -15,6 +15,8 @@ const SubscriptionRequests = () => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchTableData = async () => {
+    setLoading(true);
+
     try {
       const response = await fetch("/api/subscriptionRequests/fetch");
       const result = await response.json();
@@ -23,8 +25,10 @@ const SubscriptionRequests = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
+        setLoading(false);
       } else {
         setError(String(error));
+        setLoading(false);
       }
     } finally {
       setLoading(false);
@@ -32,30 +36,33 @@ const SubscriptionRequests = () => {
   };
 
   const subscriptionRequestsAnalysis = async () => {
+    setLoading(true);
     try {
       const response = await fetch("/api/analysis/subscriptionRequests/fetch");
       const result = await response.json();
 
       console.log("analysisData", result);
       setAnalysisData(result.data);
+      setLoading(false);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);
+        setLoading(false);
       } else {
         setError(String(error));
+        setLoading(false);
       }
     }
   };
-
-  useEffect(() => {
-    fetchTableData();
-    subscriptionRequestsAnalysis();
-  }, []);
 
   const refetchData = () => {
     fetchTableData();
     subscriptionRequestsAnalysis();
   };
+
+  useEffect(() => {
+    refetchData();
+  }, []);
 
   const tableContent = () => {
     if (loading)
@@ -72,8 +79,10 @@ const SubscriptionRequests = () => {
           </div>
         </div>
       );
+
     if (error) return <p className="text-red-500">حدث خطأ: {error}</p>;
-    if (tableData && analysisData)
+
+    if (tableData)
       return (
         <div>
           <div className="cards-grid-4">

@@ -2,21 +2,33 @@ import Button from "@/components/UI/inputs/button";
 import Input from "@/components/UI/inputs/input";
 import Heading from "@/components/UI/typography/heading";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import * as Yup from "yup";
 import DatalistInput from "react-datalist-input";
 import "react-datalist-input/dist/styles.css";
 import { FiPlus } from "react-icons/fi";
 import { BiHourglass } from "react-icons/bi";
 
-const AddDailySubscription = () => {
+type AddDailySubscription = {
+  fetchData: () => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+const AddDailySubscription = ({
+  fetchData,
+  setIsOpen,
+}: AddDailySubscription) => {
   const [formErrors, setFormErrors] = useState<string>("");
   const [isDatalistSelected, setIsDatalistSelected] = useState(false);
   const [selectedOption, setSelectedOption] = useState<"existing" | "new">(
     "existing"
   );
+  const [allUsersData, setAllUsersData] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const initialValues = {
+    subscriper_id: "",
     subscriper_name: "",
     new_subscriper_name: "",
     new_subscriper_email: "",
@@ -25,6 +37,10 @@ const AddDailySubscription = () => {
   };
 
   const validationSchema = Yup.object({
+    new_subscriper_id: Yup.string().when("$isDatalistSelected", {
+      is: false,
+      then: (schema) => schema.required("يرجى إدخال اسم المشترك"),
+    }),
     new_subscriper_name: Yup.string().when("$isDatalistSelected", {
       is: false,
       then: (schema) => schema.required("يرجى إدخال اسم المشترك"),
@@ -57,12 +73,12 @@ const AddDailySubscription = () => {
     setFormErrors("");
 
     try {
-      const response = await fetch("/api/subscription/create", {
+      const response = await fetch("/api/dailySubscripers/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...values }),
+        body: JSON.stringify({ userId: values.subscriper_id }),
       });
 
       const data = await response.json();
@@ -74,7 +90,8 @@ const AddDailySubscription = () => {
         return;
       }
 
-      window.location.reload();
+      setIsOpen(false);
+      fetchData();
       console.log("User has been created successfully!", data);
       setSubmitting(false);
     } catch (error) {
@@ -85,6 +102,29 @@ const AddDailySubscription = () => {
       setSubmitting(false);
     }
   };
+
+  const fetchAllSubscripersData = async () => {
+    try {
+      const response = await fetch("/api/users/fetch");
+      const result = await response.json();
+      console.log("Result", result.data);
+      setAllUsersData(result.data);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+        setLoading(false);
+      } else {
+        setError(String(error));
+        setLoading(false);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllSubscripersData();
+  }, []);
 
   return (
     <div className="flex flex-col items-center bg-white p-8">
@@ -103,7 +143,7 @@ const AddDailySubscription = () => {
         context={{ isDatalistSelected }}
       >
         {({ isSubmitting, errors, values, setFieldValue }) => {
-          console.log("subscriper_name", values.subscriper_name);
+          console.log("subscriper_id", values.subscriper_id);
           console.log("setIsDatalistSelected", isDatalistSelected);
 
           return (
@@ -130,33 +170,30 @@ const AddDailySubscription = () => {
               {selectedOption === "existing" && (
                 <div>
                   <DatalistInput
-                    placeholder="مثال: محمد محمود"
-                    label="اختر اسم المشترك"
                     onSelect={(item) => {
-                      setFieldValue("subscriper_name", item.value);
-                      if (item.value.trim() === "") {
-                        setIsDatalistSelected(false);
-                      } else {
-                        setIsDatalistSelected(true);
-                      }
+                      setFieldValue("subscriper_id", item.id);
+                      setIsDatalistSelected(item.value.trim() !== "");
                     }}
-                    items={[
-                      { id: "محمد", value: "محمد" },
-                      { id: "سامي", value: "سامي" },
-                      { id: "محمود", value: "محمود" },
-                      { id: "جهاد", value: "جهاد" },
-                      { id: "هاني", value: "هاني" },
-                    ]}
+                    placeholder={
+                      loading ? "جارٍ جلب البيانات..." : "مثال: محمد محمود"
+                    }
+                    label="اختر اسم المشترك"
+                    items={loading ? [] : allUsersData} // ✅ Prevents focusable items while loading
                     inputProps={{
-                      className:
-                        "h-[56px]  !pr-4 !focus-visible:border-primary",
+                      className: "h-[56px] !pr-4 !focus-visible:border-primary",
+                      disabled: loading, // ✅ Disable while loading
+                      inert: loading, // ✅ Prevents focus inside dropdown while loading
                     }}
                     labelProps={{ className: "!mb-1 block text-[12px]" }}
-                    listboxOptionProps={{ className: "!list-none !p-3" }}
+                    listboxOptionProps={{
+                      className: "!list-none !p-3",
+                      inert: loading, // ✅ Prevents focus inside dropdown while loading
+                    }}
                     highlightProps={{ className: "!bg-primary" }}
                   />
+
                   <ErrorMessage
-                    name="subscriper_name"
+                    name="subscriper_id"
                     component="div"
                     className="text-red-500 mt-2 font-bold text-[12px] focus-visible:"
                   />
