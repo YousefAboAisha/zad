@@ -61,9 +61,6 @@ export async function POST(req: Request) {
         $push: {
           dailySubscriptions: newSubscription,
         },
-        $set: {
-          active_subscription: newSubscription, // Directly set active_subscription
-        },
       }
     );
 

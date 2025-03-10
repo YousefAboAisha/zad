@@ -9,7 +9,11 @@ export async function GET() {
     const collection = db.collection("users");
 
     // Find users who have an active subscription
-    const data = await collection.find({}).toArray();
+    const data = await collection
+      .find(
+        { active_subscription: { $exists: true, $ne: null } } // Only users with a non-null active subscription
+      )
+      .toArray();
 
     console.log("Fetched active subscriptions:", data);
 

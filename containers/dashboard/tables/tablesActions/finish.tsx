@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 type ModalType = {
   setModal: Dispatch<SetStateAction<boolean>>;
   id: string | null;
+  fetchData: () => void;
   data?:
     | DailySubscriptionInterface
     | WeeklySubscriptionInterface
@@ -19,21 +20,24 @@ type ModalType = {
     | undefined;
 };
 
-export const FinishSubscription = ({ setModal, id }: ModalType) => {
+export const FinishSubscription = ({ setModal, id, fetchData }: ModalType) => {
   const [loading, setLoading] = useState<boolean>(false);
   const handleSubscriptionStatus = async () => {
     setLoading(true);
     console.log("The user ID is:", id);
 
     try {
-      const response = await fetch(`/api/subscription/updateStatus/${id}`, {
+      const response = await fetch(`/api/dailySubscripers/update/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: SubscriptionStatus.EXPIRED }),
+        body: JSON.stringify({
+          status: SubscriptionStatus.EXPIRED,
+          end_date: new Date(),
+        }),
       });
 
       const res = await response.json();
-
+      fetchData();
       console.log("Finish status response", res);
       toast.success("تم إنهاء الاشتراك بنجاح!");
       setLoading(false);
@@ -62,7 +66,7 @@ export const FinishSubscription = ({ setModal, id }: ModalType) => {
         <Button
           loading={loading}
           disabled={loading}
-          title="بدء الآن"
+          title="إنهاء"
           className="bg-primary"
           hasShiningBar={false}
           onClick={handleSubscriptionStatus}

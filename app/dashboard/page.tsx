@@ -10,7 +10,14 @@ import TableLoader from "@/containers/dashboard/tables/tableLoader";
 
 const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [tableData, setTableData] = useState<DailySubscriptionInterface[]>([]);
+  const [tableData, setTableData] = useState<
+    (DailySubscriptionInterface & {
+      _id: string;
+      name: string;
+      phoneNumber: string;
+    })[]
+  >([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -96,7 +103,10 @@ const Dashboard = () => {
           />
 
           <div className="mt-12">
-            <DailySubscripersTable data={tableData} />
+            <DailySubscripersTable
+              data={tableData}
+              fetchData={fetchTableData}
+            />
           </div>
         </div>
       );

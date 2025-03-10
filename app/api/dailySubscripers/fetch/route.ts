@@ -1,3 +1,4 @@
+import { DailySubscriptionInterface } from "@/app/interfaces";
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
 
@@ -19,7 +20,7 @@ export async function GET() {
     // Extract dailySubscriptions that match today's date and append the subscriber's name
     const dailySubscriptionsForToday = users.flatMap((user) =>
       user.dailySubscriptions
-        .filter((sub) => {
+        .filter((sub: { start_date: string | number | Date }) => {
           const subDate = new Date(sub.start_date);
           return (
             subDate.getFullYear() === today.getFullYear() &&
@@ -27,8 +28,8 @@ export async function GET() {
             subDate.getDate() === today.getDate()
           );
         })
-        .map((sub) => ({
-          _id: sub._id,
+        .map((sub: DailySubscriptionInterface) => ({
+          _id: user._id,
           subscription_type: sub.subscription_type,
           start_date: sub.start_date,
           end_date: sub.end_date,
@@ -37,7 +38,7 @@ export async function GET() {
           status: sub.status,
           name: user.name,
           phoneNumber: user.phoneNumber, // Append subscriber's name
-          price: 0,
+          price: sub.price,
         }))
     );
 

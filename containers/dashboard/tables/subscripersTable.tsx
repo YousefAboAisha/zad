@@ -61,7 +61,7 @@ const SubscripersTable = ({ data }: SubscripersTableType) => {
                 <td className="py-3 px-4 border-b text-right">
                   <div
                     className={`text-white rounded-md text-[13px] w-fit p-2 px-4 ${
-                      user.active_subscription?.status ===
+                      user.active_subscription?.status ==
                       SubscriptionStatus.ACTIVE
                         ? "bg-[green]"
                         : "bg-[#c0392b]"

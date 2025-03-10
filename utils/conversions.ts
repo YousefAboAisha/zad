@@ -32,9 +32,9 @@ export const subscriptionStausConverter = (type: string | undefined) => {
   let text = "";
   if (type == SubscriptionStatus.PENDING) {
     return (text = "انتظار");
-  } else if (SubscriptionStatus.ACTIVE) {
+  } else if (type == SubscriptionStatus.ACTIVE) {
     text = "فعّال";
-  } else if (SubscriptionStatus.EXPIRED) {
+  } else if (type == SubscriptionStatus.EXPIRED) {
     text = "مُنتهي";
   }
   return text;
