@@ -31,8 +31,29 @@ const Subscripers = () => {
     }
   };
 
+  const subscriptionRequestsAnalysis = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/analysis/subscriptionRequests/fetch");
+      const result = await response.json();
+
+      console.log("analysisData", result);
+      setAnalysisData(result.data);
+      setLoading(false);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message);
+        setLoading(false);
+      } else {
+        setError(String(error));
+        setLoading(false);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchTableData();
+    subscriptionRequestsAnalysis();
   }, []);
 
   const tableContent = () => {

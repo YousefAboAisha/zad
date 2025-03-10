@@ -32,8 +32,9 @@ export async function GET() {
 
     // Populate actual counts from the aggregation
     aggregation.forEach((item) => {
-      if (item._id) {
-        data[item._id] = item.count;
+      const typedItem = item as { _id: "MONTHLY" | "WEEKLY"; count: number };
+      if (typedItem._id) {
+        data[typedItem._id] = typedItem.count;
       }
     });
 

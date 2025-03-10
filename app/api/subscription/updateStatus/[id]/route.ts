@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import clientPromise from "@/app/lib/mongodb";
 
+type Params = Promise<{ id: string }>;
+
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Params } // params is a simple object, not a Promise
 ) {
   try {
     // Connect to MongoDB client
@@ -12,7 +14,7 @@ export async function PUT(
     const db = client.db("zad_space");
     const collection = db.collection("users");
 
-    const { id } = context.params;
+    const { id } = await params; // Extract id from params
     const { status } = await req.json();
 
     // Validate the parameters

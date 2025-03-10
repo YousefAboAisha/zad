@@ -3,7 +3,7 @@ import { UserInterface } from "@/app/interfaces";
 import PageTitles from "@/components/UI/typography/pageTitles";
 import SubscriptionRequestsTable from "@/containers/dashboard/tables/subscriptionRequestsTable";
 import TableLoader from "@/containers/dashboard/tables/tableLoader";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const SubscriptionRequests = () => {
   const [tableData, setTableData] = useState<UserInterface[]>([]);
@@ -55,14 +55,14 @@ const SubscriptionRequests = () => {
     }
   };
 
-  const refetchData = () => {
+  const refetchData = useCallback(() => {
     fetchTableData();
     subscriptionRequestsAnalysis();
-  };
+  }, []);
 
   useEffect(() => {
     refetchData();
-  }, []);
+  }, [refetchData]);
 
   const tableContent = () => {
     if (loading)

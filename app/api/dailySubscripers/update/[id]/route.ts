@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import clientPromise from "@/app/lib/mongodb";
 
+type Params = Promise<{ id: string }>;
+
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Params } // params is a simple object, not a Promise
 ) {
   try {
-    const { id } = context.params;
+    const { id } = await params; // Extract id from params
     const { status, end_date } = await req.json();
 
     // Connect to MongoDB client
