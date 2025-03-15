@@ -1,12 +1,5 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 import { PaymentMethod, SubscriptionStatus, SubscriptionType } from "./enums";
-
-// Base interface for common fields
-export interface BaseSubscriptionInterface extends Document {
-  notes: string;
-  isPaid: boolean;
-  createdAt: Date;
-}
 
 // Define the User interface
 export interface UserInterface extends Document {
@@ -20,40 +13,34 @@ export interface UserInterface extends Document {
   isActive: boolean;
   hasCompleteProfile: boolean;
   createdAt: Date;
-  dailySubscriptions: DailySubscriptionInterface[];
-  weeklySubscriptions: WeeklySubscriptionInterface[];
-  monthlySubscriptions: MonthlySubscriptionInterface[];
-  active_subscription?:
-    | DailySubscriptionInterface
-    | WeeklySubscriptionInterface
-    | MonthlySubscriptionInterface;
+  active_subscription?: SubscriptionInterface;
 }
 
-// Define the DailySubscriptionInterface
-export interface DailySubscriptionInterface extends BaseSubscriptionInterface {
+// Define the Subscription interface
+export interface SubscriptionInterface extends Document {
+  user: Types.ObjectId; // Reference to User
   subscription_type: SubscriptionType;
   status: SubscriptionStatus;
   start_date: Date;
   end_date: Date;
+  payment_method: PaymentMethod;
+  notes: string;
+  isPaid: boolean;
+  createdAt: Date;
   price: number;
-  payment_method: PaymentMethod;
 }
 
-// Define the WeeklySubscriptionInterface
-export interface WeeklySubscriptionInterface extends BaseSubscriptionInterface {
-  subscription_type: SubscriptionType;
-  start_date: Date;
-  end_date: Date;
-  status: SubscriptionStatus;
-  payment_method: PaymentMethod;
+export interface SubscriberData {
+  _id: string;
+  name: string;
+  email: string;
+  phoneNumber: string; // Optional if phone may not always exist
+  profession: string;
 }
 
-// Define the MonthlySubscriptionInterface
-export interface MonthlySubscriptionInterface
-  extends BaseSubscriptionInterface {
-  subscription_type: SubscriptionType;
-  start_date: Date;
-  end_date: Date;
-  status: SubscriptionStatus;
-  payment_method: PaymentMethod;
+export interface SubscriptionRequestsTableInterface {
+  data: (SubscriptionInterface & {
+    user: SubscriberData;
+  })[];
+  fetchData?: () => void;
 }

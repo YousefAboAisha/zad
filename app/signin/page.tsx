@@ -10,6 +10,7 @@ import Heading from "@/components/UI/typography/heading";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_BASE_URL } from "@/config";
 
 const Signin = () => {
   const [formErrors, setFormErrors] = useState<string>("");
@@ -40,7 +41,7 @@ const Signin = () => {
     setFormErrors("");
 
     try {
-      const response = await fetch("/api/users/signin", {
+      const response = await fetch(`${API_BASE_URL}/user/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

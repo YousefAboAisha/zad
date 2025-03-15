@@ -1,5 +1,6 @@
 "use client";
-import { NavbarProps } from "@/components/navbar";
+import { SessionProps } from "@/components/navbar";
+import { API_BASE_URL } from "@/config";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Link from "next/link";
 import { CiEdit, CiLogout, CiUser } from "react-icons/ci";
@@ -7,22 +8,17 @@ import { IoIosArrowDown } from "react-icons/io";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function ProfilePopper({ session }: NavbarProps) {
+function ProfilePopper({ session }: SessionProps) {
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/users/signout", {
+      const response = await fetch(`${API_BASE_URL}/user/signout`, {
         method: "DELETE",
       });
 
       if (!response.ok) {
         throw new Error("Failed to log out");
       }
-
-      // toast.success("تم تسجيل الخروج بنجاح!");
-
-      // setTimeout(() => {
       window.location.reload();
-      // }, 1000);
     } catch (error) {
       console.error("Logout failed:", error);
       toast.error("حدث خطأ أثناء تسجيل الخروج"); // Show error toast

@@ -7,26 +7,19 @@ import { paymentMethodsOptions } from "@/data/paymentMethodsOptions";
 import TextArea from "@/components/UI/inputs/textArea";
 import Heading from "@/components/UI/typography/heading";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import {
-  DailySubscriptionInterface,
-  MonthlySubscriptionInterface,
-  WeeklySubscriptionInterface,
-} from "@/app/interfaces";
+import { SubscriptionInterface } from "@/app/interfaces";
 import { toast } from "react-toastify";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { SubscriptionType } from "@/app/enums";
 import { FiArrowDown } from "react-icons/fi";
 import Button from "@/components/UI/inputs/button";
+import { API_BASE_URL } from "@/config";
 
 type ModalType = {
   setModal: Dispatch<SetStateAction<boolean>>;
   id: string;
   refetch: () => void;
-  data?:
-    | DailySubscriptionInterface
-    | WeeklySubscriptionInterface
-    | MonthlySubscriptionInterface
-    | undefined;
+  data?: SubscriptionInterface | undefined;
 };
 
 export const EditSubscription = ({
@@ -94,13 +87,16 @@ export const EditSubscription = ({
       // Log the form values to verify they are correct
       console.log("Form Values:", values);
 
-      const response = await fetch(`/api/subscription/update/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values), // Ensure values are being sent as JSON
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/admin/subscription/subscriptionRequests/update/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values), // Ensure values are being sent as JSON
+        }
+      );
 
       const data = await response.json();
       console.log("API Response:", data);

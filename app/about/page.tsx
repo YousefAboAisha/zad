@@ -3,7 +3,7 @@ import Biograph from "@/containers/about/biograph";
 import Gallery from "@/containers/about/gallery";
 import Landing from "@/containers/about/landing";
 import Team from "@/containers/about/team";
-import NavbarWrapper from "../navbarWrapper";
+import NavbarWrapper from "../../wrappers/navbarWrapper";
 
 export default function About() {
   return (

@@ -1,9 +1,6 @@
-import {
-  DailySubscriptionInterface,
-  MonthlySubscriptionInterface,
-  WeeklySubscriptionInterface,
-} from "@/app/interfaces";
+import { SubscriptionInterface } from "@/app/interfaces";
 import Button from "@/components/UI/inputs/button";
+import { API_BASE_URL } from "@/config";
 import { Dispatch, SetStateAction, useState } from "react";
 import { BiInfoCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
@@ -12,11 +9,7 @@ type ModalType = {
   setModal: Dispatch<SetStateAction<boolean>>;
   id: string;
   refetch: () => void;
-  data?:
-    | DailySubscriptionInterface
-    | WeeklySubscriptionInterface
-    | MonthlySubscriptionInterface
-    | undefined;
+  data?: SubscriptionInterface | undefined;
 };
 
 export const DeleteSubscription = ({ setModal, id, refetch }: ModalType) => {
@@ -24,13 +17,16 @@ export const DeleteSubscription = ({ setModal, id, refetch }: ModalType) => {
 
   const deleteSubscriptionRequest = async () => {
     setLoading(true);
-    console.log("The user ID is:", id);
+    console.log("The Subscription ID is:", id);
 
     try {
-      const response = await fetch(`/api/subscription/delete/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/admin/subscription/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       const res = await response.json();
 

@@ -8,6 +8,7 @@ const userSchema = new Schema<UserInterface>(
       type: String,
       required: [true, "Name is required and cannot be empty."],
     },
+
     email: {
       type: String,
       required: [true, "Email is required and cannot be empty."],
@@ -15,39 +16,38 @@ const userSchema = new Schema<UserInterface>(
       trim: true, // Remove extra spaces
       lowercase: true, // Convert email to lowercase
     },
+
     password: {
       type: String,
       required: [true, "Password is required and cannot be empty."],
     },
+
     phoneNumber: {
       type: Number,
       required: [true, "Phone number is required and cannot be empty."],
     },
+
     profession: {
       type: String,
       required: [true, "Profession is required and cannot be empty."],
     },
+
     rememberMe: {
       type: Boolean,
       default: false,
     },
+
     isActive: {
       type: Boolean,
       default: false,
     },
+
     hasCompleteProfile: {
       type: Boolean,
       default: false,
     },
-    dailySubscriptions: [
-      { type: Schema.Types.ObjectId, ref: "DailySubscription" },
-    ],
-    weeklySubscriptions: [
-      { type: Schema.Types.ObjectId, ref: "WeeklySubscription" },
-    ],
-    monthlySubscriptions: [
-      { type: Schema.Types.ObjectId, ref: "MonthlySubscription" },
-    ],
+
+    active_subscription: { type: Schema.Types.ObjectId, ref: "Subscription" },
   },
   {
     timestamps: true, // Automatically add `createdAt` and `updatedAt` fields

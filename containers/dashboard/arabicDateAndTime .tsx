@@ -15,7 +15,7 @@ const ArabicDateAndTime = () => {
     }
   }, []);
 
-  if (!date) return null; // Don't render anything until the date is initialized
+  if (!date) return null;
 
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -28,7 +28,7 @@ const ArabicDateAndTime = () => {
   const arabicTime = date.toLocaleTimeString("ar-EG");
 
   return (
-    <div className="flex items-center gap-4 text-lg p-2">
+    <div className="flex items-center gap-4 text-md p-2">
       <p>{arabicDate}</p>
       <p>{arabicTime}</p>
     </div>

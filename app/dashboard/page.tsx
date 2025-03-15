@@ -5,13 +5,14 @@ import AddDailySubscription from "@/containers/dashboard/addDailySubscription";
 import DailySubscripersTable from "@/containers/dashboard/tables/dailySubscripersTable";
 import React, { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
-import { DailySubscriptionInterface } from "../interfaces";
 import TableLoader from "@/containers/dashboard/tables/tableLoader";
+import { SubscriptionInterface } from "../interfaces";
+import { API_BASE_URL } from "@/config";
 
 const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [tableData, setTableData] = useState<
-    (DailySubscriptionInterface & {
+    (SubscriptionInterface & {
       _id: string;
       name: string;
       phoneNumber: string;
@@ -24,10 +25,12 @@ const Dashboard = () => {
   const fetchTableData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/dailySubscripers/fetch");
-      const result = await response.json();
-      console.log("dailySubscripers", result.data);
-      setTableData(result.data);
+      const response = await fetch(
+        `${API_BASE_URL}/admin/subscription/daily/fetch`
+      );
+      const res = await response.json();
+      console.log("dailySubscripers", res.data);
+      setTableData(res.data);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message);

@@ -11,6 +11,7 @@ import Button from "@/components/UI/inputs/button";
 import TextArea from "../../components/UI/inputs/textArea";
 import { paymentMethodsOptions } from "@/data/paymentMethodsOptions";
 import { SubscriptionType } from "@/app/enums";
+import { API_BASE_URL } from "@/config";
 
 const AddSubscription = () => {
   const [formErrors, setFormErrors] = useState<string>("");
@@ -46,7 +47,7 @@ const AddSubscription = () => {
     setFormErrors("");
 
     try {
-      const response = await fetch("/api/subscription/create", {
+      const response = await fetch(`${API_BASE_URL}/user/subscription/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -213,40 +214,6 @@ const AddSubscription = () => {
                   required={false}
                 />
               </div>
-
-              {/* Room ID Field */}
-              {/* <div>
-                <Select
-                  disabled={isSubmitting}
-                  label="رقم الغرفة"
-                  options={RoomsData}
-                  title="اختر الغرفة"
-                  icon={<FiArrowDown />}
-                  value={values.room_id}
-                  onChange={(e) => setFieldValue("room_id", e.target.value)}
-                  className={`focus:border-primary ${
-                    errors.room_id && "!border-[red]"
-                  }`}
-                />
-                <ErrorMessage
-                  name="room_id"
-                  component="div"
-                  className="text-red-500 mt-2 font-bold text-[12px]"
-                />
-              </div> */}
-
-              {/* Seat ID Field */}
-              {/* <div>
-                <SeatsContainer
-                  room_id={Number(values.room_id)}
-                  // setFieldValue={setFieldValue("room_id")}
-                />
-                <ErrorMessage
-                  name="seat_id"
-                  component="div"
-                  className="text-red-500 mt-2 font-bold text-[12px]"
-                />
-              </div> */}
 
               {/* Submit Button */}
               <Button

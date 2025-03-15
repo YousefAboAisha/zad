@@ -1,22 +1,29 @@
 "use client";
-import { UserInterface } from "@/app/interfaces";
+import { SubscriberData, SubscriptionInterface } from "@/app/interfaces";
 import PageTitles from "@/components/UI/typography/pageTitles";
+import { API_BASE_URL } from "@/config";
 import SubscripersTable from "@/containers/dashboard/tables/subscripersTable";
 import TableLoader from "@/containers/dashboard/tables/tableLoader";
 import { useEffect, useState } from "react";
 
 const Subscripers = () => {
-  const [tableData, setTableData] = useState<UserInterface[]>([]);
+  const [tableData, setTableData] = useState<
+    (SubscriptionInterface & { user: SubscriberData })[]
+  >([]);
   const [analysisData, setAnalysisData] = useState<{
-    WEEKLY: number;
-    MONTHLY: number;
+    total: number;
+    ACTIVE: number;
+    PENDING: number;
+    EXPIRED: number;
   } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchTableData = async () => {
     try {
-      const response = await fetch("/api/subscription/fetch");
+      const response = await fetch(
+        `${API_BASE_URL}/admin/subscription/weeklyAndMonthly/fetch`
+      );
       const result = await response.json();
       console.log("Result", result.data);
       setTableData(result.data);
@@ -34,10 +41,12 @@ const Subscripers = () => {
   const subscriptionRequestsAnalysis = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/api/analysis/subscriptionRequests/fetch");
+      const response = await fetch(
+        `${API_BASE_URL}/admin/analysis/allSubscripers/fetch`
+      );
       const result = await response.json();
 
-      console.log("analysisData", result);
+      console.log("analysisData", result.data);
       setAnalysisData(result.data);
       setLoading(false);
     } catch (error: unknown) {
@@ -78,32 +87,32 @@ const Subscripers = () => {
       return (
         <div>
           <div className="cards-grid-4">
-            <div className="relative p-8 bg-primary border rounded-xl flex flex-col items-center justify-center gap-4 text-white">
-              <h4 className="text-xl font-bold text-center">طلبات الانضمام</h4>
-              <h2 className="text-7xl font-semibold">
-                {(analysisData?.WEEKLY ?? 0) + (analysisData?.MONTHLY ?? 0)}
-              </h2>
-            </div>
-
-            <div className="relative p-8 bg-blue border rounded-xl flex flex-col items-center justify-center gap-4 text-white">
-              <h4 className="text-xl font-bold text-center">الأسبوعية</h4>
-
-              <h2 className="text-7xl font-semibold">
-                {analysisData?.WEEKLY ?? 0}
-              </h2>
-            </div>
-
             <div className="relative p-8 bg-secondary border rounded-xl flex flex-col items-center justify-center gap-4 text-white">
-              <h4 className="text-xl font-bold text-center">الشهرية</h4>
+              <h4 className="text-xl font-bold text-center">كافة الاشتراكات</h4>
+              <h2 className="text-7xl font-semibold">{analysisData?.total}</h2>
+            </div>
+
+            <div className="relative p-8 bg-[#f39c12] border rounded-xl flex flex-col items-center justify-center gap-4 text-white">
+              <h4 className="text-xl font-bold text-center">المنتظرة</h4>
 
               <h2 className="text-7xl font-semibold">
-                {analysisData?.MONTHLY ?? 0}
+                {analysisData?.PENDING ?? 0}
               </h2>
             </div>
 
             <div className="relative p-8 bg-[green] border rounded-xl flex flex-col items-center justify-center gap-4 text-white">
-              <h4 className="text-xl font-bold text-center">المقاعد المتاحة</h4>
-              <h2 className="text-7xl font-semibold">7</h2>
+              <h4 className="text-xl font-bold text-center">الفعالة</h4>
+
+              <h2 className="text-7xl font-semibold">
+                {analysisData?.ACTIVE ?? 0}
+              </h2>
+            </div>
+
+            <div className="relative p-8 bg-[#c0392b] border rounded-xl flex flex-col items-center justify-center gap-4 text-white">
+              <h4 className="text-xl font-bold text-center">المنتهية</h4>
+              <h2 className="text-7xl font-semibold">
+                {analysisData?.EXPIRED ?? 0}
+              </h2>
             </div>
           </div>
 

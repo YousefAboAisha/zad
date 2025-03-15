@@ -9,6 +9,7 @@ import Heading from "@/components/UI/typography/heading";
 import Link from "next/link";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import { API_BASE_URL } from "@/config";
 
 const Signup = () => {
   const [formErrors, setFormErrors] = useState<string>("");
@@ -55,7 +56,7 @@ const Signup = () => {
       // Log the form values to verify they are correct
       console.log("Form Values:", values);
 
-      const response = await fetch("/api/users/create", {
+      const response = await fetch(`${API_BASE_URL}/user/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

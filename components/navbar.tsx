@@ -11,15 +11,16 @@ import Button from "./UI/inputs/button";
 import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
 
-export interface NavbarProps {
+export interface SessionProps {
   session?: {
     userId: string;
-    expiresAt: Date;
+    name: string;
     email: string;
+    expiresAt: Date;
   } | null;
 }
 
-const Navbar = ({ session }: NavbarProps) => {
+const Navbar = ({ session }: SessionProps) => {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const pathname = usePathname();
 

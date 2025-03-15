@@ -8,6 +8,7 @@ import DatalistInput from "react-datalist-input";
 import "react-datalist-input/dist/styles.css";
 import { FiPlus } from "react-icons/fi";
 import { BiHourglass } from "react-icons/bi";
+import { API_BASE_URL } from "@/config";
 
 type AddDailySubscription = {
   fetchData: () => void;
@@ -73,13 +74,16 @@ const AddDailySubscription = ({
     setFormErrors("");
 
     try {
-      const response = await fetch("/api/dailySubscripers/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: values.subscriper_id }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/admin/subscription/daily/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: values.subscriper_id }),
+        }
+      );
 
       const data = await response.json();
       console.log("Data Object is:", data);
@@ -105,9 +109,10 @@ const AddDailySubscription = ({
 
   const fetchAllSubscripersData = async () => {
     try {
-      const response = await fetch("/api/users/fetch");
+      const response = await fetch(`${API_BASE_URL}/admin/users/fetch`);
       const result = await response.json();
-      console.log("Result", result.data);
+
+      console.log("[Users Data]: ", result.data);
       setAllUsersData(result.data);
     } catch (error: unknown) {
       if (error instanceof Error) {

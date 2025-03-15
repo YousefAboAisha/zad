@@ -1,8 +1,6 @@
 import {
-  DailySubscriptionInterface,
-  MonthlySubscriptionInterface,
-  UserInterface,
-  WeeklySubscriptionInterface,
+  SubscriptionInterface,
+  SubscriptionRequestsTableInterface,
 } from "@/app/interfaces";
 import Modal from "@/components/UI/modals/modal";
 import {
@@ -19,23 +17,15 @@ import { EditSubscription } from "./tablesActions/edit";
 import { DeleteSubscription } from "./tablesActions/delete";
 import { FiCheck, FiEdit3, FiTrash } from "react-icons/fi";
 
-type SubscriptionRequestsTableType = {
-  data: UserInterface[];
-  fetchData: () => void;
-};
-
 const SubscriptionRequestsTable = ({
   data,
   fetchData,
-}: SubscriptionRequestsTableType) => {
+}: SubscriptionRequestsTableInterface) => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [modalName, setModalName] = useState<"approve" | "edit" | "delete">();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [activeSubscriptionData, setActiveSubscriptionData] = useState<
-    | DailySubscriptionInterface
-    | WeeklySubscriptionInterface
-    | MonthlySubscriptionInterface
-    | undefined
+    SubscriptionInterface | undefined
   >();
 
   const renderredModal = () => {
@@ -45,7 +35,7 @@ const SubscriptionRequestsTable = ({
         <ApproveSubscription
           setModal={setIsOpenModal}
           id={selectedId}
-          refetch={fetchData}
+          refetch={fetchData!}
         />
       );
     if (modalName === "edit")
@@ -53,7 +43,7 @@ const SubscriptionRequestsTable = ({
         <EditSubscription
           setModal={setIsOpenModal}
           id={selectedId}
-          refetch={fetchData}
+          refetch={fetchData!}
           data={activeSubscriptionData}
         />
       );
@@ -62,7 +52,7 @@ const SubscriptionRequestsTable = ({
         <DeleteSubscription
           setModal={setIsOpenModal}
           id={selectedId}
-          refetch={fetchData}
+          refetch={fetchData!}
         />
       );
   };
@@ -85,31 +75,31 @@ const SubscriptionRequestsTable = ({
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               الاسم
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               البريد الإلكتروني
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               رقم الهاتف
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               التخصص
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               نوع الاشتراك
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               تاريخ البدء
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               تاريخ الانتهاء
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               طريقة الدفع
             </th>
-            <th className=" font-noto_kufi text-sm py-3 px-4 border-b text-right">
+            <th className="font-noto_kufi text-[12px] py-3 px-4 border-b text-right">
               العمليات
             </th>
           </tr>
@@ -117,45 +107,40 @@ const SubscriptionRequestsTable = ({
 
         <tbody className="w-full">
           {data && data.length > 0 ? (
-            data.map((user, index) => (
+            data.map((elem, index) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="text-sm py-3 px-4 border-b text-right">
-                  {user.name}
+                  {elem.user.name}
                 </td>
                 <td className="text-sm py-3 px-4 border-b text-right">
-                  {user.email}
+                  {elem.user.email}
                 </td>
                 <td className="text-sm py-3 px-4 border-b text-right">
-                  {user.phoneNumber}
+                  {elem?.user.phoneNumber}
                 </td>
                 <td className="text-sm py-3 px-4 border-b text-right">
-                  {user.profession}
+                  {elem.user.profession}
                 </td>
                 <td className={`text-sm py-3 px-4 border-b`}>
                   <div
                     className={`text-center text-white rounded-md text-[12px] w-fit p-2 px-4 ${
-                      user.active_subscription?.subscription_type ===
-                      SubscriptionType.MONTHLY
+                      elem?.subscription_type === SubscriptionType.MONTHLY
                         ? "bg-secondary"
                         : "bg-blue"
                     }`}
                   >
-                    {subscriptionTypeConverter(
-                      user.active_subscription?.subscription_type
-                    )}
+                    {subscriptionTypeConverter(elem?.subscription_type)}
                   </div>
                 </td>
                 <td className="text-sm py-3 px-4 border-b text-right">
-                  {dateFormating(user.active_subscription?.start_date)}
+                  {dateFormating(elem?.start_date)}
                 </td>
                 <td className="text-sm py-3 px-4 border-b text-right">
-                  {dateFormating(user.active_subscription?.end_date)}
+                  {dateFormating(elem?.end_date)}
                 </td>
 
                 <td className="text-sm py-3 px-4 border-b text-center">
-                  {paymentMethodConverter(
-                    user.active_subscription?.payment_method
-                  )}
+                  {paymentMethodConverter(elem?.payment_method)}
                 </td>
 
                 <td className="text-sm py-3 px-4 border-b text-right">
@@ -167,7 +152,7 @@ const SubscriptionRequestsTable = ({
                       onClick={() => {
                         setIsOpenModal(true);
                         setModalName("approve");
-                        setSelectedId(user._id as string);
+                        setSelectedId(elem?._id as string);
                       }}
                     />
                     <FiEdit3
@@ -177,8 +162,8 @@ const SubscriptionRequestsTable = ({
                       onClick={() => {
                         setIsOpenModal(true);
                         setModalName("edit");
-                        setSelectedId(user._id as string);
-                        setActiveSubscriptionData(user.active_subscription);
+                        setSelectedId(elem._id as string);
+                        setActiveSubscriptionData(elem);
                       }}
                     />
                     <FiTrash
@@ -188,7 +173,7 @@ const SubscriptionRequestsTable = ({
                       onClick={() => {
                         setIsOpenModal(true);
                         setModalName("delete");
-                        setSelectedId(user._id as string);
+                        setSelectedId(elem._id as string);
                       }}
                     />
                   </div>

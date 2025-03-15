@@ -1,10 +1,7 @@
 import { SubscriptionStatus } from "@/app/enums";
-import {
-  DailySubscriptionInterface,
-  MonthlySubscriptionInterface,
-  WeeklySubscriptionInterface,
-} from "@/app/interfaces";
+import { SubscriptionInterface } from "@/app/interfaces";
 import Button from "@/components/UI/inputs/button";
+import { API_BASE_URL } from "@/config";
 import { Dispatch, SetStateAction, useState } from "react";
 import { BiInfoCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
@@ -13,21 +10,19 @@ type ModalType = {
   setModal: Dispatch<SetStateAction<boolean>>;
   id: string | null;
   fetchData: () => void;
-  data?:
-    | DailySubscriptionInterface
-    | WeeklySubscriptionInterface
-    | MonthlySubscriptionInterface
-    | undefined;
+  data?: SubscriptionInterface | undefined;
 };
 
 export const FinishSubscription = ({ setModal, id, fetchData }: ModalType) => {
   const [loading, setLoading] = useState<boolean>(false);
+  console.log("[Subscription ID - Finish]: ", id);
+
   const handleSubscriptionStatus = async () => {
     setLoading(true);
-    console.log("The user ID is:", id);
+    console.log("The Subscription ID is:", id);
 
     try {
-      const response = await fetch(`/api/dailySubscripers/update/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/admin/subscription/daily/update/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

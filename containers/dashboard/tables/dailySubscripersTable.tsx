@@ -1,5 +1,4 @@
 import { SubscriptionStatus } from "@/app/enums";
-import { DailySubscriptionInterface } from "@/app/interfaces";
 import Modal from "@/components/UI/modals/modal";
 import {
   subscriptionStausConverter,
@@ -8,10 +7,10 @@ import {
 import React, { useState } from "react";
 import { FiCheck, FiEdit3 } from "react-icons/fi";
 import { FinishSubscription } from "./tablesActions/finish";
-// import { DeleteSubscription } from "./tablesActions/delete";
+import { SubscriptionInterface } from "@/app/interfaces";
 
 export type DailySubscribersTableType = {
-  data: (DailySubscriptionInterface & {
+  data: (SubscriptionInterface & {
     _id: string;
     name: string;
     phoneNumber: string;
@@ -27,6 +26,7 @@ const DailySubscripersTable = ({
   const [modalName, setModalName] = useState<"finish" | "edit" | "delete">();
   const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
   console.log("Retrieved Data", data);
+  console.log("[Subscription ID] ", subscriptionId);
 
   const renderredModal = () => {
     if (modalName == "finish") {
@@ -74,62 +74,63 @@ const DailySubscripersTable = ({
 
         <tbody>
           {data && data.length > 0 ? (
-            data.map((user, index) => (
+            data.map((sub, index) => (
               <tr key={index} className="hover:bg-gray-50">
                 <td className="py-3 px-4 border-b text-right text-sm">
-                  {user.name}
+                  {sub.name}
                 </td>
 
                 <td className="py-3 px-4 border-b text-right text-sm">
-                  {user.phoneNumber}
+                  {sub.phoneNumber}
                 </td>
 
                 <td className="py-3 px-4 border-b text-right text-sm">
-                  {timeFormatting(user.start_date)}
+                  {timeFormatting(sub.start_date)}
                 </td>
 
                 <td className="py-3 px-4 border-b text-right text-sm">
-                  {user.end_date == null ? "-" : timeFormatting(user.end_date)}
+                  {sub.end_date == null ? "-" : timeFormatting(sub.end_date)}
                 </td>
 
                 <td className="py-3 px-4 border-b text-right text-sm">
-                  {user?.price} شيكل
+                  {sub?.price} شيكل
                 </td>
 
                 <td className="py-3 px-4 border-b text-right text-sm">
                   <div
                     className={`text-white rounded-md text-[13px] w-fit p-2 px-4 ${
-                      user.status === SubscriptionStatus.ACTIVE
+                      sub.status === SubscriptionStatus.ACTIVE
                         ? "bg-[green]"
                         : "bg-[#c0392b]"
                     }`}
                   >
-                    {subscriptionStausConverter(user?.status)}
+                    {subscriptionStausConverter(sub?.status)}
                   </div>
                 </td>
-
                 <td className="py-3 px-4 border-b text-right text-sm">
-                  <div className="flex users-center gap-3">
-                    <FiCheck
-                      size={22}
-                      className="text-[green] cursor-pointer"
-                      title="إنهاء الحجز"
-                      onClick={() => {
-                        setIsOpenModal(true);
-                        setSubscriptionId(user._id);
-                        setModalName("finish");
-                      }}
-                    />
-                    <FiEdit3
-                      size={18}
-                      className="cursor-pointer"
-                      title="تعديل الحجز"
-                      onClick={() => {
-                        setIsOpenModal(true);
-                        setModalName("edit");
-                      }}
-                    />
-                  </div>
+                  {!(sub?.status == SubscriptionStatus.EXPIRED) && (
+                    <div className="flex users-center gap-3">
+                      <FiCheck
+                        size={22}
+                        className="text-[green] cursor-pointer"
+                        title="إنهاء الحجز"
+                        onClick={() => {
+                          setIsOpenModal(true);
+                          setSubscriptionId(sub._id);
+                          setModalName("finish");
+                        }}
+                      />
+                      <FiEdit3
+                        size={18}
+                        className="cursor-pointer"
+                        title="تعديل الحجز"
+                        onClick={() => {
+                          setIsOpenModal(true);
+                          setModalName("edit");
+                        }}
+                      />
+                    </div>
+                  )}
                 </td>
               </tr>
             ))
