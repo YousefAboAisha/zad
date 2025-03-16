@@ -1,5 +1,6 @@
 import { Schema, model, models } from "mongoose";
 import { UserInterface } from "@/app/interfaces";
+import { Role } from "../enums";
 
 // Define the User schema
 const userSchema = new Schema<UserInterface>(
@@ -46,8 +47,13 @@ const userSchema = new Schema<UserInterface>(
       type: Boolean,
       default: false,
     },
-
     active_subscription: { type: Schema.Types.ObjectId, ref: "Subscription" },
+    role: {
+      type: String,
+      enum: Object.values(Role),
+      required: true,
+      default: Role.USER,
+    },
   },
   {
     timestamps: true, // Automatically add `createdAt` and `updatedAt` fields

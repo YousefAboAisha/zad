@@ -10,12 +10,14 @@ import logo from "@/public/zad-logo.svg";
 import Button from "./UI/inputs/button";
 import ProfilePopper from "./UI/modals/profilePopper";
 import { FiUser } from "react-icons/fi";
+import { Role } from "@/app/enums";
 
 export interface SessionProps {
   session?: {
     userId: string;
     name: string;
     email: string;
+    role: Role;
     expiresAt: Date;
   } | null;
 }
@@ -76,9 +78,9 @@ const Navbar = ({ session }: SessionProps) => {
                 hasShiningBar={false}
               />
             </Link>
-          ) : (
+          ) : session?.role == Role.USER ? (
             <ProfilePopper session={session} />
-          )}
+          ) : null}
 
           {/* Routes */}
           <div className="hidden md:flex gap-6 mr-4">{renderedRoutes}</div>

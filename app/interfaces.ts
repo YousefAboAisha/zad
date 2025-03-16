@@ -1,5 +1,10 @@
 import { Document, Types } from "mongoose";
-import { PaymentMethod, SubscriptionStatus, SubscriptionType } from "./enums";
+import {
+  PaymentMethod,
+  Role,
+  SubscriptionStatus,
+  SubscriptionType,
+} from "./enums";
 
 // Define the User interface
 export interface UserInterface extends Document {
@@ -14,6 +19,7 @@ export interface UserInterface extends Document {
   hasCompleteProfile: boolean;
   createdAt: Date;
   active_subscription?: SubscriptionInterface;
+  role: Role;
 }
 
 // Define the Subscription interface

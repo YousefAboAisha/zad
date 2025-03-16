@@ -14,3 +14,8 @@ export enum PaymentMethod {
   BOP = "BOP",
   CASH = "CASH",
 }
+
+export enum Role {
+  USER = "USER",
+  ADMIN = "ADMIN",
+}

@@ -11,49 +11,43 @@ export async function POST(req: Request) {
 
     // Parse the request body
     const body = await req.json();
-    const { email, password, rememberMe, _id } = body;
+    const { email, password, rememberMe } = body;
 
-    console.log("Sign-in Request Body:", { email, password, rememberMe, _id });
+    console.log("Sign-in Request Body:", { email, password, rememberMe });
 
-    // Check if the customer exists
-    const customer = await collection.findOne({ email });
+    // Check if the user exists
+    const user = await collection.findOne({ email });
 
-    if (!customer) {
-      // If the customer does not exist, return an error
+    if (!user) {
       return NextResponse.json(
-        { error: "البريد الالكتروني غير مُسجل، قم بالانضمام إلينا أولاً" }, // Email not registered
+        { error: "البريد الالكتروني غير مُسجل، قم بالانضمام إلينا أولاً" },
         { status: 404 }
       );
     }
 
     // Verify the password
-    const isPasswordValid = await bcrypt.compare(password, customer.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      // If the password is invalid, return an error
       return NextResponse.json(
-        { error: "الرجاء التأكد من كلمة المرور" }, // Incorrect password
+        { error: "الرجاء التأكد من كلمة المرور" },
         { status: 401 }
       );
     }
 
-    // If the email and password are valid, return the customer's object
-    // Exclude sensitive data like the password before sending the response
-
+    // Extract necessary user data, including role
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password: _, ...customerData } = customer;
+    const { password: _, name, role, ...userData } = user;
 
-    await createSession(customer._id.toString(), email);
+    // Create session with role from the database, not request body
+    await createSession(user._id.toString(), name, email, role);
 
     return NextResponse.json(
-      { message: "تم تسجيل الدخول بنجاح", customer: customerData }, // Sign-in successful
+      { message: "تم تسجيل الدخول بنجاح", user: userData },
       { status: 200 }
     );
   } catch (error) {
     console.error("Error during sign-in:", error);
-    return NextResponse.json(
-      { error: "خطأ في الخادم" }, // Server error
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "خطأ في الخادم" }, { status: 500 });
   }
 }

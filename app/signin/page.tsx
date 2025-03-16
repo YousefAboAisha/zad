@@ -94,7 +94,7 @@ const Signin = () => {
         theme="light"
       />
 
-      <div className="w-11/12 md:w-7/12 lg:w-5/12 border p-8 rounded-3xl shadow-sm bg-white mt-40">
+      <div className="w-11/12 md:w-7/12 lg:w-[35%] border p-8 rounded-3xl shadow-sm bg-white mt-40">
         <Heading
           title="تسجيل الدخول"
           highlightColor="before:bg-primary"

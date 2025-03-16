@@ -10,20 +10,21 @@ import Heading from "@/components/UI/typography/heading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { LiaUserLockSolid } from "react-icons/lia";
+import { API_BASE_URL } from "@/config";
 
 const Admin = () => {
   const [formErrors, setFormErrors] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const validationSchema = Yup.object({
-    username: Yup.string().required("يرجى إدخال البريد الإلكتروني"),
+    email: Yup.string().required("يرجى إدخال البريد الإلكتروني"),
     password: Yup.string()
       .min(6, "كلمة المرور يجب أن تكون 6 أحرف على الأقل")
       .required("يرجى إدخال كلمة المرور"),
   });
 
   const initialValues = {
-    username: "",
+    email: "",
     password: "",
   };
 
@@ -38,7 +39,7 @@ const Admin = () => {
     setFormErrors("");
 
     try {
-      const response = await fetch("/api/users/signin", {
+      const response = await fetch(`${API_BASE_URL}/admin/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +61,7 @@ const Admin = () => {
 
       // Redirect to profile after a short delay
       setTimeout(() => {
-        window.location.href = "/profile";
+        window.location.href = "/admin/dashboard";
       }, 1000);
 
       console.log("User has been created successfully!", data);
@@ -91,14 +92,16 @@ const Admin = () => {
         theme="light"
       />
 
-      <div className="lg:min-w-[600px] w-[90%] md:w-[70%] lg:w-[40%] border p-8 rounded-3xl shadow-sm bg-white mt-40">
-        <div className="flex justify-center">
+      <div className="w-11/12 md:w-7/12 lg:w-[35%] border p-8 rounded-3xl shadow-sm bg-white mt-40">
+        <div className="flex flex-col justify-center items-center mb-8">
           <Heading
-            title=""
-            highLightText="تسجيل الدخول"
-            highlightColor="before:bg-primary"
-            className="!text-2xl mb-8"
+            title="تسجيل الدخول"
+            highlightColor="before:bg-secondary"
+            className="!text-2xl"
           />
+          <p className="text-[12px] mt-2 text-secondary">
+            &quot;لوحة التحكم&quot;
+          </p>
         </div>
 
         <Formik
@@ -112,18 +115,18 @@ const Admin = () => {
               <div>
                 <Field
                   disabled={isSubmitting}
-                  name="username"
+                  name="email"
                   as={Input}
                   type="text"
                   placeholder="اسم المستخدم"
                   label="اسم المستخدم"
                   icon={LiaUserLockSolid}
-                  className={`focus:border-primary`}
+                  className={`focus:border-secondary`}
                   aria-label="اسم المستخدم"
-                  aria-invalid={!!errors.username}
+                  aria-invalid={!!errors.email}
                 />
                 <ErrorMessage
-                  name="username"
+                  name="email"
                   component="div"
                   className="text-red-500 mt-2 font-bold text-[12px]"
                 />
@@ -139,7 +142,7 @@ const Admin = () => {
                   placeholder="كلمة المرور"
                   label="كلمة المرور"
                   icon={BiKey}
-                  className={`focus:border-primary`}
+                  className={`focus:border-secondary`}
                   aria-label="كلمة المرور"
                   aria-invalid={!!errors.password}
                 />
@@ -168,7 +171,7 @@ const Admin = () => {
               <Button
                 title={"تسجيل الدخول"}
                 type="submit"
-                className="bg-primary w-full"
+                className="bg-secondary w-full"
                 icon={<PiSignIn size={22} className="rotate-180" />}
                 loading={isSubmitting}
                 disabled={isSubmitting}

@@ -3,6 +3,7 @@ import User from "@/app/models/user";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { createSession } from "@/app/lib/session";
+import { Role } from "@/app/enums";
 
 export async function POST(req: Request) {
   try {
@@ -34,6 +35,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user using Mongoose
+    const userRole = Role.USER;
     const user = new User({
       name,
       email,
@@ -41,12 +43,13 @@ export async function POST(req: Request) {
       phoneNumber,
       profession,
       leasingType,
+      role: userRole,
     });
 
     console.log("New User has been created:", user);
 
     await collection.insertOne(user);
-    await createSession(user._id.toString(), name, email);
+    await createSession(user._id.toString(), name, email, userRole);
 
     // Return the response
     return NextResponse.json(

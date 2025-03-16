@@ -6,8 +6,8 @@ import DailySubscripersTable from "@/containers/dashboard/tables/dailySubscriper
 import React, { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
 import TableLoader from "@/containers/dashboard/tables/tableLoader";
-import { SubscriptionInterface } from "../interfaces";
 import { API_BASE_URL } from "@/config";
+import { SubscriptionInterface } from "@/app/interfaces";
 
 const Dashboard = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);

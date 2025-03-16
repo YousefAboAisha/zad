@@ -64,13 +64,6 @@ export async function GET() {
       ])
       .toArray();
 
-    if (!subscriptions.length) {
-      return NextResponse.json(
-        { message: "لا يوجد اشتراكات متاحة", data: [] }, // No subscriptions found
-        { status: 404 }
-      );
-    }
-
     return NextResponse.json(
       { message: "تم جلب الاشتراكات", data: subscriptions },
       { status: 200 }

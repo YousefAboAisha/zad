@@ -1,6 +1,5 @@
 import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
-import { getSession } from "@/app/lib/session";
 import { ObjectId } from "mongodb";
 import {
   PaymentMethod,
