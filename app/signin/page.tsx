@@ -72,7 +72,7 @@ const Signin = () => {
       setSubmitting(false);
       setFormErrors((error as Error).message);
       toast.error("حدث خطأ أثناء تسجيل الدخول"); // Show error toast
-      console.error("Error creating user", error);
+      console.error("Error while signing in", error);
     } finally {
       setSubmitting(false);
     }
