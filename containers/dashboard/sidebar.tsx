@@ -1,36 +1,40 @@
 "use client";
+import { SessionProps } from "@/components/navbar";
 import { API_BASE_URL } from "@/config";
 import logo from "@/public/zad-logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Import usePathname
-import {
-  FiBarChart2,
-  FiGitPullRequest,
-  FiHome,
-  FiLogOut,
-  FiUsers,
-} from "react-icons/fi";
+import { useState } from "react";
+import { AiOutlineLoading3Quarters, AiOutlinePoweroff } from "react-icons/ai";
+import { FiBarChart2, FiGitPullRequest, FiHome, FiUsers } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Sidebar = () => {
+const Sidebar = ({ session }: SessionProps) => {
   const pathname = usePathname(); // Get the current route
+
+  const [loading, setLoading] = useState<boolean>(false);
+
   const handleLogout = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/user/signout`, {
         method: "DELETE",
       });
 
       if (!response.ok) {
+        setLoading(false);
         throw new Error("Failed to log out");
       }
       window.location.reload();
     } catch (error) {
+      setLoading(false);
       console.error("Logout failed:", error);
       toast.error("حدث خطأ أثناء تسجيل الخروج"); // Show error toast
     }
   };
+
   return (
     <div className="bg-white border border-l h-full fixed w-[17%]">
       <ToastContainer
@@ -115,11 +119,24 @@ const Sidebar = () => {
         </ul>
 
         <div
-          onClick={() => handleLogout()}
-          className="mt-40 cursor-pointer duration-100 p-3 gap-2 rounded-lg flex items-center lg:justify-normal justify-center text-[red] border border-[red] w-fit "
+          className={`mt-40 p-3 w-full rounded-lg flex items-center lg:justify-between justify-center gap-2 border`}
         >
-          <p className="hidden lg:block text-[13px]"> تسجيل الخروج</p>
-          <FiLogOut size={18} className="rotate-180" />
+          <p className="hidden lg:block text-sm">
+            {loading ? "جارٍ تسجيل الخروج..." : session?.name}
+          </p>
+          <div
+            onClick={() => handleLogout()}
+            className="p-2 rounded-full cursor-pointer border scale-90 hover:scale-100 duration-300"
+          >
+            {loading ? (
+              <AiOutlineLoading3Quarters
+                size={22}
+                className="animate-spin text-[red]"
+              />
+            ) : (
+              <AiOutlinePoweroff size={22} className="text-[red] " />
+            )}
+          </div>
         </div>
       </div>
     </div>

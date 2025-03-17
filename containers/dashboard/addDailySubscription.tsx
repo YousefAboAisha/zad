@@ -30,35 +30,34 @@ const AddDailySubscription = ({
 
   const initialValues = {
     subscriper_id: "",
-    subscriper_name: "",
-    new_subscriper_name: "",
-    new_subscriper_email: "",
-    new_subscriper_phoneNumber: "",
-    new_subscriper_profession: "",
+    name: "",
+    email: "",
+    phoneNumber: "",
+    profession: "",
   };
 
-  const validationSchema = Yup.object({
-    new_subscriper_id: Yup.string().when("$isDatalistSelected", {
-      is: false,
+  const validationSchema = Yup.object().shape({
+    subscriper_id: Yup.string().when("selectedOption", {
+      is: "existing",
+      then: (schema) => schema.required("يرجى تحديد المشترك"),
+    }),
+    name: Yup.string().when("selectedOption", {
+      is: "new",
       then: (schema) => schema.required("يرجى إدخال اسم المشترك"),
     }),
-    new_subscriper_name: Yup.string().when("$isDatalistSelected", {
-      is: false,
-      then: (schema) => schema.required("يرجى إدخال اسم المشترك"),
-    }),
-    new_subscriper_email: Yup.string().when("$isDatalistSelected", {
-      is: false,
+    email: Yup.string().when("selectedOption", {
+      is: "new",
       then: (schema) =>
         schema
           .email("يرجى إدخال بريد إلكتروني صحيح")
           .required("يرجى إدخال البريد الإلكتروني"),
     }),
-    new_subscriper_phoneNumber: Yup.string().when("$isDatalistSelected", {
-      is: false,
+    phoneNumber: Yup.string().when("selectedOption", {
+      is: "new",
       then: (schema) => schema.required("يرجى إدخال رقم الهاتف"),
     }),
-    new_subscriper_profession: Yup.string().when("$isDatalistSelected", {
-      is: false,
+    profession: Yup.string().when("selectedOption", {
+      is: "new",
       then: (schema) => schema.required("يرجى إدخال التخصص"),
     }),
   });
@@ -67,41 +66,52 @@ const AddDailySubscription = ({
     values: typeof initialValues,
     {
       setSubmitting,
-    }: {
-      setSubmitting: (isSubmitting: boolean) => void;
-    }
+      resetForm,
+    }: { setSubmitting: (isSubmitting: boolean) => void; resetForm: () => void }
   ) => {
     setFormErrors("");
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/admin/subscription/daily/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId: values.subscriper_id }),
-        }
-      );
+      let payload;
+      let endpoint;
+
+      if (selectedOption === "existing") {
+        payload = { userId: values.subscriper_id };
+        endpoint = "/admin/subscription/daily/create";
+      } else {
+        payload = {
+          name: values.name,
+          email: values.email,
+          phoneNumber: values.phoneNumber,
+          profession: values.profession,
+        };
+        endpoint = "/admin/users/create";
+      }
+
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
       const data = await response.json();
       console.log("Data Object is:", data);
 
       if (!response.ok) {
         setFormErrors(data.error);
-        console.log("Sign in Error:", data.error);
         return;
       }
-
-      setIsOpen(false);
+      resetForm();
+      setSelectedOption("existing");
+      fetchAllSubscripersData();
       fetchData();
-      console.log("User has been created successfully!", data);
-      setSubmitting(false);
+      if (selectedOption === "existing") setIsOpen(false);
+      console.log("Subscription created successfully!", data);
     } catch (error) {
-      setSubmitting(false);
       setFormErrors((error as Error).message);
-      console.error("Error creating user", error);
+      console.error("Error creating subscription", error);
     } finally {
       setSubmitting(false);
     }
@@ -145,11 +155,12 @@ const AddDailySubscription = ({
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        context={{ isDatalistSelected }}
+        context={{ selectedOption }}
       >
         {({ isSubmitting, errors, values, setFieldValue }) => {
           console.log("subscriper_id", values.subscriper_id);
           console.log("setIsDatalistSelected", isDatalistSelected);
+          console.log("[Form values]: ", values);
 
           return (
             <Form className="w-full flex flex-col gap-4">
@@ -172,7 +183,7 @@ const AddDailySubscription = ({
                 </p>
               </div>
 
-              {selectedOption === "existing" && (
+              {selectedOption === "existing" ? (
                 <div>
                   <DatalistInput
                     onSelect={(item) => {
@@ -203,24 +214,24 @@ const AddDailySubscription = ({
                     className="text-red-500 mt-2 font-bold text-[12px] focus-visible:"
                   />
                 </div>
-              )}
+              ) : null}
 
-              {selectedOption === "new" && (
+              {selectedOption === "new" ? (
                 <>
                   <div>
                     <Field
                       disabled={isSubmitting}
-                      name="new_subscriper_name"
+                      name="name"
                       as={Input}
                       type="text"
                       placeholder="مثال: محمد سامي محمود"
                       label="اسم المشترك"
                       className={`focus:border-primary ${
-                        errors.new_subscriper_name && "!border-[red]"
+                        errors.name && "!border-[red]"
                       }`}
                     />
                     <ErrorMessage
-                      name="new_subscriper_name"
+                      name="name"
                       component="div"
                       className="text-red-500 mt-2 font-bold text-[12px]"
                     />
@@ -229,17 +240,17 @@ const AddDailySubscription = ({
                   <div>
                     <Field
                       disabled={isSubmitting}
-                      name="new_subscriper_email"
+                      name="email"
                       as={Input}
                       type="email"
                       label="البريد الالكتروني"
                       placeholder="example@gmail.com"
                       className={`focus:border-primary ${
-                        errors.new_subscriper_email && "!border-[red]"
+                        errors.email && "!border-[red]"
                       }`}
                     />
                     <ErrorMessage
-                      name="new_subscriper_email"
+                      name="email"
                       component="div"
                       className="text-red-500 mt-2 font-bold text-[12px]"
                     />
@@ -248,17 +259,17 @@ const AddDailySubscription = ({
                   <div>
                     <Field
                       disabled={isSubmitting}
-                      name="new_subscriper_phoneNumber"
+                      name="phoneNumber"
                       as={Input}
                       type="number"
                       label="رقم الهاتف"
                       placeholder="0569824542"
                       className={`focus:border-primary ${
-                        errors.new_subscriper_phoneNumber && "!border-[red]"
+                        errors.phoneNumber && "!border-[red]"
                       }`}
                     />
                     <ErrorMessage
-                      name="new_subscriper_phoneNumber"
+                      name="phoneNumber"
                       component="div"
                       className="text-red-500 mt-2 font-bold text-[12px]"
                     />
@@ -267,23 +278,23 @@ const AddDailySubscription = ({
                   <div>
                     <Field
                       disabled={isSubmitting}
-                      name="new_subscriper_profession"
+                      name="profession"
                       as={Input}
                       type="text"
                       label="التخصص"
                       placeholder="مثال: هندسة أنظمة الحاسوب"
                       className={`focus:border-primary ${
-                        errors.new_subscriper_profession && "!border-[red]"
+                        errors.profession && "!border-[red]"
                       }`}
                     />
                     <ErrorMessage
-                      name="new_subscriper_profession"
+                      name="profession"
                       component="div"
                       className="text-red-500 mt-2 font-bold text-[12px]"
                     />
                   </div>
                 </>
-              )}
+              ) : null}
 
               {/* Submit Button */}
               <Button

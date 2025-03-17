@@ -1,7 +1,6 @@
-"use client";
 import "@/app/globals.css";
-import ArabicDateAndTime from "@/containers/dashboard/arabicDateAndTime ";
-import Sidebar from "@/containers/dashboard/sidebar";
+import DateAndTimeWrapper from "@/wrappers/dateAndTimeWrapper";
+import SidebarWrapper from "@/wrappers/sidebarWrapper";
 
 export default function AdminLayout({
   children,
@@ -11,12 +10,12 @@ export default function AdminLayout({
   return (
     <div className="relative w-full flex">
       <div className="relative w-[17%] min-h-screen">
-        <Sidebar />
+        <SidebarWrapper />
       </div>
       <div className="w-[83%] min-h-screen p-4 mb-8">
         {/* Date of the day, with clock  */}
         <div className="min-h-12">
-          <ArabicDateAndTime />
+          <DateAndTimeWrapper />
         </div>
         {children}
       </div>

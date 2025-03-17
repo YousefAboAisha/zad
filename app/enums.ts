@@ -16,6 +16,7 @@ export enum PaymentMethod {
 }
 
 export enum Role {
+  GUEST = "GUEST",
   USER = "USER",
   ADMIN = "ADMIN",
 }

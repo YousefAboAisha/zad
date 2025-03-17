@@ -31,6 +31,10 @@ export default async function middleware(req: NextRequest) {
       } else if (session.role === "ADMIN") {
         return NextResponse.redirect(new URL("/admin/dashboard", req.nextUrl)); // Admin goes to dashboard
       }
+    } else if (path === "/admin/signin") {
+      if (session.role === "USER") {
+        return NextResponse.redirect(new URL("/profile", req.nextUrl)); // User goes to their profile
+      }
     }
   }
 

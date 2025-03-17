@@ -6,6 +6,16 @@ import {
   SubscriptionType,
 } from "./enums";
 
+// Define the Guest interface
+export interface GuestInterface extends Document {
+  name: string;
+  email: string;
+  phoneNumber: number;
+  profession: string;
+  createdAt: Date;
+  role: Role;
+}
+
 // Define the User interface
 export interface UserInterface extends Document {
   name: string;
