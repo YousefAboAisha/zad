@@ -24,23 +24,19 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Redirect logged-in users from the sign-in/up routes to their dashboard or profile
-  if (session?.userId) {
+  if (session?.id) {
     if (path === "/signin" || path === "/signup") {
       if (session.role === "USER") {
         return NextResponse.redirect(new URL("/profile", req.nextUrl)); // User goes to their profile
       } else if (session.role === "ADMIN") {
         return NextResponse.redirect(new URL("/admin/dashboard", req.nextUrl)); // Admin goes to dashboard
       }
-    } else if (path === "/admin/signin") {
-      if (session.role === "USER") {
-        return NextResponse.redirect(new URL("/profile", req.nextUrl)); // User goes to their profile
-      }
     }
   }
 
   // Restrict access to admin routes for non-admin users
-  if (isAdminRoute && session?.role !== "ADMIN") {
-    return NextResponse.redirect(new URL("/admin/signin", req.nextUrl)); // Redirect to admin sign-in
+  if ((isAdminRoute || isProtectedRoute) && !session?.id) {
+    return NextResponse.redirect(new URL("/signin", req.nextUrl)); // Redirect to admin sign-in
   }
 
   // Restrict access to user routes for non-user (admin) users
@@ -49,7 +45,7 @@ export default async function middleware(req: NextRequest) {
   }
 
   // Restrict access to protected routes for unauthenticated users (guests)
-  if (!session?.userId) {
+  if (!session?.id) {
     if (isAdminRoute) {
       return NextResponse.redirect(new URL("/admin/signin", req.nextUrl)); // Redirect guests to admin sign-in
     } else if (isProtectedRoute) {

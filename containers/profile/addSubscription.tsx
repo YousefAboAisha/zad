@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; // Import useEffect
+import { Dispatch, SetStateAction, useEffect, useState } from "react"; // Import useEffect
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { leasingPlansOptions } from "@/data/leasingPlansOptions";
 import { FiArrowDown } from "react-icons/fi";
@@ -13,7 +13,12 @@ import { paymentMethodsOptions } from "@/data/paymentMethodsOptions";
 import { SubscriptionType } from "@/app/enums";
 import { API_BASE_URL } from "@/config";
 
-const AddSubscription = () => {
+type AddSubscriptionType = {
+  fetchData: () => void;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+const AddSubscription = ({ fetchData, setIsOpen }: AddSubscriptionType) => {
   const [formErrors, setFormErrors] = useState<string>("");
 
   const initialValues = {
@@ -64,7 +69,8 @@ const AddSubscription = () => {
         return;
       }
 
-      window.location.reload();
+      setIsOpen(false);
+      fetchData();
       console.log("User has been created successfully!", data);
       setSubmitting(false);
     } catch (error) {

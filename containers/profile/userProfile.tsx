@@ -25,9 +25,10 @@ const UserProfile = ({ session }: SessionProps) => {
       const response = await fetch(`${API_BASE_URL}/user/subscription/fetch`);
 
       const res = await response.json();
-      if (res?.data) {
-        setActiveSubscription(res.data);
+      if (res) {
+        console.log("[UserProfile Data - res]", res);
         console.log("[UserProfile Data]", res.data);
+        setActiveSubscription(res.data);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -170,7 +171,10 @@ const UserProfile = ({ session }: SessionProps) => {
 
       {/* Modal for adding subscription */}
       <Modal isOpen={isOpenModal} setIsOpen={setIsOpenModal} zIndex="z-[1000]">
-        <AddSubscription />
+        <AddSubscription
+          setIsOpen={setIsOpenModal}
+          fetchData={getUserDetails}
+        />
       </Modal>
     </div>
   );

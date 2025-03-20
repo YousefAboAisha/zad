@@ -11,7 +11,7 @@ export async function GET() {
 
     // Get the session and userId
     const session = await getSession();
-    const userId = session?.userId;
+    const userId = session?.id;
 
     if (!userId) {
       return NextResponse.json(

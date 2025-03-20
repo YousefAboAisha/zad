@@ -105,8 +105,8 @@ const AddDailySubscription = ({
       }
       resetForm();
       setSelectedOption("existing");
-      fetchAllSubscripersData();
       fetchData();
+      fetchAllSubscripersData();
       if (selectedOption === "existing") setIsOpen(false);
       console.log("Subscription created successfully!", data);
     } catch (error) {

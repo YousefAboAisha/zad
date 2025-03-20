@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     const subscriptionsCollection = db.collection("subscriptions");
     // Get the session and userId
     const session = await getSession();
-    const userId = session?.userId;
+    const userId = session?.id;
 
     console.log("Customer user ID", userId);
 

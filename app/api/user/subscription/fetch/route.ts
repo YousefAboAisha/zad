@@ -2,7 +2,6 @@ import clientPromise from "@/app/lib/mongodb";
 import { NextResponse } from "next/server";
 import { getSession } from "@/app/lib/session";
 import { ObjectId } from "mongodb";
-import { SubscriptionStatus } from "@/app/enums";
 
 export async function GET() {
   try {
@@ -13,7 +12,7 @@ export async function GET() {
 
     const session = await getSession();
     console.log("Session", session);
-    const userId = session?.userId;
+    const userId = session?.id;
 
     console.log("Customer user ID", userId);
 
@@ -47,13 +46,12 @@ export async function GET() {
     let subscription = null;
 
     // Check if user has an active subscription
-    if (user.active_subscription && user.active_subscription.id) {
+    if (user.active_subscription) {
       const subscriptionId = user.active_subscription;
 
       if (ObjectId.isValid(subscriptionId)) {
         subscription = await subscriptionsCollection.findOne({
           _id: new ObjectId(subscriptionId),
-          status: SubscriptionStatus.PENDING,
         });
       }
     }

@@ -14,7 +14,7 @@ import { Role } from "@/app/enums";
 
 export interface SessionProps {
   session?: {
-    userId: string;
+    id: string;
     name: string;
     email: string;
     role: Role;
